@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\BmCoinController;
 
 
 /*
@@ -34,4 +35,8 @@ Route::post('/create/profile', [UserController::class, 'store'])->name('profile.
 
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
+Route::get('/posts/check', [PostController::class, 'show'])->name('posts.show');
+
+Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
 
