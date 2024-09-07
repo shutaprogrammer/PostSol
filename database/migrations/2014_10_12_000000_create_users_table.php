@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('country')->nullable();
             $table->string('prefecture')->nullable();
+            $table->string('city')->nullable();
             $table->string('job')->nullable();
             $table->string('marital')->nullable();
             $table->string('children')->nullable();
