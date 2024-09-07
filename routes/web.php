@@ -1,8 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +28,15 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+Route::get('/create/profile', [UserController::class, 'create'])->name('profile.create');
+
+Route::post('/create/profile', [UserController::class, 'store'])->name('profile.store');
+
+
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
 Route::get('/posts/check', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
+
