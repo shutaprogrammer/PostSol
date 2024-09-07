@@ -10,4 +10,9 @@ class PostController extends Controller
     {
         return view ('posts.create_post');
     }
+
+    function show()
+    {
+        return view ('posts.create_check');
+    }
 }

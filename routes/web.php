@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\BmCoinController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::get('/posts/check', [PostController::class, 'show'])->name('posts.show');
+
+Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
