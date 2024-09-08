@@ -1,13 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends('layouts.app_original')
+@section('content')
+<form action="" method="POST">
+    @csrf
+        <div>
+            <label for="occupation">職業</label>
+            <input type="text" placeholder="あなたの職業を入力してください" id="occupation" >
+        </div>
+        <div>
+            <label for="marital">未既婚</label>
+            <input type="text" placeholder="未婚または既婚と入力してください" id="marital" >
+        </div>
+        <div>
+            <label for="children">子供の人数</label>
+            <input type="text" placeholder="子供の人数を入力してください" id="children" >
+        </div>
+        <div>
+            <label for="income">世帯年収</label>
+            <input type="text" placeholder="世帯年収を入力してください" id="income" >
+        </div>
+        <div>
+            <label for="business">今後行いたいビジネスはなんですか？</label>
+            <textarea id="business" cols="30" rows="10" placeholder="今後行いたいビジネスがあれば入力してください"></textarea>
+        </div>
+        <button type="submit">登録</button>
+</form>
+
     <div>レジスター後直接ここに遷移。アンケートページだよ</div>
     <a href="{{ route('home') }}">登録完了画面へ(もともとあったhomeというページに遷移します。)</a>
-</body>
-</html>
+@endsection

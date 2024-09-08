@@ -38,6 +38,8 @@ Route::post('/create/profile', [UserController::class, 'store'])->name('profile.
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
 Route::get('/posts/check', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');

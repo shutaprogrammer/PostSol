@@ -11,6 +11,21 @@ class PostController extends Controller
         return view ('posts.create_post');
     }
 
+    function store(Request $request)
+    {
+        //$requestに入っている値を、new Postでデータベースに保存するという記述
+        $post = new Post;
+         //左辺:テーブル、右辺が送られてきた値(formから送られてきたnameが入っている)
+        $post -> user_id = Auth::id;
+        $post -> category = $request -> category;
+        $post -> place = $request -> place;
+        $post -> content = $request -> content;
+
+        $post -> save();
+
+        return redirect()->route('posts.show');
+    }
+
     function show()
     {
         return view ('posts.create_check');
