@@ -12,6 +12,8 @@ use App\Http\Controllers\TopController;
 
 use App\Http\Controllers\MypageController;
 
+use App\Http\Controllers\SubscriptionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,3 +57,5 @@ Route::post('/tops/question/store', [TopController::class, 'store'])->name('tops
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
+
+Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
