@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Status;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,12 +65,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'tel' => $data['tel'] ?? '000-0000-0000',
         ]);
+        // ステータスレコードを作成（デフォルトで'Free'）
+        Status::create([
+            'user_id' => $user->id,
+            'status' => 'Free',  // デフォルト値として'Free'をセット
+            'period'=> null,//後にデータ型なども含め修正する予定
+        ]);
+
+        return $user;
     }
 
     protected function redirectTo()

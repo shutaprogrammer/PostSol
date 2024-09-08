@@ -30,7 +30,7 @@ class UserController extends Controller
             $user->img = $name;
         }
 
-        // $user->save();
+        $user->save();
 
         // return redirect()->route('mypages.mypage');
     }

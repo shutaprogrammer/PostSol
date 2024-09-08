@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class MypageController extends Controller
 {
-    public function index()
-    {
-        // マイページのビューを返す処理
-        return view('mypages.mypage');
-    }
+    // public function index()
+    // {
+    //     // マイページのビューを返す処理
+    //     return view('mypages.mypage');
+    // }
 
     public function show()
     {
