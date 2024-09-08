@@ -23,7 +23,7 @@ class PostController extends Controller
 
         $post -> save();
 
-        return redirect()->route('posts.show');
+        return redirect()->route('posts.check');
     }
 
     function show()

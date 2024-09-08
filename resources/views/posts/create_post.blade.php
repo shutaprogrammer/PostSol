@@ -1,6 +1,7 @@
 @extends('layouts.app_original')
 @section('content')
 <form action="{{ route('posts.store') }}" method="POST">
+    @csrf
     <div>
         <label for="type">カテゴリー</label>
         <select name="category" id="type">
