@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_original')
 @section('content')
     <div>
         <form action="" method="POST" enctype="multipart/form-data">
