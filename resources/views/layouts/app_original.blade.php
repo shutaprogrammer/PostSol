@@ -1,3 +1,10 @@
+<style>
+  header{
+    height: 10vh;
+    background-color: skyblue;
+  }
+</style>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +14,9 @@
   <title>PostSol 〜不満からビジネスへ〜</title>
 </head>
 <body>
+  <header>
+    <div>PostSol 〜不満からビジネスへ〜</div>
+  </header>
   @yield('content')
 </body>
 </html>
