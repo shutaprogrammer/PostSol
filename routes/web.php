@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
 
+use App\Http\Controllers\TopController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +42,6 @@ Route::get('/posts/check', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
 
+Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
