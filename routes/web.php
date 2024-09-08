@@ -53,3 +53,5 @@ Route::get('/tops/question', [TopController::class, 'index'])->name('tops.questi
 Route::post('/tops/question/store', [TopController::class, 'store'])->name('tops.store');
 
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
