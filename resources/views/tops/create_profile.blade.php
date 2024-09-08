@@ -41,4 +41,5 @@
         <button type="submit">プロフィール作成</button>
         </form>
     </div>
+    <a href="{{ route('mypages.mypage') }}">マイページへ遷移</a>
 @endsection

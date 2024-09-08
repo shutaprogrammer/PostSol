@@ -14,10 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('新規登録完了！') }}
                 </div>
             </div>
         </div>
     </div>
+    <a href="{{ route('profile.create') }}">プロフィールを作成しましょう！</a>
 </div>
 @endsection

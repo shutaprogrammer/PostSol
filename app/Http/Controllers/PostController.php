@@ -21,4 +21,10 @@ class PostController extends Controller
     {
         return view ('posts.create_check');
     }
+
+    public function index()
+    {
+        // 投稿一覧ページのビューを返す処理
+        return view('posts.index');
+    }
 }
