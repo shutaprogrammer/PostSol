@@ -10,6 +10,7 @@ use App\Http\Controllers\BmCoinController;
 
 use App\Http\Controllers\TopController;
 
+use App\Http\Controllers\MypageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/create/profile', [UserController::class, 'create'])->name('profile.create');
+Route::get('/tops/create_profile', [UserController::class, 'create'])->name('profile.create');
 
-Route::post('/create/profile', [UserController::class, 'store'])->name('profile.store');
+Route::post('/tops/crete_profile', [UserController::class, 'store'])->name('profile.store');
 
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -45,3 +46,5 @@ Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('my
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
+
+Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
