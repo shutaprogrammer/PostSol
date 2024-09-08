@@ -1,7 +1,8 @@
 @extends('layouts.app_original')
 @section('content')
-<form action="{{ route('tops.store') }}" method="POST">
+<form action="{{ route('questions.store') }}" method="POST">
     @csrf
+{{-- <input type="hidden" name="user_id"  value="{{ $user->id }}"> --}}
         <div>
             <label for="job">職業</label>
             <input type="text" placeholder="あなたの職業を入力してください" id="job" name="job">

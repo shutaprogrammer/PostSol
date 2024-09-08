@@ -12,6 +12,8 @@ use App\Http\Controllers\TopController;
 
 use App\Http\Controllers\MypageController;
 
+use App\Http\Controllers\QuestionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,8 +50,8 @@ Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('my
 
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
-Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
+Route::get('/questions/index', [QuestionController::class, 'index'])->name('questions.index');
 
-Route::post('/tops/question/store', [TopController::class, 'store'])->name('tops.store');
+Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
 
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
