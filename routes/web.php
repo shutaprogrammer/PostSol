@@ -50,4 +50,6 @@ Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index'
 
 Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
 
+Route::post('/tops/question/store', [TopController::class, 'store'])->name('tops.store');
+
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
