@@ -14,6 +14,8 @@ use App\Http\Controllers\MypageController;
 
 use App\Http\Controllers\QuestionController;
 
+use App\Http\Controllers\SubscriptionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,3 +57,7 @@ Route::get('/questions/index', [QuestionController::class, 'index'])->name('ques
 Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
 
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
+
+Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
