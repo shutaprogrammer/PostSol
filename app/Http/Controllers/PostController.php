@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -22,7 +23,7 @@ class PostController extends Controller
         //$requestに入っている値を、new Postでデータベースに保存するという記述
         $post = new Post;
          //左辺:テーブル、右辺が送られてきた値(formから送られてきたnameが入っている)
-        $post -> user_id = Auth::id;
+        $post -> user_id = Auth::id();
         $post -> category = $request -> category;
         $post -> place = $request -> place;
         $post -> content = $request -> content;
@@ -35,11 +36,5 @@ class PostController extends Controller
     function show()
     {
         return view ('posts.create_check');
-    }
-
-    public function index()
-    {
-        // 投稿一覧ページのビューを返す処理
-        return view('posts.index');
     }
 }
