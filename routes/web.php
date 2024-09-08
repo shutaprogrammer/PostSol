@@ -33,6 +33,7 @@ Route::get('/create/profile', [UserController::class, 'create'])->name('profile.
 
 Route::post('/create/profile', [UserController::class, 'store'])->name('profile.store');
 
+Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 

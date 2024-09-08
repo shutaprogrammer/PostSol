@@ -43,4 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //postとのリレーション
+    public function posts() 
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    //ブックマークとのリレーション
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    //いいねとのリレーション
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
