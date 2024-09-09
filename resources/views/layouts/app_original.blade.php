@@ -35,7 +35,7 @@
                       <a class="nav-link" href="{{ route('posts.create') }}">新規投稿作成</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="">マイページnot yet</a>
+                  <a class="nav-link" href="{{ route('mypages.mypage') }}">マイページ</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="">プロフィール編集not yet</a>
