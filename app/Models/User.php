@@ -53,12 +53,12 @@ class User extends Authenticatable
     //ブックマークとのリレーション
     public function bookmarks()
     {
-        return $this->hasManyThrough(Bookmark::class, Post::class);
+        return $this->hasMany(Bookmark::class, Post::class);
     }
 
     //いいねとのリレーション
     public function likes()
     {
-        return $this->hasManyThrough(Like::class, Post::class);
+        return $this->hasMany(Like::class, Post::class);
     }
 }
