@@ -13,7 +13,7 @@ class SubscriptionController extends Controller
         // 現在ログインしているユーザーのIDを取得
         $userId = Auth::id();
 
-        // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+        // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
         $status = Status::where('user_id', $userId)->first();
 
         // subscription1ページのビューとステータスを返す処理
