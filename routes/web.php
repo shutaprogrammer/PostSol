@@ -77,4 +77,5 @@ Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like'
 Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
 
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
+Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->name('mypages.subscription2');
 
