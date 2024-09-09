@@ -4,8 +4,8 @@
 <a href="{{ route('posts.index') }}">投稿一覧表示画面へ</a>
     <section>
         <h1>プロフィール</h1>
-        {{-- <p>{{ $user->name }}</p>
-        <p>{{ $user->birth }}, {{ $user->country }}, {{ $user->prefecture }}, {{ $user->city }}, {{ $user->job }}</p> --}}
+        <p>{{ $user->name }}</p>
+        <p>{{ $user->birth }}, {{ $user->country }}, {{ $user->prefecture }}, {{ $user->city }}, {{ $user->job }}</p>
         <p>BM総獲得数:?、いいね総獲得数:?、保有BMコイン数:?</p>
     </section>
     <section>
