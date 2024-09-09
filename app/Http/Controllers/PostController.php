@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    
     function index() 
     {
         // $posts = Post::all();
@@ -19,8 +20,28 @@ class PostController extends Controller
         return view ('posts.create_post');
     }
 
+    function check(Request $request)
+    {
+        //バリーデーション
+        $request->validate([
+           'category' => ['required', 'string', 'max:255'],
+           'place' => ['required', 'string', 'max:255'],
+           'content' => ['required', 'string', 'max:255'],
+        ]);
+
+        $post_data = $request;
+
+        return view('posts.create_check', compact('post_data'));
+
+    }
+
     function store(Request $request)
     {
+        // 戻るボタンをクリックされた場合
+        if($request->input('back') == 'back' ){
+            return redirect()->route('posts.create')->withInput();
+        }
+
         //$requestに入っている値を、new Postでデータベースに保存するという記述
         $post = new Post;
          //左辺:テーブル、右辺が送られてきた値(formから送られてきたnameが入っている)
@@ -31,7 +52,7 @@ class PostController extends Controller
 
         $post -> save();
 
-        return redirect()->route('posts.check');
+        return redirect()->route('posts.index') ;
     }
 
     function show()
