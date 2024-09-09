@@ -19,4 +19,9 @@ class SubscriptionController extends Controller
         // subscription1ページのビューとステータスを返す処理
         return view('mypages.subscription1', ['status' => $status]);
     }
+
+    public function index2()
+    {
+        return view('mypages.subscription2');
+    }
 }
