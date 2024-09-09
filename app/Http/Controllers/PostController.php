@@ -10,7 +10,8 @@ class PostController extends Controller
 {
     function index() 
     {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $posts = Post::withCount('bookmarks','likes')->get();
         return view('posts.index', compact('posts'));
     }
     function create()

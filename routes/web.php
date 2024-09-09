@@ -7,7 +7,8 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
-
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopController;
 
 use App\Http\Controllers\MypageController;
@@ -38,7 +39,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/tops/create_profile', [UserController::class, 'create'])->name('profile.create');
 
-Route::post('/tops/crete_profile', [UserController::class, 'store'])->name('profile.store');
+Route::post('/tops/create_profile', [UserController::class, 'store'])->name('profile.store');
 
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
@@ -50,6 +51,9 @@ Route::get('/posts/check', [PostController::class, 'show'])->name('posts.check')
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
 
+
+Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
+
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 
 Route::get('/questions/index', [QuestionController::class, 'index'])->name('questions.index');
@@ -58,6 +62,19 @@ Route::post('/questions/store', [QuestionController::class, 'store'])->name('que
 
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 
+
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
 
+
+Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+
+Route::post('/post/{post}/bookmarks', [BookmarkController::class, 'store'])->name('bookmark');
+
+Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy'])->name('unbookmark');
+
+Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
+
+Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
+
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
+
