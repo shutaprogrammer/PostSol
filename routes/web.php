@@ -44,9 +44,7 @@ Route::put('/tops/{id}', [UserController::class, 'update'])->name('profile.updat
 //Post
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-
 Route::post('/posts', [PostController::class, 'check'])->name('posts.check');
-
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
 //mypage
@@ -82,3 +80,7 @@ Route::get('/mypage', function () {
     return view('mypages.mypage'); // mypagesディレクトリ内のmypage.blade.php
 })->name('mypage');
 
+//BMコイン購入
+Route::get('/bmcoin/index1', [BmCoinController::class, 'index1'])->name('bmcoin.index1');
+Route::get('/bmcoin/index2', [BmCoinController::class, 'index2'])->name('bmcoin.index2');
+Route::get('/bmcoin/index3', [BmCoinController::class, 'index3'])->name('bmcoin.index3');
