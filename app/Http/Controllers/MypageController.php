@@ -38,4 +38,35 @@ class MypageController extends Controller
         // mypage.blade.php にユーザー情報を渡す
         return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts'));
     }
-}
+
+    public function edit($id)
+    {
+        $user = Auth::user();
+
+        return view('mypages.edit_profile', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = Auth::user();
+        
+        $user->img = $request->img;
+        $user->gender = $request->gender;
+        $user->birth = $request->birth;
+        $user->country = $request->country;
+        $user->prefecture = $request->prefecture;
+        $user->city = $request->city;
+
+        if(request('img')) {
+            $original = request()->file('img')->getClientOriginalName();
+            $name = date('Ymd_His'). '_' . $original;
+            request()->file('img')->move('storage/imgs', $name);
+            $user->img = $name;
+        }
+
+        $user->save();
+
+        return redirect()->route('mypages.mypage');
+    }
+    }
+

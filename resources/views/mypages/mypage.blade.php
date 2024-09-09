@@ -23,4 +23,5 @@
         <h5>{{ $post->place }}</h5>
     @endforeach
     </section>
+    <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary">編集</a>
 @endsection

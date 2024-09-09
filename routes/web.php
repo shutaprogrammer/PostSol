@@ -38,7 +38,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //新規登録関連
 Route::get('/home/{id}',[UserController::class, 'show'])->name('home.show');
-Route::get('tops/{id}/create_profile', [UserController::class, 'edit'])->name('profile.edit');
+Route::get('/tops/{id}/create_profile', [UserController::class, 'edit'])->name('profile.edit');
 Route::put('/tops/{id}', [UserController::class, 'update'])->name('profile.update');
 
 //Post
@@ -52,6 +52,8 @@ Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('my
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
 Route::Post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->name('mypages.edit');
+Route::put('/mypages/{id}', [UserController::class, 'update'])->name('mypages.update');
 
 //アンケート
 Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
