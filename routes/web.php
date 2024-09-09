@@ -14,6 +14,8 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubscriptionController;
 
+use App\Http\Controllers\PaymentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,8 +44,10 @@ Route::put('/tops/{id}', [UserController::class, 'update'])->name('profile.updat
 //Post
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-Route::get('/posts/check', [PostController::class, 'show'])->name('posts.check');
+
+Route::post('/posts', [PostController::class, 'check'])->name('posts.check');
+
+Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
 //mypage
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
@@ -66,4 +70,15 @@ Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('
 
 //サブスク
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
+Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->name('mypages.subscription2');
+Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->name('mypages.subscription3');
+
+Route::get('payment/create', [PaymentController::class, 'create'])->name('payment.create');
+Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->name('payment.createCharge');
+
+Route::post('/subscription/complete', [SubscriptionController::class, 'complete'])->name('subscription.complete');
+
+Route::get('/mypage', function () {
+    return view('mypages.mypage'); // mypagesディレクトリ内のmypage.blade.php
+})->name('mypage');
 
