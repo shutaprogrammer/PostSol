@@ -17,6 +17,8 @@ use App\Http\Controllers\QuestionController;
 
 use App\Http\Controllers\SubscriptionController;
 
+use App\Http\Controllers\PaymentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,4 +80,14 @@ Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('
 
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
 Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->name('mypages.subscription2');
+Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->name('mypages.subscription3');
+
+Route::get('payment/create', [PaymentController::class, 'create'])->name('payment.create');
+Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->name('payment.createCharge');
+
+Route::post('/subscription/complete', [SubscriptionController::class, 'complete'])->name('subscription.complete');
+
+Route::get('/mypage', function () {
+    return view('mypages.mypage'); // mypagesディレクトリ内のmypage.blade.php
+})->name('mypage');
 
