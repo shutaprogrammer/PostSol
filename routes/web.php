@@ -10,11 +10,8 @@ use App\Http\Controllers\BmCoinController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopController;
-
 use App\Http\Controllers\MypageController;
-
 use App\Http\Controllers\QuestionController;
-
 use App\Http\Controllers\SubscriptionController;
 
 use App\Http\Controllers\PaymentController;
@@ -36,48 +33,42 @@ Route::get('/', function () {
 
 Auth::routes();
 
+//home
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//新規登録関連
+Route::get('/home/{id}',[UserController::class, 'show'])->name('home.show');
+Route::get('tops/{id}/create_profile', [UserController::class, 'edit'])->name('profile.edit');
+Route::put('/tops/{id}', [UserController::class, 'update'])->name('profile.update');
 
-Route::get('/tops/create_profile', [UserController::class, 'create'])->name('profile.create');
-
-Route::post('/tops/create_profile', [UserController::class, 'store'])->name('profile.store');
-
+//Post
 Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
-
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
 Route::post('/posts', [PostController::class, 'check'])->name('posts.check');
 
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
+//mypage
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
+Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
+Route::Post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 
-
+//アンケート
 Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
-
-Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
-
 Route::get('/questions/index', [QuestionController::class, 'index'])->name('questions.index');
-
 Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
 
-Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
-
-
-Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
-
-
-Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
-
+//ブックマーク
 Route::post('/post/{post}/bookmarks', [BookmarkController::class, 'store'])->name('bookmark');
-
 Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy'])->name('unbookmark');
 
+//いいね！
 Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
-
 Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
 
+//サブスク
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
 Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->name('mypages.subscription2');
 Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->name('mypages.subscription3');

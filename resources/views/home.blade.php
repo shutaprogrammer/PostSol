@@ -19,6 +19,6 @@
             </div>
         </div>
     </div>
-    <a href="{{ route('profile.create') }}">プロフィールを作成しましょう！</a>
+    <a href="/tops/{{ $user->id }}/create_profile">プロフィール作成</a>
 </div>
 @endsection
