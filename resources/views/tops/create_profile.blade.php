@@ -1,8 +1,10 @@
 @extends('layouts.app_original')
 @section('content')
     <div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('put')
+
         <div>
             <label for="img">アイコン</label>
             <input type="file" name="img" id="img">
@@ -14,7 +16,7 @@
                 <label for="male">男性</label>
                 <input type="radio" id="female" name="gender" value="女性">
                 <label for="female">女性</label>
-                <input type="radio" id='no_ansewer' name="gender" value="未回答">
+                <input type="radio" id='no_answer' name="gender" value="未回答">
                 <label for="no_answer">未回答</label>
         </div>
 
@@ -41,5 +43,4 @@
         <button type="submit">プロフィール作成</button>
         </form>
     </div>
-    {{-- <a href="{{ route('mypages.mypage') }}">マイページへ遷移</a> --}}
 @endsection

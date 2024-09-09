@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function create ()
+    function show ($id)
     {
-        return view('tops.create_profile');
+        $user = Auth::user();
+        return view('home', compact('user'));
+    }
+    
+    function edit ($id)
+    {
+        // dd('ID:', $id);
+        $user = Auth::user();
+        // dd($user);
+        return view('tops.create_profile', compact('user'));
     }
 
-    public function store (Request $request) 
+    function update(Request $request, $id)
     {
-        $user = new User();
-        
+        $user = Auth::user();
+
         $user->img = $request->img;
         $user->gender = $request->gender;
         $user->birth = $request->birth;
@@ -32,29 +42,6 @@ class UserController extends Controller
 
         $user->save();
 
-        // return redirect()->route('mypages.mypage');
-    }
-    public function show()
-    {
-        // $users = User::all();
-        // アンケートページのビューを返す処理
-        return view('tops.question');
-    }
-
-    function update(Request $request)
-    {
-        $user = new User;
-        // アンケートの内容をデータベースに保存
-    
-        //左辺:テーブル、右辺が送られてきた値(formから送られてきたnameが入っている)
-        $user -> job = $request -> job;
-        $user -> marital = $request -> marital;
-        $user -> children = $request -> children;
-        $user -> salary = $request -> salary;
-        $user -> business = $request -> business;
-
-        $user -> save();
-
-        return redirect()->route('home');
+        return redirect()->route('mypages.mypage');
     }
 }
