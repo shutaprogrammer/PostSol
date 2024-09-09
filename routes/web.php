@@ -13,6 +13,10 @@ use App\Http\Controllers\TopController;
 
 use App\Http\Controllers\MypageController;
 
+use App\Http\Controllers\QuestionController;
+
+use App\Http\Controllers\SubscriptionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,9 +51,20 @@ Route::get('/posts/check', [PostController::class, 'show'])->name('posts.check')
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
 
+
 Route::get('/tops/question', [TopController::class, 'index'])->name('tops.question');
 
-Route::post('/tops/question/store', [TopController::class, 'store'])->name('tops.store');
+Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('/questions/index', [QuestionController::class, 'index'])->name('questions.index');
+
+Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
+
+Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+
+
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
+
 
 Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 
@@ -60,3 +75,6 @@ Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy']
 Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
 
 Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
+
+Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->name('mypages.subscription1');
+

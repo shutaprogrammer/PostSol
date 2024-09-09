@@ -15,7 +15,7 @@ class UserController extends Controller
     public function store (Request $request) 
     {
         $user = new User();
-
+        
         $user->img = $request->img;
         $user->gender = $request->gender;
         $user->birth = $request->birth;
@@ -30,8 +30,31 @@ class UserController extends Controller
             $user->img = $name;
         }
 
-        // $user->save();
+        $user->save();
 
         // return redirect()->route('mypages.mypage');
+    }
+    public function show()
+    {
+        // $users = User::all();
+        // アンケートページのビューを返す処理
+        return view('tops.question');
+    }
+
+    function update(Request $request)
+    {
+        $user = new User;
+        // アンケートの内容をデータベースに保存
+    
+        //左辺:テーブル、右辺が送られてきた値(formから送られてきたnameが入っている)
+        $user -> job = $request -> job;
+        $user -> marital = $request -> marital;
+        $user -> children = $request -> children;
+        $user -> salary = $request -> salary;
+        $user -> business = $request -> business;
+
+        $user -> save();
+
+        return redirect()->route('home');
     }
 }
