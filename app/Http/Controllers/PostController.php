@@ -11,9 +11,9 @@ class PostController extends Controller
     
     function index() 
     {
-        // $posts = Post::all();
         $posts = Post::withCount('bookmarks','likes')->get();
-        return view('posts.index', compact('posts'));
+        $user = Auth::user();
+        return view('posts.index', compact('posts', 'user'));
     }
     function create()
     {
@@ -24,9 +24,9 @@ class PostController extends Controller
     {
         //バリーデーション
         $request->validate([
-           'category' => ['required', 'string', 'max:255'],
-           'place' => ['required', 'string', 'max:255'],
-           'content' => ['required', 'string', 'max:255'],
+            'category' => ['required', 'string', 'max:255'],
+            'place' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string', 'max:255'],
         ]);
 
         $post_data = $request;

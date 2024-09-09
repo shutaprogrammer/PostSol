@@ -3,6 +3,10 @@
 
 <div>
     @foreach ($posts as $post)
+    @if($post->user->img)
+    <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="">
+    @endif
+    <p>{{ $post->user->name }}</p>
     <div>
         <h3>{{ $post->content }}</h3>
     </div>
