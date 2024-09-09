@@ -44,9 +44,9 @@ Route::get('/posts/index', [PostController::class, 'index'])->name('posts.index'
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+Route::post('/posts', [PostController::class, 'check'])->name('posts.check');
 
-Route::get('/posts/check', [PostController::class, 'show'])->name('posts.check');
+Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
 

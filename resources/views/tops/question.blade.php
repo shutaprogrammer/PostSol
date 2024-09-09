@@ -26,7 +26,4 @@
         </div>
         <button type="submit">登録</button>
 </form>
-
-    <div>レジスター後直接ここに遷移。アンケートページだよ</div>
-    <a href="{{ route('home') }}">登録完了画面へ(もともとあったhomeというページに遷移します。)</a>
 @endsection
