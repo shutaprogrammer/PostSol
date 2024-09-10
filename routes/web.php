@@ -84,6 +84,16 @@ Route::get('/mypage', function () {
 })->middleware('auth')->name('mypage');
 
 //BMコイン購入
+
+
+Route::get('payment/Coincreate', [PaymentController::class, 'Coincreate'])->name('payment.Coincreate');
+Route::post('payment/CoinCharge', [PaymentController::class, 'CoinCharge'])->name('payment.CoinCharge');
+Route::post('/Coin/Complete100', [BmCoinController::class, 'CoinComplete100'])->name('Coin.Complete100');
+Route::post('/Coin/Complete200', [BmCoinController::class, 'CoinComplete200'])->name('Coin.Complete200');
+Route::post('/Coin/Complete300', [BmCoinController::class, 'CoinComplete300'])->name('Coin.Complete300');
+Route::post('/Coin/Complete400', [BmCoinController::class, 'CoinComplete400'])->name('Coin.Complete400');
+
 Route::get('/bmcoin/index1', [BmCoinController::class, 'index1'])->middleware('auth')->name('bmcoin.index1');
 Route::get('/bmcoin/index2', [BmCoinController::class, 'index2'])->middleware('auth')->name('bmcoin.index2');
 Route::get('/bmcoin/index3', [BmCoinController::class, 'index3'])->middleware('auth')->name('bmcoin.index3');
+

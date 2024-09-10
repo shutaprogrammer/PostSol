@@ -27,7 +27,23 @@ class PaymentController extends Controller
         ));
         return redirect()->route('mypages.subscription3');
     }
-}
 
-// back()
-// view('mypages.subscription3')
+    public function Coincreate()
+    {
+        return view('payment');
+    }
+
+    public function CoinCharge(Request $request)
+    {
+        Payjp::setApiKey(config('payjp.secret_key'));
+        
+        // クレカトークンが送られる(tok_xxxxxxxxxxxxxxxxxxxx)
+        $token = $request->input('payjp-token');
+        Charge::create(array(
+            "card" => $token,
+            "amount" => 100,
+            "currency" => 'jpy',
+        ));
+        return view('mypages.bmcoin3');
+    }
+}
