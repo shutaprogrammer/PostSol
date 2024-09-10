@@ -12,8 +12,7 @@ class PostController extends Controller
     function index() 
     {
         $posts = Post::withCount('bookmarks','likes')->get();
-        $user = Auth::user();
-        return view('posts.index', compact('posts', 'user'));
+        return view('posts.index', compact('posts'));
     }
     function create()
     {
