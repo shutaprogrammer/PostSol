@@ -48,11 +48,12 @@ Route::post('/posts', [PostController::class, 'check'])->middleware('auth')->nam
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
 //mypage
-Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->middleware('auth')->name('mypages.exchange');
-Route::get('/mypages/mypage', [MypageController::class, 'index'])->middleware('auth')->name('mypages.mypage');
-Route::get('/mypages/mypage', [MypageController::class, 'show'])->middleware('auth')->name('mypages.show');
-Route::Post('/mypages/mypage', [MypageController::class, 'index'])->middleware('auth')->name('mypages.mypage');
-Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->middleware('auth')->name('mypages.edit');
+Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
+// Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
+Route::post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->name('mypages.edit');
+
 Route::put('/mypages/{id}', [UserController::class, 'update'])->name('mypages.update');
 
 //アンケート

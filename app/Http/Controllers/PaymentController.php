@@ -22,7 +22,7 @@ class PaymentController extends Controller
         $token = $request->input('payjp-token');
         Charge::create(array(
             "card" => $token,
-            "amount" => 3500,
+            "amount" => 1000,
             "currency" => 'jpy',
         ));
         return redirect()->route('mypages.subscription3');
