@@ -54,8 +54,4 @@ class PostController extends Controller
         return redirect()->route('posts.index') ;
     }
 
-    function show()
-    {
-        return view ('posts.create_check');
-    }
 }

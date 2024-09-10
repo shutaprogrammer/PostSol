@@ -8,7 +8,7 @@
         @endif
         <p>{{ $user->name }}</p>
         <p>{{ $user->birth }}, {{ $user->country }}, {{ $user->prefecture }}, {{ $user->city }}, {{ $user->job }}</p>
-        <p>BM総獲得数:{{ $totalBookmarks }}、いいね総獲得数:{{ $totalLikes }}、保有BMコイン数:?</p>
+        <p>BM総獲得数:{{ $totalBookmarks }}、いいね総獲得数:{{ $totalLikes }}、保有BMコイン数:?、あなたのステータス：{{ $status->status }}</p>
 
     </section>
     <section>
