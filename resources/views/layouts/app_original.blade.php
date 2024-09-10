@@ -1,3 +1,10 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Auth;
+?>
+
 <style>
 .custom-navbar {
     background-color: skyblue; /* 好きな色に変更 */
@@ -38,13 +45,13 @@
                   <a class="nav-link" href="{{ route('mypages.mypage') }}">マイページ</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="">プロフィール編集not yet</a>
+                    <a class="nav-link" href="{{ route('mypages.edit', ['id' => Auth::user()->id]) }}">プロフィール編集</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{ route('mypages.subscription1') }}">サブスク登録</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="">BMコイン購入not yet</a>
+                    <a class="nav-link" href="{{ route('bmcoin.index1') }}">BMコイン購入</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="">BMコイン換金not yet</a>
