@@ -44,6 +44,11 @@ class PaymentController extends Controller
             "amount" => 100,
             "currency" => 'jpy',
         ));
-        return view('mypages.bmcoin3');
+        
+        // フォームから送信されたhiddenのデータを受け取る
+        $coinCount = $request->input('coin_count');
+        $price = $request->input('price');
+
+        return view('mypages.bmcoin3', ['coinCount' => $coinCount, 'price' => $price]);
     }
 }

@@ -11,25 +11,25 @@
     <p>あなたが選択した商品</p>
     <p>{{ $coinCount }}回分 ￥{{ $price }}円</p>
     <p>まだBMコインは追加されていません！以下のボタンから追加を完了して下さい。</p>
-    @if($price = 100)
+    @if($price == 100)
     <form action="{{ route('Coin.Complete100') }}" method="POST">
         @csrf
-        <button type="submit">BMコイン追加</button>
+        <button type="submit">BMコイン追加100</button>
     </form>
-    @elseif($price = 200)
+    @elseif($price == 200)
     <form action="{{ route('Coin.Complete200') }}" method="POST">
         @csrf
-        <button type="submit">BMコイン追加</button>
+        <button type="submit">BMコイン追加200</button>
     </form>
-    @elseif($price = 300)
+    @elseif($price == 300)
     <form action="{{ route('Coin.Complete300') }}" method="POST">
         @csrf
-        <button type="submit">BMコイン追加</button>
+        <button type="submit">BMコイン追加300</button>
     </form>
-    @elseif($price = 400)
+    @elseif($price == 400)
     <form action="{{ route('Coin.Complete400') }}" method="POST">
         @csrf
-        <button type="submit">BMコイン追加</button>
+        <button type="submit">BMコイン追加400</button>
     </form>
     @endif
 </body>
