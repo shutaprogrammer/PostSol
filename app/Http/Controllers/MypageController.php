@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Bookmark;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\Status;
 
 class MypageController extends Controller
 {
-    public function index()
-    {
-        // マイページのビューを返す処理
-        $user = Auth::user();
-        return view('mypages.mypage', compact('user'));
-    }
+    // public function index()
+    // {
+    //     // マイページのビューを返す処理
+    //     $user = Auth::user();
+    //     return view('mypages.mypage', compact('user'));
+    // }
 
     public function show()
     {
@@ -35,8 +36,14 @@ class MypageController extends Controller
 
         $totalbookemarkedposts = $bookmarkedPosts->count();
 
+        // 現在ログインしているユーザーのIDを取得
+        $userId = Auth::id();
+
+        // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+        $status = Status::where('user_id', $userId)->first();
+
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status'));
     }
 
     public function edit($id)

@@ -49,9 +49,9 @@ Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store
 
 //mypage
 Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
-Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+// Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
-Route::Post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
+Route::post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->name('mypages.edit');
 Route::put('/mypages/{id}', [UserController::class, 'update'])->name('mypages.update');
 
