@@ -76,8 +76,11 @@ class SubscriptionController extends Controller
             // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
             $status = Status::where('user_id', $userId)->first();
 
+            //BMコイン総数を計算
+            $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
             // 更新が成功した後、mypageビューにリダイレクト
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins'));
         }
 
         // ステータスが見つからない場合のエラーハンドリング
