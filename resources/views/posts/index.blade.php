@@ -1,10 +1,17 @@
 @extends('layouts.app_original')
 @section('content')
 
+<style>
+    .size {
+        widows: 100px;
+        height: 100px;
+    }
+</style>
+
 <div>
     @foreach ($posts as $post)
     @if($post->user->img)
-    <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="">
+    <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
     @endif
     <p>{{ $post->user->name }}</p>
     <div>
