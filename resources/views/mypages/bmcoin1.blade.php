@@ -1,6 +1,10 @@
 @extends('layouts.app_original')
 @section('content')
 <div>
+    <p>現在あなたが保有しているBMコイン数：{{ $totalCoins }}</p>
+    <p>以下の選択肢から購入したい商品を選択してください。</p>
+</div>
+<div>
     <a href="{{ route('bmcoin.index2', ['coin_count' => 10, 'price' => 100]) }}">
     <span>100BM coin</span><span>10回分</span><span>購入 ￥100円</span>
     </a>

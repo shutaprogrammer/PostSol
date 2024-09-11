@@ -19,7 +19,9 @@ class BmCoinController extends Controller
 
     function index1()
     {
-        return view('mypages.bmcoin1');
+        //BMコイン総数を計算
+        $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+        return view('mypages.bmcoin1',compact('totalCoins'));
     }
 
     function index2(Request $request)
@@ -64,7 +66,10 @@ class BmCoinController extends Controller
             // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
             $status = Status::where('user_id', $userId)->first();
 
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
+            //BMコイン総数を計算
+            $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins'));
     }
     function CoinComplete200()
     {
@@ -93,7 +98,10 @@ class BmCoinController extends Controller
             // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
             $status = Status::where('user_id', $userId)->first();
 
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
+            //BMコイン総数を計算
+            $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins'));
     }
     function CoinComplete300()
     {
@@ -122,7 +130,10 @@ class BmCoinController extends Controller
             // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
             $status = Status::where('user_id', $userId)->first();
 
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
+            //BMコイン総数を計算
+            $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins'));
     }
     function CoinComplete400()
     {
@@ -151,6 +162,9 @@ class BmCoinController extends Controller
             // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
             $status = Status::where('user_id', $userId)->first();
 
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
+            //BMコイン総数を計算
+            $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins'));
     }
 }

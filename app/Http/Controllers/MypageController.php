@@ -9,6 +9,7 @@ use App\Models\Bookmark;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Status;
+use App\Models\Coin;
 
 class MypageController extends Controller
 {
@@ -42,8 +43,11 @@ class MypageController extends Controller
         // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
         $status = Status::where('user_id', $userId)->first();
 
+        //BMコイン総数を計算
+        $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
+
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins'));
     }
 
     public function edit($id)
