@@ -47,9 +47,15 @@ class BmCoinController extends Controller
             'user_id' => $user->id,  
             'amount' => 100,         
             ]);
-            // 現在ログインしているユーザーのブックマークといいねの総数を取得
-            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
-            $totalLikes = Like::where('user_id', Auth::id())->count();
+            // 現在ログインしているユーザーの投稿に対して付けられたブックマークの総数を取得
+            $totalBookmarks = Bookmark::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
+            
+            // 現在ログインしているユーザーの投稿に対して付けられたいいねの総数を取得
+            $totalLikes = Like::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
     
             // ブックマークした投稿のIDを取得
             $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
@@ -79,9 +85,15 @@ class BmCoinController extends Controller
             'amount' => 200,         
             ]);
 
-            // 現在ログインしているユーザーのブックマークといいねの総数を取得
-            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
-            $totalLikes = Like::where('user_id', Auth::id())->count();
+            // 現在ログインしているユーザーの投稿に対して付けられたブックマークの総数を取得
+            $totalBookmarks = Bookmark::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
+            
+            // 現在ログインしているユーザーの投稿に対して付けられたいいねの総数を取得
+            $totalLikes = Like::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
     
             // ブックマークした投稿のIDを取得
             $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
@@ -111,9 +123,15 @@ class BmCoinController extends Controller
             'amount' => 300,         
             ]);
 
-            // 現在ログインしているユーザーのブックマークといいねの総数を取得
-            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
-            $totalLikes = Like::where('user_id', Auth::id())->count();
+            // 現在ログインしているユーザーの投稿に対して付けられたブックマークの総数を取得
+            $totalBookmarks = Bookmark::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
+            
+            // 現在ログインしているユーザーの投稿に対して付けられたいいねの総数を取得
+            $totalLikes = Like::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
     
             // ブックマークした投稿のIDを取得
             $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
@@ -143,10 +161,16 @@ class BmCoinController extends Controller
             'amount' => 400,         
             ]);
 
-            // 現在ログインしているユーザーのブックマークといいねの総数を取得
-            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
-            $totalLikes = Like::where('user_id', Auth::id())->count();
-    
+            // 現在ログインしているユーザーの投稿に対して付けられたブックマークの総数を取得
+            $totalBookmarks = Bookmark::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
+            
+            // 現在ログインしているユーザーの投稿に対して付けられたいいねの総数を取得
+            $totalLikes = Like::whereIn('post_id', function($query) {
+                $query->select('id')->from('posts')->where('user_id', Auth::id());
+            })->count();
+        
             // ブックマークした投稿のIDを取得
             $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
             ->pluck('post_id'); 
