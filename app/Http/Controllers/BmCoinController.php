@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Coin;
+use App\Models\Bookmark;
+use App\Models\Like;
+use App\Models\Status;
+use App\Models\Post;
+
 
 class BmCoinController extends Controller
 {
@@ -40,8 +45,26 @@ class BmCoinController extends Controller
             'user_id' => $user->id,  
             'amount' => 100,         
             ]);
+            // 現在ログインしているユーザーのブックマークといいねの総数を取得
+            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
+            $totalLikes = Like::where('user_id', Auth::id())->count();
+    
+            // ブックマークした投稿のIDを取得
+            $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
+            ->pluck('post_id'); 
+    
+            // ブックマークした投稿を取得
+            $bookmarkedPosts = Post::whereIn('id', $bookmarkedPostIds)->get();
+    
+            $totalbookemarkedposts = $bookmarkedPosts->count();
+            
+            // 現在ログインしているユーザーのIDを取得
+            $userId = Auth::id();
+    
+            // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+            $status = Status::where('user_id', $userId)->first();
 
-        return redirect()->route('mypages.mypage');
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
     }
     function CoinComplete200()
     {
@@ -51,7 +74,26 @@ class BmCoinController extends Controller
             'amount' => 200,         
             ]);
 
-        return redirect()->route('mypages.mypage');
+            // 現在ログインしているユーザーのブックマークといいねの総数を取得
+            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
+            $totalLikes = Like::where('user_id', Auth::id())->count();
+    
+            // ブックマークした投稿のIDを取得
+            $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
+            ->pluck('post_id'); 
+    
+            // ブックマークした投稿を取得
+            $bookmarkedPosts = Post::whereIn('id', $bookmarkedPostIds)->get();
+    
+            $totalbookemarkedposts = $bookmarkedPosts->count();
+            
+            // 現在ログインしているユーザーのIDを取得
+            $userId = Auth::id();
+    
+            // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+            $status = Status::where('user_id', $userId)->first();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
     }
     function CoinComplete300()
     {
@@ -61,7 +103,26 @@ class BmCoinController extends Controller
             'amount' => 300,         
             ]);
 
-        return redirect()->route('mypages.mypage');
+            // 現在ログインしているユーザーのブックマークといいねの総数を取得
+            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
+            $totalLikes = Like::where('user_id', Auth::id())->count();
+    
+            // ブックマークした投稿のIDを取得
+            $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
+            ->pluck('post_id'); 
+    
+            // ブックマークした投稿を取得
+            $bookmarkedPosts = Post::whereIn('id', $bookmarkedPostIds)->get();
+    
+            $totalbookemarkedposts = $bookmarkedPosts->count();
+            
+            // 現在ログインしているユーザーのIDを取得
+            $userId = Auth::id();
+    
+            // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+            $status = Status::where('user_id', $userId)->first();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
     }
     function CoinComplete400()
     {
@@ -71,6 +132,25 @@ class BmCoinController extends Controller
             'amount' => 400,         
             ]);
 
-        return redirect()->route('mypages.mypage');
+            // 現在ログインしているユーザーのブックマークといいねの総数を取得
+            $totalBookmarks = Bookmark::where('user_id', Auth::id())->count();
+            $totalLikes = Like::where('user_id', Auth::id())->count();
+    
+            // ブックマークした投稿のIDを取得
+            $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())
+            ->pluck('post_id'); 
+    
+            // ブックマークした投稿を取得
+            $bookmarkedPosts = Post::whereIn('id', $bookmarkedPostIds)->get();
+    
+            $totalbookemarkedposts = $bookmarkedPosts->count();
+            
+            // 現在ログインしているユーザーのIDを取得
+            $userId = Auth::id();
+    
+            // // user_idが現在ログインしているユーザーのIDのstatusレコードを取得
+            $status = Status::where('user_id', $userId)->first();
+
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status'));
     }
 }
