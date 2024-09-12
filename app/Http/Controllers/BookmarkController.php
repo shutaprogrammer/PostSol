@@ -49,15 +49,6 @@ use App\Models\Coin;
     //     return redirect()->route('posts.index');
     // }
 
-    namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Models\Bookmark;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Coin;
-
 class BookmarkController extends Controller
 {
     public function store(Post $post)
