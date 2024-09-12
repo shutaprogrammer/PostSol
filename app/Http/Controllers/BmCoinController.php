@@ -13,10 +13,6 @@ use App\Models\Post;
 
 class BmCoinController extends Controller
 {
-    function exchange(){
-        return view('mypages.exchange');
-    }
-
     function index1()
     {
         //BMコイン総数を計算
