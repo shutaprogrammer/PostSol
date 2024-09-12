@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Status;
 
 class PostController extends Controller
 {
     
     function index() 
     {
-        $posts = Post::withCount('bookmarks','likes')->get();
-        return view('posts.index', compact('posts'));
+        $user = auth()->user();
+        // ユーザーのステータスを確認
+        $freeuser= Status::where('user_id', $user->id)->where('status', 'Free')->exists();
+    if ($freeuser) {
+        // 無課金ユーザーは投稿数を5件に制限
+        $posts = Post::withCount('bookmarks', 'likes')->latest()->take(5)->get();
+    } else {
+        // 課金ユーザーには全ての投稿を表示
+        $posts = Post::withCount('bookmarks','likes')->latest()->get();
     }
+        return view('posts.index', compact('posts','freeuser'));
+    }
+
     function create()
     {
         return view ('posts.create_post');
