@@ -46,7 +46,7 @@
         </form>
         @endif
         <p>{{ $post->bookmarks_count }}ブックマーク</p>
-        <p>{{ $post->likes_count }} いいね！</p>
+        <p>{{ $post->likes_count }} いいね</p>
     @endforeach
 </div>
 
