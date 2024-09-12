@@ -15,4 +15,5 @@
     </section>
     <p>サブスク登録をご希望の方は、以下のボタンからサブスク登録画面へ遷移して、クレジットカード情報入力・決済をしてください。</p>
         <button><a href="{{ route('mypages.subscription2') }}">サブスク登録画面へ進む</a></button>
+        
 @endsection
