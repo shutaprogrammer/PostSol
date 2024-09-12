@@ -49,7 +49,7 @@
     <section class="container mt-5 bg-dark text-white p-5 shadow rounded">
         <h2 class="mb-4">ブックマークした投稿</h2>
         <p>ブックマークした数: <span class="badge bg-secondary">{{ $totalbookemarkedposts }}</span></p>
-
+    @if(!$freeuser)
         <div class="row">
         @foreach ($bookmarkedPosts as $post)
             <div class="col-md-4 mb-3">
@@ -63,5 +63,21 @@
             </div>
         @endforeach
         </div>
+    @else
+        <div class="row">
+            @foreach ($bookmarkedPosts as $post)
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-dark"> <!-- カード内はデフォルトの文字色に戻す -->
+                            <h5 class="card-title">ステータス：Freeのため閲覧不可</h5>
+                            <p class="card-text"><strong>カテゴリ: </strong></p>
+                            <p class="card-text"><strong>場所: </strong></p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            </div>
+    @endif
+
     </section>
 @endsection
