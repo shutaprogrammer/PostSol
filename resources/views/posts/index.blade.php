@@ -154,18 +154,8 @@
 
         <!-- ブックマークボタン -->
         <div class="d-inline">
-            @if(App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-            <form action="{{ route('unbookmark', $post) }}" method="POST" style="display: inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-warning">★</button>
-            </form>
-            @else
-            <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
-                @csrf
                 <button type="submit" class="btn btn-outline-warning">☆</button>
-            </form>
-            @endif
+                <div>FreeユーザーはBM使用不可</div>
         </div>
 
         <!-- いいねボタン -->
