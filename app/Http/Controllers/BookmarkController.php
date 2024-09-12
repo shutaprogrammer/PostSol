@@ -64,6 +64,15 @@ class BookmarkController extends Controller
     {
         $user = Auth::user();
         $postOwner = $post->user;
+        $userCoinAmount = $user->coins->sum('amount');
+
+        if ($userCoinAmount < 10) {
+            
+            return redirect()->route('posts.index')->with('alert', [
+                'post_id' => $post->id,
+                'message' => 'ブックマークコインが不足しています'
+            ]);
+        }
 
         DB::transaction(function () use ($user, $post, $postOwner) {
             Coin::create([
@@ -76,11 +85,11 @@ class BookmarkController extends Controller
                 'amount' => 10,         
                 ]);
 
-            Bookmark::create([
-                'user_id' => $user->id,
-                'post_id' => $post->id,
-            ]);
-        });
+                Bookmark::create([
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
+                ]);
+                });
 
         return redirect()->route('posts.index');
     }

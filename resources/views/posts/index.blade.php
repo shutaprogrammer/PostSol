@@ -90,6 +90,13 @@
 
             <!-- ブックマークボタン -->
             <div class="d-inline">
+                @if(session('alert') && session('alert')['post_id'] == $post->id)
+                    <div class="alert alert-danger">
+                        {{ session('alert')['message'] }}
+                    </div>
+                @endif
+
+            <div class="d-inline">
                 @if(App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
                 <form action="{{ route('unbookmark', $post) }}" method="POST" style="display: inline">
                     @csrf
