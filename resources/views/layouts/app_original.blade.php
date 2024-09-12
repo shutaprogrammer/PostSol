@@ -47,7 +47,7 @@
                     <a class="nav-link" href="">BMコイン購入not yet</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="">BMコイン換金not yet</a>
+                    <a class="nav-link" href="{{ route('mypages.exchange') }}">BMコイン換金</a>
                   </li>
 
               </ul>

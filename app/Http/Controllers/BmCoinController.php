@@ -8,10 +8,6 @@ use App\Models\Coin;
 
 class BmCoinController extends Controller
 {
-    function exchange(){
-        return view('mypages.exchange');
-    }
-
     function index1()
     {
         return view('mypages.bmcoin1');

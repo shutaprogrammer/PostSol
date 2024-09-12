@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\MypageController;
@@ -48,8 +49,6 @@ Route::post('/posts', [PostController::class, 'check'])->middleware('auth')->nam
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 
 //mypage
-Route::get('/mypages/exchange', [BmCoinController::class, 'exchange'])->name('mypages.exchange');
-// Route::get('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
 Route::post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
 Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->name('mypages.edit');
@@ -65,6 +64,9 @@ Route::post('/questions/store', [QuestionController::class, 'store'])->name('que
 Route::post('/post/{post}/bookmarks', [BookmarkController::class, 'store'])->name('bookmark');
 Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy'])->name('unbookmark');
 
+//ブックマークコインをAmazonギフト券に交換
+Route::get('/mypages/exchange', [ExchangeController::class, 'index'])->name('mypages.exchange');
+
 //いいね！
 Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
 Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
@@ -74,6 +76,7 @@ Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->
 Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->middleware('auth')->name('mypages.subscription2');
 Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->middleware('auth')->name('mypages.subscription3');
 
+//クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');
 Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->name('payment.createCharge');
 
