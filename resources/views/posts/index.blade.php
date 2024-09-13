@@ -230,7 +230,7 @@
         </div>
     </div>
     @endforeach
-@else
+{{-- @else --}}
 @foreach ($posts as $post)
 <div class="card bg-secondary text-white mb-5 shadow">
     <div class="card-body">
@@ -284,7 +284,7 @@
 </div>
 @endforeach
     <div>Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。</div>
-@endif
+{{-- @endif --}}
 </div>
 
 @endsection
