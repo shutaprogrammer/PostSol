@@ -156,7 +156,7 @@ use Illuminate\Support\Facades\Auth;
                     <a class="nav-link" href="{{ route('bmcoin.index1') }}">BMコイン購入</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">BMコイン換金 (未実装)</a>
+                    <a class="nav-link" href="{{ route('mypages.exchange') }}">BMコイン換金 </a>
                   </li>
               </ul>
           </div>
