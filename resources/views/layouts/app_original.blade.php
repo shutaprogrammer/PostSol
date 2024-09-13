@@ -5,11 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 ?>
 
-<style>
-.custom-navbar {
-    background-color: skyblue; /* 好きな色に変更 */
-  }
-</style>
+
 
 <!DOCTYPE html>
 <html lang="en">
