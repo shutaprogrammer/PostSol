@@ -1,7 +1,7 @@
 @extends('layouts.app_original')
 @section('content')
   <div>
-    <p>現在所有しているBMコイン数</p>
+    保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}　</span>
   </div>
 
   <div>

@@ -1,7 +1,7 @@
 {{-- @extends('layouts.app_original')
 @section('content')
     <section>
-        <h1>プロフィール</h1>
+     
 
         @if($user->img)
         <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="">
