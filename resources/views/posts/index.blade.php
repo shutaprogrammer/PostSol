@@ -50,7 +50,6 @@
     @endforeach
 </div>
 
-
 @endsection --}}
 
 
