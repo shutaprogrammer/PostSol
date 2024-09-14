@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Amazon extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', 'number', 'money'];
 }
