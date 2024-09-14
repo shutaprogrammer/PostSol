@@ -10,7 +10,7 @@ use App\Models\Status;
 class PostController extends Controller
 {
     
-    function index() 
+    function index(Request $request) 
     {
         $user = auth()->user();
         // ユーザーのステータスを確認
@@ -22,7 +22,17 @@ class PostController extends Controller
         // 課金ユーザーには全ての投稿を表示
         $posts = Post::withCount('bookmarks','likes')->latest()->get();
     }
-        return view('posts.index', compact('posts','freeuser'));
+
+    $types = ['食品', '飲料', 'コンビニ・小売店・量販店', '外食・出前・お弁当', '暮らし・住まい', '美容・健康', '服・アクセサリー',
+            'デジタル・家電', 'アプリ・Webサービス', '生活関連サービス', '医療・福祉', '自動車', '宿泊・観光・レジャー',
+            'アウトドア・スポーツ', '趣味・エンタメ', 'ペット', '人間関係', '教育', '仕事', '公共・交通', '政治・行政・国際・文化', 'その他'];
+    $category = $request->category;
+    if($category) {
+        $posts = Post::where('category', $category)->get();
+    } else {
+        $posts = Post::all();
+    }
+        return view('posts.index', compact('posts','freeuser', 'types', 'category'));
     }
 
     function create()
