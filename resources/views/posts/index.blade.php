@@ -74,6 +74,19 @@
     }
 </style>
 
+
+    <form action="{{ route('posts.index') }}" method="GET">
+        <label for="category">カテゴリーを選択：</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">すべてのカテゴリー</option>
+            @foreach($types as $type)
+            <option value="{{ $type }}" {{ request('category')  == $type ? 'selected' : ''}}>
+            {{ $type }}
+            </option>
+            @endforeach
+        </select>
+    </form>
+
 @if(!$freeuser)
 <div class="container mt-5 bg-dark text-white p-5 shadow rounded">
     @foreach ($posts as $post)
