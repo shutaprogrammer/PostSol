@@ -38,7 +38,7 @@
                 @endif
             </div>
             <div class="text-center">
-                <h1 class="title">PostSol ~ 不満からビジネスに ~</h1>
+                <h1 class="title">PostSol ~ 不満からビジネスへ ~</h1>
                 <p class="subtitle">不満を投稿してポイ活。不満からビジネスアイデアを思索。</p>
             </div>
         </div>
