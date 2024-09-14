@@ -15,6 +15,7 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubscriptionController;
 
+
 use App\Http\Controllers\PaymentController;
 
 /*
@@ -66,6 +67,8 @@ Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy']
 
 //ブックマークコインをAmazonギフト券に交換
 Route::get('/mypages/exchange', [ExchangeController::class, 'index'])->name('mypages.exchange');
+Route::post('/exchange/process', [ExchangeController::class, 'process'])->name('exchange.process');
+Route::post('/amazon/exchange', [AmazonController::class, 'exchange'])->name('amazon.exchange');
 
 //いいね！
 Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
