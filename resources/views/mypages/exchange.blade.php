@@ -31,7 +31,6 @@
 </div>
 
 <div>
-  
     <p id="remainingCoins">選択した枚数に応じて交換後のコイン数が表示されます。</p>
     <button id="confirmExchangeBtn" class="btn btn-success" style="display:none;" onclick="submitExchange()">交換実行</button>
 </div>
