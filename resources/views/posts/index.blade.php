@@ -155,6 +155,7 @@
                 <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
                 <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
             </p>
+
         </div>
     </div>
     @endforeach
@@ -177,6 +178,9 @@
             <!-- 投稿内容 -->
             <div class="bg-dark p-4 rounded shadow-sm mb-2">
                 <h3 class="text-light">{{ $post->content }}</h3>
+                <div>
+                    <p><a href="">通報する</a></p>
+                </div>
             </div>
 
             <!-- カテゴリーと場所 -->
@@ -219,6 +223,7 @@
             </p>
         </div>
     </div>
+
     @endforeach
     <div>Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。</div>
 
