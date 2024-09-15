@@ -87,6 +87,11 @@
         </select>
     </form>
 
+    <form action="{{ route('posts.index') }}" method="GET">
+        <input type="text" name="keyword">
+        <input type="submit" value="検索">
+    </form>
+
 @if(!$freeuser)
 <div class="container mt-5 bg-dark text-white p-5 shadow rounded">
     @foreach ($posts as $post)
