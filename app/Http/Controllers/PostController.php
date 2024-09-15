@@ -31,13 +31,13 @@ class PostController extends Controller
     $keyword = $request->keyword;
 
     if($category) {
-        $posts = Post::where('category', $category)->get();
+        $posts = Post::orderBy('created_at', 'desc')->where('category', $category)->get();
     } elseif($keyword) {
         $posts = Post::where('place', 'like', "%{$keyword}%")
         ->orWhere('content', 'like', "%{$keyword}%")
         ->get();
     } else {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->get();
     }
         return view('posts.index', compact('posts','freeuser', 'types', 'category', 'keyword'));
     }

@@ -70,7 +70,7 @@ class MypageController extends Controller
         ->pluck('post_id'); 
 
         // ブックマークした投稿を取得
-        $bookmarkedPosts = Post::whereIn('id', $bookmarkedPostIds)->get();
+        $bookmarkedPosts = Post::withTrashed()->whereIn('id', $bookmarkedPostIds)->get();
 
         $totalbookemarkedposts = $bookmarkedPosts->count();
 
