@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ExchangeController;
+use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\MypageController;
