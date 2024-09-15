@@ -9,13 +9,14 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\BmCoinController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ExchangeController;
+use App\Http\Controllers\AmazonController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RankingController;
-
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 
 /*
@@ -105,3 +106,9 @@ Route::get('/bmcoin/index1', [BmCoinController::class, 'index1'])->middleware('a
 Route::get('/bmcoin/index2', [BmCoinController::class, 'index2'])->middleware('auth')->name('bmcoin.index2');
 Route::get('/bmcoin/index3', [BmCoinController::class, 'index3'])->middleware('auth')->name('bmcoin.index3');
 
+
+//管理者画面
+Route::get('admin/menu',[AdminController::class, 'index'])->name('admin.menu');
+Route::get('admin/menu/malicious',[AdminController::class, 'malicious'])->name('admin.malicious');
+Route::get('admin/menu/exchange',[AdminController::class, 'exchange'])->name('admin.exchange');
+Route::get('admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');
