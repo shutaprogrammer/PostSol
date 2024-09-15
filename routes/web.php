@@ -15,9 +15,8 @@ use App\Http\Controllers\TopController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\AdminController;
-
-
 use App\Http\Controllers\PaymentController;
 
 /*
@@ -80,6 +79,10 @@ Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->middleware('auth')->name('mypages.subscription1');
 Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->middleware('auth')->name('mypages.subscription2');
 Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->middleware('auth')->name('mypages.subscription3');
+
+//ランキング
+Route::get('/posts/ranking/post', [RankingController::class, 'post'])->middleware('auth')->name('rankings.post');
+Route::get('/posts/ranking/user', [RankingController::class, 'user'])->middleware('auth')->name('rankings.user');
 
 //クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');
