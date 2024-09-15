@@ -14,7 +14,7 @@ use App\Http\Controllers\TopController;
 use App\Http\Controllers\MypageController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubscriptionController;
-
+use App\Http\Controllers\RankingController;
 
 use App\Http\Controllers\PaymentController;
 
@@ -79,6 +79,10 @@ Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->
 Route::get('/mypages/subscription2', [SubscriptionController::class, 'index2'])->middleware('auth')->name('mypages.subscription2');
 Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])->middleware('auth')->name('mypages.subscription3');
 
+//ランキング
+Route::get('/posts/ranking/post', [RankingController::class, 'post'])->middleware('auth')->name('rankings.post');
+Route::get('/posts/ranking/user', [RankingController::class, 'user'])->middleware('auth')->name('rankings.user');
+
 //クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');
 Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->name('payment.createCharge');
@@ -90,8 +94,6 @@ Route::get('/mypage', function () {
 })->middleware('auth')->name('mypage');
 
 //BMコイン購入
-
-
 Route::get('payment/Coincreate', [PaymentController::class, 'Coincreate'])->name('payment.Coincreate');
 Route::post('payment/CoinCharge', [PaymentController::class, 'CoinCharge'])->name('payment.CoinCharge');
 Route::post('/Coin/Complete100', [BmCoinController::class, 'CoinComplete100'])->name('Coin.Complete100');
