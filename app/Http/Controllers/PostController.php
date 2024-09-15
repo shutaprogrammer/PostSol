@@ -28,9 +28,9 @@ class PostController extends Controller
             'アウトドア・スポーツ', '趣味・エンタメ', 'ペット', '人間関係', '教育', '仕事', '公共・交通', '政治・行政・国際・文化', 'その他'];
     $category = $request->category;
     if($category) {
-        $posts = Post::where('category', $category)->get();
+        $posts = Post::orderBy('created_at', 'desc')->where('category', $category)->get();
     } else {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->get();
     }
         return view('posts.index', compact('posts','freeuser', 'types', 'category'));
     }
