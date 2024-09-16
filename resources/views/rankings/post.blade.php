@@ -1,4 +1,4 @@
 @extends('layouts.app_original')
 @section('content')
-<い>
+<h2>投稿ランキング（直近３０日間）</h2>
 @endsection
