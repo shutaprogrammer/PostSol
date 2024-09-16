@@ -67,7 +67,18 @@
     }
 </style>
 
+<!-- セッションメッセージの表示 -->
+@if(session('alert_success'))
+    <div class="alert alert-success custom-alert">
+        {{ session('alert_success') }}
+    </div>
+@endif
 
+@if(session('alert_error'))
+    <div class="alert alert-danger custom-alert">
+        {{ session('alert_error') }}
+    </div>
+@endif
     <form action="{{ route('posts.index') }}" method="GET">
         <label for="category">カテゴリーを選択：</label>
         <select name="category" id="category" onchange="this.form.submit()">
@@ -165,6 +176,14 @@
                 <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
                 <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
             </p>
+
+            <p>この投稿の削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}</p>
+            @if ($post->user_id === Auth::id())
+            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">表示期間を1日延長</button>
+            </form>
+            @endif
         </div>
     </div>
     @endforeach
@@ -230,6 +249,14 @@
                 <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
                 <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
             </p>
+
+            <p>この投稿の削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}</p>
+            @if ($post->user_id === Auth::id())
+            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">表示期間を1日延長</button>
+            </form>
+            @endif
         </div>
     </div>
 

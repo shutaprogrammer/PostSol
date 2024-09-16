@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon; // Carbonをインポート
 
 class Post extends Model
 {
@@ -30,5 +31,11 @@ class Post extends Model
 
     //ソフトデリート
     use SoftDeletes;
-    protected $dates = ['deleted_at']; // deleted_atカラムを使用
+    // protected $dates = ['deleted_at']; // deleted_atカラムを使用
+
+    protected $casts = [
+        'deletion_date' => 'datetime',
+    ];
+    protected $dates = ['deleted_at', 'deletion_date'];
+    
 }
