@@ -52,13 +52,6 @@
 
 @endsection --}}
 
-
-
-
-
-
-
-
 @extends('layouts.app_original')
 @section('content')
 
@@ -90,6 +83,18 @@
     <form action="{{ route('posts.index') }}" method="GET">
         <input type="text" name="keyword">
         <input type="submit" value="検索">
+    </form>
+
+    <form action="{{ route('posts.index') }}" method="GET">
+        <label for="arrange">並び替え</label>
+        <select name="arrange" id="arrange" onchange="this.form.submit()">
+            <option value=""></option>
+            @foreach($orders as $order)
+            <option value="{{ $order }}" {{ request('arrange') == $order ? 'selected' : ''}}>
+                {{ $order }}
+            </option>
+            @endforeach
+        </select>
     </form>
 
 @if(!$freeuser)
@@ -160,7 +165,6 @@
                 <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
                 <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
             </p>
-
         </div>
     </div>
     @endforeach
