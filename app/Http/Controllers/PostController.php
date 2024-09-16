@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Coin;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Status;
+use Carbon\Carbon; // 追加
 
 class PostController extends Controller
 {
@@ -53,22 +55,31 @@ class PostController extends Controller
     // }
 
     function index(Request $request) 
-{
-    $user = auth()->user();
-    // ユーザーのステータスを確認
-    $freeuser = Status::where('user_id', $user->id)->where('status', 'Free')->exists();
-    
-    // クエリビルダーを最初に作成
-    $count = Post::withCount(['bookmarks', 'likes']);
-    
-    // 並び順の処理
-    $arrange = $request->arrange;
-    if ($arrange == '古い順') {
-        $count->oldest();
-    } elseif ($arrange == 'ブックマーク数順（延長含まない）') {
-        $count->orderBy('bookmarks_count', 'desc');
+
+    {
+        $user = auth()->user();
+        // ユーザーのステータスを確認
+        $freeuser= Status::where('user_id', $user->id)->where('status', 'Free')->exists();
+
+        // 現在の日付を取得
+        $now = now();
+        // クエリビルダーを最初に作成
+        $count = Post::withCount(['bookmarks', 'likes']);
+    if ($freeuser) {
+        // 無課金ユーザーは投稿数を5件に制限
+        $count->where(function($query) use ($now) {
+            $query->where('deletion_date', '>=', $now)
+                  ->orWhereNull('deletion_date');
+        })
+        ->whereNull('deleted_at')->latest()->take(5)->get();
     } else {
-        $count->latest(); // デフォルトは新規投稿順
+        // 課金ユーザーには全ての投稿を表示
+        $count->where(function($query) use ($now) {
+            $query->where('deletion_date', '>=', $now)
+                  ->orWhereNull('deletion_date');
+        })
+        ->whereNull('deleted_at')->latest()->get();
+    
     }
 
     // カテゴリでのフィルタリング
@@ -86,6 +97,35 @@ class PostController extends Controller
         });
     }
 
+
+    if($category) {
+        $count->where('category', $category)
+        ->where(function($query) use ($now) {
+            $query->where('deletion_date', '>=', $now)
+                  ->orWhereNull('deletion_date');
+        })
+        ->whereNull('deleted_at')->latest()->get();
+    } elseif($keyword) {
+        $count->where(function ($query) use ($keyword) {
+                $query->where('place', 'like', "%{$keyword}%")
+                      ->orWhere('content', 'like', "%{$keyword}%");
+            })
+            ->where(function($query) use ($now) {
+                $query->where('deletion_date', '>=', $now)
+                      ->orWhereNull('deletion_date');
+            })
+            ->whereNull('deleted_at')
+            ->latest()
+            ->get();
+    } else {
+        $count->where(function($query) use ($now) {
+                $query->where('deletion_date', '>=', $now)
+                      ->orWhereNull('deletion_date');
+            })
+            ->whereNull('deleted_at')
+            ->latest()
+            ->get();
+
     // 無課金ユーザーなら投稿数を5件に制限
     if ($freeuser) {
         $count->take(5);
@@ -101,8 +141,27 @@ class PostController extends Controller
 
     $orders = ['新規投稿順', '古い順', 'ブックマーク数順（延長含まない）'];
 
-    return view('posts.index', compact('posts', 'freeuser', 'types', 'category', 'keyword', 'orders', 'arrange'));
-}
+
+    $arrange = $request->arrange;
+    if($arrange == '古い順') {
+        $count->where(function($query) use ($now) {
+                $query->where('deletion_date', '>=', $now)
+                      ->orWhereNull('deletion_date');
+            })
+            ->whereNull('deleted_at')
+            ->oldest()
+            ->get();
+    } elseif ($arrange == 'ブックマーク数順（延長含まない）') {
+        $count->where(function($query) use ($now) {
+                $query->where('deletion_date', '>=', $now)
+                      ->orWhereNull('deletion_date');
+            })
+            ->whereNull('deleted_at')
+            ->orderBy('bookmarks_count', 'desc')
+            ->get();
+    } 
+        return view('posts.index', compact('posts', 'freeuser', 'types', 'category', 'keyword', 'orders', 'arrange'));
+    }
 
 
     function create()
@@ -140,9 +199,44 @@ class PostController extends Controller
         $post -> place = $request -> place;
         $post -> content = $request -> content;
 
+        // 作成日から30日後を削除予定日に設定
+        // $post->deletion_date = now()->addDays(30);
+
+        // 作成日から1日後を削除予定日に設定
+        $post->deletion_date = now()->addDay();
+        
         $post -> save();
 
         return redirect()->route('posts.index') ;
     }
 
+    public function extend(Request $request, Post $post)
+{
+    // 投稿のオーナーであることを確認
+    if ($post->user_id !== Auth::id()) {
+        return redirect()->back()->with('alert_error', '権限がありません。');
+    }
+
+    // コインの確認
+    $userCoins = Coin::where('user_id', Auth::id())->sum('amount');
+    if ($userCoins < 100) {
+        return redirect()->back()->with('alert_error', 'コインが不足しています。');
+    }
+
+    // コインの引き落とし
+    Coin::create([
+        'user_id' => Auth::id(),
+        'amount' => -100,
+    ]);
+
+    // 投稿の表示期間を1日延長
+    if ($post->deletion_date && $post->deletion_date > now()) {
+        $post->deletion_date = $post->deletion_date->addDay(); // 既存の削除予定日があれば1日追加
+    } else {
+        $post->deletion_date = now()->addDay(); // 削除予定日がなければ1日後に設定
+    }
+    $post->save();
+
+    return redirect()->route('posts.index')->with('alert_success', '投稿の表示期間が延長されました。');
+}
 }
