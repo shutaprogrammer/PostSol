@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Bookmark;
 use App\Models\User;
+use App\Models\Post;
 
 class RankingController extends Controller
 {
     public function post(){
-       
-
-        return view ('rankings.post');
+        $posts = Post::withCount('bookmarks') // ブックマークの数をカウント
+                 ->orderBy('bookmarks_count', 'desc') // ブックマークの数でソート
+                 ->where('created_at', '>=', now()->subDays(30)) // 直近30日間の投稿
+                 ->take(10)
+                 ->get();
+        return view ('rankings.post', compact('posts'));
     }
 
     public function user(){
