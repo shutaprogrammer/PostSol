@@ -17,10 +17,11 @@ class PostController extends Controller
         $freeuser= Status::where('user_id', $user->id)->where('status', 'Free')->exists();
     if ($freeuser) {
         // 無課金ユーザーは投稿数を5件に制限
-        $posts = Post::withCount('bookmarks', 'likes')->latest()->take(5)->get();
+        $posts = Post::withCount(['bookmarks', 'likes'])->latest()->take(5)->get();
     } else {
         // 課金ユーザーには全ての投稿を表示
-        $posts = Post::withCount('bookmarks','likes')->latest()->get();
+        $posts = Post::withCount(['bookmarks', 'likes'])->latest()->get();
+    // dd($posts);
     }
 
     $types = ['食品', '飲料', 'コンビニ・小売店・量販店', '外食・出前・お弁当', '暮らし・住まい', '美容・健康', '服・アクセサリー',
@@ -31,15 +32,24 @@ class PostController extends Controller
     $keyword = $request->keyword;
 
     if($category) {
-        $posts = Post::orderBy('created_at', 'desc')->where('category', $category)->get();
+        $posts = Post::withCount(['bookmarks', 'likes'])->orderBy('created_at', 'desc')->where('category', $category)->get();
     } elseif($keyword) {
-        $posts = Post::where('place', 'like', "%{$keyword}%")
+        $posts = Post::withCount(['bookmarks', 'likes'])->where('place', 'like', "%{$keyword}%")
         ->orWhere('content', 'like', "%{$keyword}%")
         ->get();
     } else {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::withCount(['bookmarks', 'likes'])->orderBy('created_at', 'desc')->get();
     }
-        return view('posts.index', compact('posts','freeuser', 'types', 'category', 'keyword'));
+
+    $orders = ['新規投稿順', '古い順', 'ブックマーク数順（延長含まない）'];
+
+    $arrange = $request->arrange;
+    if($arrange == '古い順') {
+        $posts = Post::withCount(['bookmarks', 'likes'])->oldest()->get();
+    } elseif ($arrange == 'ブックマーク数順（延長含まない）') {
+        $posts = Post::withCount(['bookmarks', 'likes'])->orderBy('bookmarks_count', 'desc')->get();
+    } 
+        return view('posts.index', compact('posts', 'freeuser', 'types', 'category', 'keyword', 'orders', 'arrange'));
     }
 
     function create()
