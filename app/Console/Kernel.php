@@ -33,6 +33,13 @@ class Kernel extends ConsoleKernel
                 ->where('period', '<', now()) // 現在の日付が期限を過ぎている場合
                 ->update(['status' => 'Free']);
         })->daily(); // 毎日実行
+
+        // Paid Memberが1か月経過したらFreeに戻す処理
+        $schedule->call(function () {
+            Status::where('status', 'Paid Member')
+                ->where('period', '<', now()) // 期限が現在より前
+                ->update(['status' => 'Free', 'period' => null]); // Freeに戻し、periodをリセット
+        })->daily(); // 毎日この処理を実行
     }
 
     /**

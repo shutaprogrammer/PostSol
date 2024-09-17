@@ -95,8 +95,18 @@ class MypageController extends Controller
             $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
         }
         
+        // Paid Memberの残り期間
+        $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
+        $paidRemainingTime = null;
+        
+        if ($paidStatus) {
+            $remainingPaidDays = now()->diffInDays($paidStatus->period);
+            $remainingPaidHours = now()->diffInHours($paidStatus->period) % 24;
+            $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
+            $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
+        }
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser','remainingTime'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser','remainingTime', 'paidRemainingTime'));
     }
 
     public function edit($id)
