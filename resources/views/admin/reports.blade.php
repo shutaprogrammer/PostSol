@@ -7,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>悪質投稿報告</h1>
+    <h1>悪質ユーザー報告</h1>
+    <div>
+
+    </div>
+
+    <div>
+        <button type="button"><a href="{{ route('admin.menu') }}">メニューへ</a></button>
+    </div>
 </body>
 </html>
