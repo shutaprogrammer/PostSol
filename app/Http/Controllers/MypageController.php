@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Post;
 use App\Models\Status;
 use App\Models\Coin;
+use App\Models\Ad;
 
 class MypageController extends Controller
 {
@@ -84,9 +85,11 @@ class MypageController extends Controller
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
 
     }
+         // 広告データのサンプル
+         $ads = Ad::all();  // 全ての広告を取得
         
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser', 'ads'));
     }
 
     public function edit($id)
