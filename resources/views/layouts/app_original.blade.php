@@ -154,6 +154,12 @@ use Illuminate\Support\Facades\Auth;
                   <li class="nav-item">
                     <a class="nav-link" href="{{ route('mypages.exchange') }}">BMコイン換金 </a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rankings.post') }}">投稿ランキング </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rankings.user') }}">ユーザーランキング </a>
+                  </li>
               </ul>
           </div>
       </div>

@@ -50,6 +50,7 @@ Route::get('/posts/index', [PostController::class, 'index'])->middleware('auth')
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->name('posts.create');
 Route::post('/posts', [PostController::class, 'check'])->middleware('auth')->name('posts.check');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+Route::post('/posts/{post}/extend', [PostController::class, 'extend'])->name('posts.extend');
 
 //Report
 Route::get('/reports/create/{post}', [ReportController::class, 'create'])->name('reports.create');

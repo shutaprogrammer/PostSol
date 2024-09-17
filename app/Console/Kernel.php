@@ -16,10 +16,12 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
+            Post::where('deletion_date', '<', now())->whereNull('deleted_at')->update(['deleted_at' => now()]);
+    })->daily();
+        //     Post::where('created_at', '<', now()->subDay())->delete();
+        // })->daily(); // 毎日実行
         //         Post::where('created_at', '<', now()->subMinute())->delete();
         // })->everyMinute(); // 1分ごとに実行
-            Post::where('created_at', '<', now()->subDay())->delete();
-        })->daily(); // 毎日実行
         //     Post::where('created_at', '<', now()->subMonth())->delete();
         // })->daily(); // 毎日実行
     }
