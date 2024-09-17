@@ -9,7 +9,7 @@
 <body>
     <div>
         <ul>
-            <li><a href="{{ route('admin.malicious') }}">悪質ユーザー一覧</a></li>
+            <li><a href="{{ route('admin.reports') }}">悪質ユーザー一覧</a></li>
             <li><a href="{{ route('admin.exchange') }}">アマギフ換金機歴</a></li>
             <li><a href="{{ route('admin.inbox') }}">お問い合わせ受信BOX</a></li>
         </ul>

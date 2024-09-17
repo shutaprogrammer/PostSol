@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Amazon;
+use App\Models\Report;
 
 class AdminController extends Controller
 {
@@ -14,9 +15,11 @@ class AdminController extends Controller
         return view('admin.menu');
     }
 
-    public function malicious()
+    public function reports(Request $request)
     {
-        return view('admin.malicious');
+
+
+        return view('admin.reports');
     }
 
     public function exchange()

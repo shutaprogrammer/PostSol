@@ -18,6 +18,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,13 @@ Route::get('/posts/index', [PostController::class, 'index'])->middleware('auth')
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->name('posts.create');
 Route::post('/posts', [PostController::class, 'check'])->middleware('auth')->name('posts.check');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+
+//Report
+Route::get('/reports/create/{post}', [ReportController::class, 'create'])->name('reports.create');
+Route::post('/reports/confirm/{post}', [ReportController::class, 'confirm'])->name('reports.confirm');
+Route::post('/reports/store/{post}', [ReportController::class, 'store'])->name('reports.store');
+Route::get('/reports/complete', [ReportController::class, 'complete'])->name('reports.complete');
+
 
 //mypage
 Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
@@ -109,6 +117,6 @@ Route::get('/bmcoin/index3', [BmCoinController::class, 'index3'])->middleware('a
 
 //管理者画面
 Route::get('admin/menu',[AdminController::class, 'index'])->name('admin.menu');
-Route::get('admin/menu/malicious',[AdminController::class, 'malicious'])->name('admin.malicious');
+Route::get('admin/menu/reports',[AdminController::class, 'reports'])->name('admin.reports');
 Route::get('admin/menu/exchange',[AdminController::class, 'exchange'])->name('admin.exchange');
 Route::get('admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');

@@ -67,4 +67,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Coin::class);
     }
+
+    //Reportとのリレーション
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

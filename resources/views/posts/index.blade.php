@@ -110,6 +110,9 @@
             <!-- 投稿内容 -->
             <div class="bg-dark p-4 rounded shadow-sm mb-2">
                 <h3 class="text-light">{{ $post->content }}</h3>
+                <div>
+                    <p><a href="{{ route('reports.create', ['post' => $post->id]) }}">通報する</a></p>
+                </div>
             </div>
 
             <!-- カテゴリーと場所 -->
@@ -184,7 +187,7 @@
             <div class="bg-dark p-4 rounded shadow-sm mb-2">
                 <h3 class="text-light">{{ $post->content }}</h3>
                 <div>
-                    <p><a href="">通報する</a></p>
+                    <p><a href="{{ route('reports.create',['post' => $post->id]) }}">通報する</a></p>
                 </div>
             </div>
 
