@@ -22,7 +22,7 @@ class PostController extends Controller
         $query = Post::withCount(['bookmarks', 'likes'])
             ->where(function($query) use ($now) {
                 $query->where('deletion_date', '>=', $now)
-                      ->orWhereNull('deletion_date');
+                    ->orWhereNull('deletion_date');
             })
             ->whereNull('deleted_at');
 
@@ -42,7 +42,7 @@ class PostController extends Controller
         if ($keyword) {
             $query->where(function ($query) use ($keyword) {
                 $query->where('place', 'like', "%{$keyword}%")
-                      ->orWhere('content', 'like', "%{$keyword}%");
+                    ->orWhere('content', 'like', "%{$keyword}%");
             });
         }
 
@@ -62,9 +62,9 @@ class PostController extends Controller
 
         // その他のデータ
         $types = ['食品', '飲料', 'コンビニ・小売店・量販店', '外食・出前・お弁当', '暮らし・住まい', '美容・健康',
-                  '服・アクセサリー', 'デジタル・家電', 'アプリ・Webサービス', '生活関連サービス', '医療・福祉',
-                  '自動車', '宿泊・観光・レジャー', 'アウトドア・スポーツ', '趣味・エンタメ', 'ペット',
-                  '人間関係', '教育', '仕事', '公共・交通', '政治・行政・国際・文化', 'その他'];
+                '服・アクセサリー', 'デジタル・家電', 'アプリ・Webサービス', '生活関連サービス', '医療・福祉',
+                '自動車', '宿泊・観光・レジャー', 'アウトドア・スポーツ', '趣味・エンタメ', 'ペット',
+                '人間関係', '教育', '仕事', '公共・交通', '政治・行政・国際・文化', 'その他'];
 
         $orders = ['新規投稿順', '古い順', 'ブックマーク数順（延長含まない）'];
 
