@@ -28,6 +28,38 @@
 
 @extends('layouts.app_original')
 @section('content')
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <style>
+        .carousel-item img {
+            width: 100%; /* 横幅は100%でコンテナにフィット */
+            max-height: 200px; /* 縦の長さを200pxに制限 */
+            object-fit: cover; /* コンテナ内で収めつつ、余分な部分はカット */
+        }
+
+        /* モバイルファーストのスタイルで調整 */
+        @media (max-width: 768px) {
+            .carousel-item img {
+                max-height: 150px; /* モバイルではさらに短く */
+            }
+        }
+
+        /* タブレット以上の画面向けにサイズを調整 */
+        @media (min-width: 769px) {
+            .carousel-item img {
+                max-height: 250px; /* タブレット以上では少し大きめに */
+            }
+        }
+
+        /* デスクトップ画面向け */
+        @media (min-width: 992px) {
+            .carousel-item img {
+                max-height: 300px; /* デスクトップではもう少し大きく */
+            }
+        }
+    </style>
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
         <h1 class="text-center mb-4">プロフィール</h1>
@@ -86,4 +118,41 @@
     @endif
 
     </section>
+
+    <!-- 広告掲載欄 -->
+<section class="container mt-5" style="margin-bottom: 100px;">
+        <div id="adsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- インジケーター -->
+            <ol class="carousel-indicators">
+                @foreach ($ads as $index => $ad)
+                    <li data-bs-target="#adsCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
+                @endforeach
+            </ol>
+        
+            <!-- 広告スライド -->
+            <div class="carousel-inner">
+                @foreach ($ads as $index => $ad)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <img src="{{ Storage::url($ad->image) }}" class="d-block mx-auto" alt="{{ $ad->title }}" style="max-height: 200px; object-fit: cover;">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{ $ad->title }}</h5>
+                            <p>{{ $ad->description }}</p>
+                            <a href="{{ $ad->link }}" class="btn btn-primary" target="_blank">詳しくはこちら</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        
+            <!-- コントロールボタン -->
+            <a class="carousel-control-prev" href="#adsCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">前へ</span>
+            </a>
+            <a class="carousel-control-next" href="#adsCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">次へ</span>
+            </a>
+        </div>
+    </section>
+    
 @endsection

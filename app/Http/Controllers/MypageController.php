@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Post;
 use App\Models\Status;
 use App\Models\Coin;
+use App\Models\Ad;
 
 class MypageController extends Controller
 {
@@ -84,6 +85,10 @@ class MypageController extends Controller
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
 
     }
+
+         // 広告データのサンプル
+         $ads = Ad::all();  // 全ての広告を取得
+
         //トライアル期間
         $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
         $remainingTime = null;
@@ -98,6 +103,7 @@ class MypageController extends Controller
         // Paid Memberの残り期間
         $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
         $paidRemainingTime = null;
+
         
         if ($paidStatus) {
             $remainingPaidDays = now()->diffInDays($paidStatus->period);
@@ -106,7 +112,7 @@ class MypageController extends Controller
             $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
         }
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser','remainingTime', 'paidRemainingTime'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser', 'ads', 'remainingTime', 'paidRemainingTime'));
     }
 
     public function edit($id)

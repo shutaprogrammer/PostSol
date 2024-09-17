@@ -18,6 +18,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RankingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\ReportController;
 
 /*
@@ -92,6 +93,12 @@ Route::get('/mypages/subscription3', [SubscriptionController::class, 'index3'])-
 //ランキング
 Route::get('/posts/ranking/post', [RankingController::class, 'post'])->middleware('auth')->name('rankings.post');
 Route::get('/posts/ranking/user', [RankingController::class, 'user'])->middleware('auth')->name('rankings.user');
+
+// 広告入力フォームを表示
+Route::get('/ads/create', [AdController::class, 'create'])->name('ads.create');
+
+// 広告データを保存
+Route::post('/ads', [AdController::class, 'store'])->name('ads.store');
 
 //クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');
