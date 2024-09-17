@@ -84,9 +84,19 @@ class MypageController extends Controller
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
 
     }
+        //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
         
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser','remainingTime'));
     }
 
     public function edit($id)
