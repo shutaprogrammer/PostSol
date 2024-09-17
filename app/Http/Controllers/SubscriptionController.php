@@ -116,7 +116,18 @@ class SubscriptionController extends Controller
 
         //BMコイン総数を計算
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser'));
+
+        //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime'));
         }
 
         // ステータスが見つからない場合のエラーハンドリング
