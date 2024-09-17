@@ -142,33 +142,7 @@
                 </div>
             @endif
 
-            <!-- ブックマークボタン -->
-            {{-- <div class="d-inline">
-                @if(App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                <form action="{{ route('unbookmark', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-warning">★</button>
-                </form>
-                @else
-                <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-warning">☆</button>
-                </form>
-                @endif
-            </div> --}}
-
-            {{-- <div class="d-inline">
-                @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                    <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-warning">☆</button>
-                    </form>
-                @else
-                <button class="btn btn-warning">★</button>
-                @endif
-            </div> --}}
-
+            {{-- ブックマーク --}}
             <div class="d-inline">
                 @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
                     <!-- ボタンをクリックするとモーダルを表示 -->
@@ -180,7 +154,7 @@
                 @endif
             </div>
             
-            <!-- モーダル -->
+            <!-- ブックマークのモーダル -->
             <div class="modal fade" id="bookmarkModal-{{ $post->id }}" tabindex="-1" aria-labelledby="bookmarkModalLabel-{{ $post->id }}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -270,10 +244,38 @@
             @endif
 
             <!-- ブックマークボタン -->
-        <div class="d-inline">
+        {{-- <div class="d-inline">
             <button type="submit" class="btn btn-outline-warning">☆</button>
             <div>FreeユーザーはBM使用不可</div>
+        </div> --}}
+
+        <div class="d-inline">
+            <!-- ボタンにモーダルのトリガーを設定 -->
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#freeUserModal">
+                ☆
+            </button>
+            <div>FreeユーザーはBM使用不可</div>
         </div>
+        
+        <!-- モーダル -->
+        <div class="modal fade" id="freeUserModal" tabindex="-1" aria-labelledby="freeUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color: black" id="freeUserModalLabel">使用制限のお知らせ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="color: black">
+                        Freeユーザーはブックマーク機能を利用できません。<br>サブスク購入ですべての機能が利用可能になります。
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary">サブスク購入へ</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
             <!-- いいねボタン -->
             <div class="d-inline ms-3">
