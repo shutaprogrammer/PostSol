@@ -44,6 +44,9 @@
             @if($remainingTime)
             <p>Trial期間の残り時間: {{ $remainingTime }}</p>
             @endif
+            @if($paidRemainingTime)
+            <p>Paid Memberの残り期間: {{ $paidRemainingTime }}</p>
+            @endif
             <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary mt-3">プロフィールを編集</a>
         </div>
     </section>
