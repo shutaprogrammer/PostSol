@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Bookmark;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\Ad;
 
 class SubscriptionController extends Controller
 {
@@ -138,7 +139,9 @@ class SubscriptionController extends Controller
             $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
             $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
         }
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime','paidRemainingTime'));
+        // 広告データのサンプル
+        $ads = Ad::all();  // 全ての広告を取得
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime','paidRemainingTime', 'ads'));
         }
 
         // ステータスが見つからない場合のエラーハンドリング
