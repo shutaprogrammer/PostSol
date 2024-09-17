@@ -143,7 +143,7 @@
             @endif
 
             <!-- ブックマークボタン -->
-            <div class="d-inline">
+            {{-- <div class="d-inline">
                 @if(App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
                 <form action="{{ route('unbookmark', $post) }}" method="POST" style="display: inline">
                     @csrf
@@ -156,6 +156,50 @@
                     <button type="submit" class="btn btn-outline-warning">☆</button>
                 </form>
                 @endif
+            </div> --}}
+
+            {{-- <div class="d-inline">
+                @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                    <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-warning">☆</button>
+                    </form>
+                @else
+                <button class="btn btn-warning">★</button>
+                @endif
+            </div> --}}
+
+            <div class="d-inline">
+                @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                    <!-- ボタンをクリックするとモーダルを表示 -->
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#bookmarkModal-{{ $post->id }}">
+                        ☆
+                    </button>
+                @else
+                    <button class="btn btn-warning" disabled>★</button>
+                @endif
+            </div>
+            
+            <!-- モーダル -->
+            <div class="modal fade" id="bookmarkModal-{{ $post->id }}" tabindex="-1" aria-labelledby="bookmarkModalLabel-{{ $post->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: black" id="bookmarkModalLabel-{{ $post->id }}">ブックマークの確認</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="color: black">
+                            ⚠警告：ブックマークは二度と解除できません。それでもやりますか？
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">はい</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- いいねボタン -->
