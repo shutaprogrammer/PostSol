@@ -49,6 +49,7 @@ class SubscriptionController extends Controller
 
             // 1.ステータスの更新
             $status->status = 'Paid Member'; // 必要なステータスに更新
+            $status->period = now()->addMonth(); // 1ヶ月後の期限を設定
             $status->save();
 
             // 2. 新しいコインレコードを作成して、amountに100を設定
@@ -116,7 +117,28 @@ class SubscriptionController extends Controller
 
         //BMコイン総数を計算
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser'));
+
+        //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
+        // Paid Memberの残り期間
+        $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
+        $paidRemainingTime = null;
+        
+        if ($paidStatus) {
+            $remainingPaidDays = now()->diffInDays($paidStatus->period);
+            $remainingPaidHours = now()->diffInHours($paidStatus->period) % 24;
+            $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
+            $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
+        }
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime','paidRemainingTime'));
         }
 
         // ステータスが見つからない場合のエラーハンドリング

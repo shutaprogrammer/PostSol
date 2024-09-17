@@ -73,6 +73,12 @@
             <p class="h4">{{ $user->name }}</p>
             <p>{{ $user->birth }}年生まれ　{{ $user->country }}　{{ $user->prefecture }}　{{ $user->city }}出身　{{ $user->job }}</p>
             <p>BM総獲得数: <span class="badge bg-info">{{ $totalBookmarks }}　</span>　いいね総獲得数: <span class="badge bg-success">{{ $totalLikes }}　</span>　保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}　</span>　あなたのステータス： <span class="badge bg-primary">{{ $status->status }}　</span></p>
+            @if($remainingTime)
+            <p>Trial期間の残り時間: {{ $remainingTime }}</p>
+            @endif
+            @if($paidRemainingTime)
+            <p>Paid Memberの残り期間: {{ $paidRemainingTime }}</p>
+            @endif
             <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary mt-3">プロフィールを編集</a>
         </div>
     </section>
