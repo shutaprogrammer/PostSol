@@ -9,6 +9,24 @@
 <body>
     <h1>悪質ユーザー報告</h1>
     <div>
+        <table border="1">
+            <tr>
+                <th>報告日</th>
+                <th>投稿者</th>
+                <th>投稿内容</th>
+                <th>報告理由</th>
+                <th>詳細</th>
+            </tr>
+            @foreach ($reports as $report)
+            <tr>
+                <td>{{ $report->created_at->format('Y-m-d') }}</td>
+                <td>{{ $report->user->name }}（{{ $report->user->id }}）</td>
+                <td>{{ $report->post->content }}</td>
+                <td>{{ $report->reason }}</td>
+                <td>{{ $report->detail }}</td>
+            </tr>
+            @endforeach
+        </table>
 
     </div>
 

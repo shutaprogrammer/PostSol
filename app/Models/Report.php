@@ -10,16 +10,16 @@ class Report extends Model
     use HasFactory;
 
     //ユーザーとのリレーション
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
 
     //postとのリレーション
-    public function posts()
+    public function post()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(Post::class);
     }
     
 
