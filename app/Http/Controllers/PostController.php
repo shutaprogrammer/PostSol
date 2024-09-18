@@ -50,10 +50,12 @@ class PostController extends Controller
         $arrange = $request->arrange;
         if ($arrange == '古い順') {
             $query->oldest();
-        } elseif ($arrange == 'ブックマーク数順（延長含まない）') {
+        } elseif ($arrange == 'ブックマーク数順（延長含む）') {
             $query->orderBy('bookmarks_count', 'desc');
+        } elseif ($arrange == 'ブックマーク数順（延長含まない）') {
+            $query->where('created_at', '>=', now()->subDays(30))
+            ->orderBy('bookmarks_count', 'desc');
         } else {
-            // デフォルトで新規投稿順に並び替え
             $query->latest();
         }
 
@@ -66,7 +68,7 @@ class PostController extends Controller
                 '自動車', '宿泊・観光・レジャー', 'アウトドア・スポーツ', '趣味・エンタメ', 'ペット',
                 '人間関係', '教育', '仕事', '公共・交通', '政治・行政・国際・文化', 'その他'];
 
-        $orders = ['新規投稿順', '古い順', 'ブックマーク数順（延長含まない）'];
+        $orders = ['新規投稿順', '古い順', 'ブックマーク数順（延長含む）', 'ブックマーク数順（延長含まない）'];
 
         return view('posts.index', compact('posts', 'freeuser', 'types', 'category', 'keyword', 'orders', 'arrange'));
     }
