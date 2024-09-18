@@ -1,17 +1,6 @@
 @extends('layouts.app_original')
+<head><link rel="stylesheet" href="{{ asset('css/posts.index.css') }}"></head>
 @section('content')
-
-<style>
-    .size {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-    .custom-alert {
-        margin-bottom: 15px; /* 他の要素とのスペースを確保 */
-    }
-</style>
 
 <!-- セッションメッセージの表示 -->
 @if(session('alert_success'))

@@ -1,0 +1,13 @@
+* {
+    user-select: none;
+}
+
+.size {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.custom-alert {
+    margin-bottom: 15px; /* 他の要素とのスペースを確保 */
+}
