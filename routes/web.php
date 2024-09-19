@@ -129,9 +129,10 @@ Route::get('/contact/form', [ContactController::class, 'form'])->name('contact.f
 Route::post('/contact/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::get('/contact/complete', [ContactController::class, 'complete'])->name('contact.complete');
+Route::post('/admin/inbox/{id}/status', [ContactController::class, 'status'])->name('contact.status');
 
 //管理者画面
-Route::get('admin/menu',[AdminController::class, 'index'])->name('admin.menu');
-Route::get('admin/menu/reports',[AdminController::class, 'reports'])->name('admin.reports');
-Route::get('admin/menu/exchange',[AdminController::class, 'exchange'])->name('admin.exchange');
-Route::get('admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');
+Route::get('/admin/menu',[AdminController::class, 'index'])->name('admin.menu');
+Route::get('/admin/menu/reports',[AdminController::class, 'reports'])->name('admin.reports');
+Route::get('/admin/menu/exchange',[AdminController::class, 'exchange'])->name('admin.exchange');
+Route::get('/admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');
