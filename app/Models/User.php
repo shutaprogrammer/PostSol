@@ -73,4 +73,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+
+    //Contactとのリレーション
+    public function contact()
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

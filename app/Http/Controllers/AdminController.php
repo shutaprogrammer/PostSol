@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Amazon;
 use App\Models\Report;
+use App\Models\Contact;
+
+
+
 
 class AdminController extends Controller
 {
@@ -25,11 +29,15 @@ class AdminController extends Controller
     public function exchange()
     {
         $gifts = Amazon::all();
-        return view('admin.exchange',['gifts' => $gifts]);
+        return view('admin.exchange', compact('gifts'));
     }
 
     public function inbox()
     {
-        return view('admin.inbox');
+        $contacts = Contact::all();
+
+        return view('admin.inbox', compact('contacts'));
     }
+
+
 }
