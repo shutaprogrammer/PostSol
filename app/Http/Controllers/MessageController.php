@@ -38,16 +38,22 @@ class MessageController extends Controller
     
         // 会話を取得
         $conversation = Conversation::findOrFail($conversationId);
-    
-        // メッセージを作成
-        Message::create([
-            'conversation_id' => $conversation->id,
-            'sender_id' => Auth::id(),
-            'message' => $request->body,
-        ]);
+
+        // メッセージを作成（saveメソッドを使用）
+        $message = new Message();
+        $message->conversation_id = $conversation->id;
+        $message->sender_id = Auth::id();
+        $message->message = $request->body;
+        $message->save();
+
+         // 受信者IDを取得
+        // ユーザーが `user_one_id` なら `user_two_id` が相手のID、逆も同じ
+        $receiverId = ($conversation->user_one_id === Auth::id()) 
+        ? $conversation->user_two_id 
+        : $conversation->user_one_id;
     
         // メッセージ送信後、正しい conversationId を使ってリダイレクト
-        return redirect()->route('messages.index', ['conversationId' => $conversationId]);
+        return redirect()->route('messages.index', ['receiverId' => $receiverId]);
     }
 
     public function createConversation(Request $request)
