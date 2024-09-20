@@ -1,39 +1,65 @@
+{{-- @extends('layouts.app_original')
+@section('content')
+    <section>
+     
+
+        @if($user->img)
+        <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="">
+        @endif
+        <p>{{ $user->name }}</p>
+        <p>{{ $user->birth }}, {{ $user->country }}, {{ $user->prefecture }}, {{ $user->city }}, {{ $user->job }}</p>
+        <p>BM総獲得数:{{ $totalBookmarks }}、いいね総獲得数:{{ $totalLikes }}、保有BMコイン数:{{ $totalCoins }}、あなたのステータス：{{ $status->status }}</p>
+
+        <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary">編集</a>
+    </section>
+    <section>
+        <h2>ブックマークした投稿</h2>
+        <p>ブックマークした数:{{ $totalbookemarkedposts }}</p>
+
+        @foreach ($bookmarkedPosts as $post)
+    <div>
+        <h3>{{ $post->content }}</h3>
+    </div>
+        <h5>{{ $post->category }}</h5>
+        <h5>{{ $post->place }}</h5>
+    @endforeach
+    </section>
+@endsection --}}
+
 @extends('layouts.app_original')
 @section('content')
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     </head>
+    <style>
+        .carousel-item img {
+            width: 100%; /* 横幅は100%でコンテナにフィット */
+            max-height: 200px; /* 縦の長さを200pxに制限 */
+            object-fit: cover; /* コンテナ内で収めつつ、余分な部分はカット */
+        }
 
-<style>
-    .carousel-item img {
-    width: 100%; /* 横幅は100%でコンテナにフィット */
-    max-height: 200px; /* 縦の長さを200pxに制限 */
-    object-fit: cover; /* コンテナ内で収めつつ、余分な部分はカット */
-}
+        /* モバイルファーストのスタイルで調整 */
+        @media (max-width: 768px) {
+            .carousel-item img {
+                max-height: 150px; /* モバイルではさらに短く */
+            }
+        }
 
-/* プロフィールセクション */
-.profile-section {
-    background-color: #f8f9fa;
-    padding: 3rem;
-    border-radius: 0.375rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-}
+        /* タブレット以上の画面向けにサイズを調整 */
+        @media (min-width: 769px) {
+            .carousel-item img {
+                max-height: 250px; /* タブレット以上では少し大きめに */
+            }
+        }
 
-/* ブックマークした投稿セクション */
-.bookmarked-posts-section {
-    background-color: #212529;
-    color: #ffffff;
-    padding: 3rem;
-    border-radius: 0.375rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-}
-
-</style>
-
-@extends('layouts.app_original')
-
-@section('content')
+        /* デスクトップ画面向け */
+        @media (min-width: 992px) {
+            .carousel-item img {
+                max-height: 300px; /* デスクトップではもう少し大きく */
+            }
+        }
+    </style>
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
         <h1 class="text-center mb-4">プロフィール</h1>
@@ -46,7 +72,7 @@
         <div class="text-center mb-4">
             <p class="h4">{{ $user->name }}</p>
             <p>{{ $user->birth }}年生まれ　{{ $user->country }}　{{ $user->prefecture }}　{{ $user->city }}出身　{{ $user->job }}</p>
-            <p>BM総獲得数: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね総獲得数: <span class="badge bg-success">{{ $totalLikes }}</span> 保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}</span> あなたのステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
+            <p>BM総獲得数: <span class="badge bg-info">{{ $totalBookmarks }}　</span>　いいね総獲得数: <span class="badge bg-success">{{ $totalLikes }}　</span>　保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}　</span>　あなたのステータス： <span class="badge bg-primary">{{ $status->status }}　</span></p>
             @if($remainingTime)
             <p>Trial期間の残り時間: {{ $remainingTime }}</p>
             @endif
@@ -61,45 +87,40 @@
     <section class="container mt-5 bg-dark text-white p-5 shadow rounded">
         <h2 class="mb-4">ブックマークした投稿</h2>
         <p>ブックマークした数: <span class="badge bg-secondary">{{ $totalbookemarkedposts }}</span></p>
-        @if(!$freeuser)
+    @if(!$freeuser)
         <div class="row">
-            @foreach ($bookmarkedPosts as $post)
+        @foreach ($bookmarkedPosts as $post)
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow">
-                    <div class="card-body text-dark">
+                    <div class="card-body text-dark"> <!-- カード内はデフォルトの文字色に戻す -->
                         <h5 class="card-title">{{ $post->content }}</h5>
                         <p class="card-text"><strong>カテゴリ: </strong>{{ $post->category }}</p>
                         <p class="card-text"><strong>場所: </strong>{{ $post->place }}</p>
-                        <!-- DMボタン -->
-                        <form action="{{ route('conversations.create')  }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
-                                <button type="submit" class="btn btn-primary">DMを送る</button>
-                            </form>
                     </div>
                 </div>
             </div>
-            @endforeach
+        @endforeach
         </div>
-        @else
+    @else
         <div class="row">
             @foreach ($bookmarkedPosts as $post)
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow">
-                    <div class="card-body text-dark">
-                        <h5 class="card-title">ステータス：Freeのため閲覧不可</h5>
-                        <p class="card-text"><strong>カテゴリ: </strong></p>
-                        <p class="card-text"><strong>場所: </strong></p>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-dark"> <!-- カード内はデフォルトの文字色に戻す -->
+                            <h5 class="card-title">ステータス：Freeのため閲覧不可</h5>
+                            <p class="card-text"><strong>カテゴリ: </strong></p>
+                            <p class="card-text"><strong>場所: </strong></p>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
-        </div>
-        @endif
+            </div>
+    @endif
+
     </section>
 
     <!-- 広告掲載欄 -->
-    <section class="container mt-5 mb-5">
+<section class="container mt-5" style="margin-bottom: 100px;">
         <div id="adsCarousel" class="carousel slide" data-bs-ride="carousel">
             <!-- インジケーター -->
             <ol class="carousel-indicators">
@@ -107,21 +128,21 @@
                     <li data-bs-target="#adsCarousel" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
                 @endforeach
             </ol>
-
+        
             <!-- 広告スライド -->
             <div class="carousel-inner">
                 @foreach ($ads as $index => $ad)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <img src="{{ Storage::url($ad->image) }}" class="d-block mx-auto" alt="{{ $ad->title }}" style="max-height: 200px; object-fit: cover;">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $ad->title }}</h5>
-                        <p>{{ $ad->description }}</p>
-                        <a href="{{ $ad->link }}" class="btn btn-primary" target="_blank">詳しくはこちら</a>
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <img src="{{ Storage::url($ad->image) }}" class="d-block mx-auto" alt="{{ $ad->title }}" style="max-height: 200px; object-fit: cover;">
+                        <div class="carousel-caption">
+                            <h5>{{ $ad->title }}</h5>
+                            <p>{{ $ad->description }}</p>
+                            <a href="{{ $ad->link }}" class="btn btn-primary" target="_blank">詳しくはこちら</a>
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
-
+        
             <!-- コントロールボタン -->
             <a class="carousel-control-prev" href="#adsCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -133,4 +154,5 @@
             </a>
         </div>
     </section>
+    
 @endsection
