@@ -130,4 +130,18 @@
             </a>
         </div>
     </section>
+
+    {{-- Gemini --}}
+    <form action="{{route('entry')}}" method="post">
+        @csrf
+        <textarea name="toGeminiText" autofocus>@isset($result['task']){{$result['task']}}@endisset </textarea>
+        <button type="submit">send</button>
+    </form>
+    
+    <hr>
+    
+    @isset($result)
+    <p>{!!$result['content']!!}</p>
+    @endisset
+
 @endsection
