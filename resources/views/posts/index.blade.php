@@ -1,5 +1,7 @@
 @extends('layouts.app_original')
+<head><link rel="stylesheet" href="{{ asset('css/posts.index.css') }}"></head>
 @section('content')
+
 
 <style>
     /* Twitter風のスタイル */
@@ -190,6 +192,8 @@
         white-space: pre-wrap; /* 改行を保持しつつ、長いテキストを自動改行 */
     }
 </style>
+
+
 
 <!-- セッションメッセージの表示 -->
 @if(session('alert_success'))
@@ -426,8 +430,14 @@
                         @endif
                     </div>
                 </div>
+
             </div>
         @endforeach
+
+            @endif
+
+            <!-- ブックマークボタン -->
+
 
         <!-- フリーユーザーへの通知 -->
         <div class="free-user-notice">

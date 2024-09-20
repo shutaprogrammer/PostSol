@@ -45,14 +45,6 @@ class BookmarkController extends Controller
         return redirect()->route('posts.index');
     }
 
-    // public function destroy(Post $post)
-    // {
-    //     Bookmark::where('user_id', Auth::id())
-    //         ->where('post_id', $post->id)
-    //         ->delete();
-
-    //     return redirect()->route('posts.index');
-    // }
 }
 
 
