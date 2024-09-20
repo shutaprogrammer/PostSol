@@ -31,9 +31,6 @@
 
 </style>
 
-@extends('layouts.app_original')
-
-@section('content')
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
         <h1 class="text-center mb-4">プロフィール</h1>
