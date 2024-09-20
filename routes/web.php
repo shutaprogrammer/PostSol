@@ -21,6 +21,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\MessageController;
 
 
 /*
@@ -101,6 +102,14 @@ Route::get('/ads/create', [AdController::class, 'create'])->name('ads.create');
 
 // 広告データを保存
 Route::post('/ads', [AdController::class, 'store'])->name('ads.store');
+
+// DM
+Route::middleware('auth')->group(function() {
+    Route::get('conversations/{receiverId}/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('conversations/{conversationId}/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('conversations', [MessageController::class, 'createConversation'])->name('conversations.create');
+    Route::get('messages/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
+});
 
 //クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');

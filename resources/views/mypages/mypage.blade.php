@@ -1,29 +1,15 @@
+@extends('layouts.app_original')
+@section('content')
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+
 <style>
     .carousel-item img {
     width: 100%; /* 横幅は100%でコンテナにフィット */
     max-height: 200px; /* 縦の長さを200pxに制限 */
     object-fit: cover; /* コンテナ内で収めつつ、余分な部分はカット */
-}
-
-/* モバイルファーストのスタイルで調整 */
-@media (max-width: 768px) {
-    .carousel-item img {
-        max-height: 150px; /* モバイルではさらに短く */
-    }
-}
-
-/* タブレット以上の画面向けにサイズを調整 */
-@media (min-width: 769px) {
-    .carousel-item img {
-        max-height: 250px; /* タブレット以上では少し大きめに */
-    }
-}
-
-/* デスクトップ画面向け */
-@media (min-width: 992px) {
-    .carousel-item img {
-        max-height: 300px; /* デスクトップではもう少し大きく */
-    }
 }
 
 /* プロフィールセクション */
@@ -84,6 +70,12 @@
                         <h5 class="card-title">{{ $post->content }}</h5>
                         <p class="card-text"><strong>カテゴリ: </strong>{{ $post->category }}</p>
                         <p class="card-text"><strong>場所: </strong>{{ $post->place }}</p>
+                        <!-- DMボタン -->
+                        <form action="{{ route('conversations.create')  }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
+                                <button type="submit" class="btn btn-primary">DMを送る</button>
+                            </form>
                     </div>
                 </div>
             </div>
