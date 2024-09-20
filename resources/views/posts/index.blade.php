@@ -1,69 +1,193 @@
-{{-- @extends('layouts.app_original')
-@section('content')
-
-<style>
-    .size {
-        widows: 100px;
-        height: 100px;
-    }
-</style>
-
-<div>
-    @foreach ($posts as $post)
-    @if($post->user->img)
-    <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
-    @endif
-    <p>{{ $post->user->name }}</p>
-    <div>
-        <h3>{{ $post->content }}</h3>
-    </div>
-        <h5>{{ $post->category }}</h5>
-        <h5>{{ $post->place }}</h5>
-
-        @if(App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-        <form action="{{ route('unbookmark', $post) }}" method="POST" style="display: inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit">★</button>
-        </form>
-        @else
-        <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
-            @csrf
-            <button type="submit">☆</button>
-        </form>
-        @endif
-
-        @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-        <form action="{{ route('unlike', $post) }}" method="POST" style="display: inline">
-            @csrf
-            @method('DELETE')
-            <button type="submit">💖</button>
-        </form>
-        @else
-        <form action="{{ route('like', $post) }}" method="POST" style="display: inline">
-            @csrf
-            <button type="submit">💔</button>
-        </form>
-        @endif
-        <p>{{ $post->bookmarks_count }}ブックマーク</p>
-        <p>{{ $post->likes_count }} いいね</p>
-    @endforeach
-</div>
-
-@endsection --}}
-
 @extends('layouts.app_original')
 @section('content')
 
 <style>
+    /* Twitter風のスタイル */
+    .twitter__container {
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 14px;
+        border: 1px solid #000000;
+        background-color: #ffffff;
+    }
+    .twitter__block {
+        display: flex;
+        padding: 10px;
+        border-bottom: 1px solid #000000;
+    }
+    .twitter__block:last-child {
+        border-bottom: none;
+    }
+    .twitter__profile {
+        margin-right: 10px;
+    }
+    .twitter__profile img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .twitter__content {
+        flex: 1;
+    }
+    .twitter__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .twitter__name {
+        font-weight: bold;
+        color: #14171a;
+    }
+    .twitter__date {
+        color: #657786;
+        font-size: 12px;
+    }
+    .twitter__text {
+        margin: 5px 0;
+        color: #14171a;
+    }
+    .twitter__actions {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .twitter__actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #657786;
+        font-size: 16px;
+        margin-right: 20px;
+    }
+    .twitter__actions button:hover {
+        color: #1da1f2;
+    }
+    .twitter__counts {
+        color: #657786;
+        font-size: 12px;
+        margin-top: 1px;
+        text-align: right;
+    }
     .size {
-        width: 100px;
-        height: 100px;
+        width: 48px;
+        height: 48px;
         object-fit: cover;
         border-radius: 50%;
     }
     .custom-alert {
-        margin-bottom: 15px; /* 他の要素とのスペースを確保 */
+        margin-bottom: 15px;
+    }
+    /* フリーユーザーへの通知 */
+    .free-user-notice {
+        text-align: center;
+        color: red;
+        margin-top: 20px;
+    }
+    /* 通報ボタンのスタイル */
+    .twitter__report-button {
+        background-color: #ff4d4d; /* 赤色 */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: absolute; /* 位置を調整可能に */
+        bottom: 10px; /* ボックスの下からの距離 */
+        right: 10px; /* ボックスの右からの距離 */
+        display: inline-block; /* クリック範囲を調整 */
+        text-decoration: none; /* アンカータグの下線を消す */
+        z-index: 10; /* 通報ボタンを前面に表示 */
+    }
+    
+    .twitter__block {
+        position: relative; /* 通報ボタンを絶対配置するために必要 */
+        padding: 10px;
+        border-bottom: 1px solid #000000;
+        background-color: #ffffff;
+    }
+    /* 削除予定日と延長ボタン */
+    .twitter__deletion-date {
+        position: relative; /* 削除予定日と延長ボタンを相対配置に */
+        font-size: 12px;
+        color: #657786;
+    }
+    
+    .twitter__deletion-date .btn-extend {
+        background-color: #28a745; /* 緑色のボタン */
+        color: #ffffff; /* ボタンの文字色 */
+        border: none; /* ボタンの枠線を消す */
+        padding: 5px 10px; /* ボタンの内側の余白 */
+        font-size: 12px; /* ボタンの文字サイズ */
+        border-radius: 3px; /* ボタンの角を丸くする */
+        cursor: pointer; /* マウスカーソルをポインタにする */
+        margin-left: 10px; /* 削除予定日との間隔 */
+    }
+    
+    .twitter__deletion-date .btn-extend:hover {
+        background-color: #218838; /* ホバー時の色 */
+    }
+
+    .twitter__actions{
+        display: flex;
+        justify-content: flex-end; /* 右寄せ */
+        align-items: center;
+        margin-top: 1px;
+        text-align: right; /* アクションボタンを右寄せにする */
+    }
+    /* 共通のアクションボタンのスタイル */
+    .twitter__actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #657786; /* デフォルトの色 */
+        font-size: 16px;
+        margin-right: 20px;
+        outline: none; /* フォーカス時の境界線を消す */
+    }
+    
+    /* ブックマークボタン */
+    .twitter__actions .fa-bookmark {
+        color: #657786; /* 未ブックマーク時のデフォルト色 */
+    }
+    
+    /* ブックマーク済み */
+    .twitter__actions .fa-bookmark.bookmarked {
+        color: #1da1f2; /* ブックマーク済みの色（青） */
+    }
+    
+    /* いいねボタン */
+    .twitter__actions .fa-heart {
+        color: #657786; /* 未いいね時のデフォルト色 */
+    }
+    
+    /* いいね済み */
+    .twitter__actions .fa-heart.liked {
+        color: #e0245e; /* いいね済みの色（赤） */
+    }
+    
+    /* ボタンホバー時のアニメーション */
+    .twitter__actions button:hover .fa-bookmark,
+    .twitter__actions button:hover .fa-heart {
+        transform: scale(1.2); /* 拡大アニメーション */
+        transition: transform 0.2s ease-in-out; /* なめらかなアニメーション */
+    }
+
+    .filter-form{
+        margin-bottom: 5vh;
+    }
+
+    .con_haikei{
+        /* padding: 10% 10%;
+        background-color: black; */
+    }
+
+    .kaigyou{
+        height: auto;
+        width: 65vw;
+        word-wrap: break-word; /* 長い単語を改行 */
+        white-space: pre-wrap; /* 改行を保持しつつ、長いテキストを自動改行 */
     }
 </style>
 
@@ -79,94 +203,141 @@
         {{ session('alert_error') }}
     </div>
 @endif
-    <form action="{{ route('posts.index') }}" method="GET">
+
+<!-- フィルターフォーム -->
+<form action="{{ route('posts.index') }}" method="GET" class="filter-form">
+    <div class="form-group">
         <label for="category">カテゴリーを選択：</label>
-        <select name="category" id="category" onchange="this.form.submit()">
+        <select name="category" id="category" class="form-control" onchange="this.form.submit()">
             <option value="">すべてのカテゴリー</option>
             @foreach($types as $type)
             <option value="{{ $type }}" {{ request('category')  == $type ? 'selected' : ''}}>
-            {{ $type }}
+                {{ $type }}
             </option>
             @endforeach
         </select>
-    </form>
+    </div>
 
-    <form action="{{ route('posts.index') }}" method="GET">
-        <input type="text" name="keyword">
-        <input type="submit" value="検索">
-    </form>
+    <div class="form-group">
+        <label for="keyword">キーワードで検索：</label>
+        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="キーワードを入力">
+        <input type="submit" value="検索" class="btn btn-primary">
+    </div>
 
-    <form action="{{ route('posts.index') }}" method="GET">
-        <label for="arrange">並び替え</label>
-        <select name="arrange" id="arrange" onchange="this.form.submit()">
-            <option value=""></option>
+    <div class="form-group">
+        <label for="arrange">並び替え：</label>
+        <select name="arrange" id="arrange" class="form-control" onchange="this.form.submit()">
+            <option value="">選択してください</option>
             @foreach($orders as $order)
             <option value="{{ $order }}" {{ request('arrange') == $order ? 'selected' : ''}}>
                 {{ $order }}
             </option>
             @endforeach
         </select>
-    </form>
+    </div>
+</form>
 
-@if(!$freeuser)
-<div class="container mt-5 bg-dark text-white p-5 shadow rounded">
-    @foreach ($posts as $post)
-    <div class="card bg-secondary text-white mb-5 shadow">
-        <div class="card-body">
-            <!-- 投稿者の画像 -->
-            @if($post->user->img)
-            <div class="text-center mb-3">
-                <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size shadow">
-            </div>
-            @endif
-
-            <!-- 投稿者の名前 -->
-            <p class="text-center h4">{{ $post->user->name }}</p>
-
-            <!-- 投稿内容 -->
-            <div class="bg-dark p-4 rounded shadow-sm mb-2">
-                <h3 class="text-light">{{ $post->content }}</h3>
-                <div>
-                    <p><a href="{{ route('reports.create', ['post' => $post->id]) }}">通報する</a></p>
+<div class="con_haikei">
+    <div class="twitter__container">
+    @if(!$freeuser)
+        @foreach ($posts as $post)
+            <div class="twitter__block">
+                <!-- プロフィール画像 -->
+                <div class="twitter__profile">
+                    @if($post->user->img)
+                        <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
+                    @else
+                        <!-- デフォルトのプロフィール画像 -->
+                        <img src="/path/to/default/profile/image.png" alt="" class="size">
+                    @endif
                 </div>
-            </div>
-
-            <!-- カテゴリーと場所 -->
-            <h5><strong>カテゴリ:</strong> {{ $post->category }}</h5>
-            <h5><strong>場所:</strong> {{ $post->place }}</h5>
-
-            <!-- アラートメッセージ（投稿に関連付け） -->
-            @if(session('alert') && session('alert')['post_id'] == $post->id)
-                <div class="alert alert-danger custom-alert">
-                    <strong>注意:</strong> {{ session('alert')['message'] }}
+                <!-- 投稿内容 -->
+            <div class="twitter__content">
+                <!-- ヘッダー（名前と日付） -->
+                <div class="twitter__header">
+                    <span class="twitter__name">{{ $post->user->name }}</span>
+                    <span class="twitter__date">{{ $post->created_at->format('Y年m月d日 H:i') }}</span>
                 </div>
-            @endif
-
-            {{-- ブックマーク --}}
-            <div class="d-inline">
-                @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                    <!-- ボタンをクリックするとモーダルを表示 -->
-                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#bookmarkModal-{{ $post->id }}">
-                        ☆
-                    </button>
-                @else
-                    <button class="btn btn-warning" disabled>★</button>
+                <!-- テキスト -->
+                <div class="twitter__text kaigyou">{{ $post->content }}</div>
+                <!-- カテゴリーと場所 -->
+                <div class="twitter__text">
+                    <strong>#</strong> {{ $post->category }}   
+                    <strong>@</strong> {{ $post->place }}
+                </div>
+                <!-- 通報リンク -->
+                <div class="twitter__text">
+                    <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
+                </div>
+                <!-- アラートメッセージ（投稿に関連付け） -->
+                @if(session('alert') && session('alert')['post_id'] == $post->id)
+                    <div class="alert alert-danger custom-alert">
+                        <strong>注意:</strong> {{ session('alert')['message'] }}
+                    </div>
                 @endif
+                <!-- アクションボタン -->
+                <div class="twitter__actions">
+                    <!-- ブックマークボタン -->
+                    @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                    <!-- モーダルを表示するボタン -->
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#bookmarkModal-{{ $post->id }}">
+                        <i class="fas fa-bookmark"></i> <!-- 未ブックマーク時 -->
+                    </button>
+                    @else
+                    <button disabled>
+                        <i class="fas fa-bookmark bookmarked"></i> <!-- ブックマーク済み時 -->
+                    </button>
+                    @endif
+
+                    <!-- いいねボタン -->
+                    @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                    <form action="{{ route('unlike', $post) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">
+                            <i class="fas fa-heart liked"></i> <!-- いいね済みの時の赤色のアイコン -->
+                        </button>
+                    </form>
+                    @else
+                        <form action="{{ route('like', $post) }}" method="POST">
+                            @csrf
+                            <button type="submit">
+                                <i class="far fa-heart"></i> <!-- いいねしていない時のアイコン -->
+                            </button>
+                        </form>
+                    @endif
+                </div>
+                <!-- カウント表示 -->
+                <div class="twitter__counts">
+                    <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
+                    <span>{{ $post->likes_count }} いいね</span>
+                </div>
+                <!-- 削除予定日と延長ボタン -->
+                <div class="twitter__deletion-date">
+                    削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                    @if ($post->user_id === Auth::id())
+                        <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-extend">100coinで1日延長</button>
+                        </form>
+                    @endif
+                </div>
             </div>
-            
+            </div>
+
             <!-- ブックマークのモーダル -->
             <div class="modal fade" id="bookmarkModal-{{ $post->id }}" tabindex="-1" aria-labelledby="bookmarkModalLabel-{{ $post->id }}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" style="color: black" id="bookmarkModalLabel-{{ $post->id }}">ブックマークの確認</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                         </div>
                         <div class="modal-body" style="color: black">
-                            ⚠警告：ブックマークは二度と解除できません。それでもやりますか？
+                            ⚠️ ブックマークは二度と解除できません。それでもよろしいですか？
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ route('bookmark', $post) }}" method="POST" style="display: inline">
+                            <form action="{{ route('bookmark', $post) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary">はい</button>
                             </form>
@@ -175,95 +346,101 @@
                     </div>
                 </div>
             </div>
-
-            <!-- いいねボタン -->
-            <div class="d-inline ms-3">
-                @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                <form action="{{ route('unlike', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">💖</button>
-                </form>
-                @else
-                <form action="{{ route('like', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">💔</button>
-                </form>
-                @endif
-            </div>
-
-            <!-- ブックマーク数といいね数 -->
-            <p class="mt-3">
-                <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
-                <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
-            </p>
-
-            <p>この投稿の削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}</p>
-            @if ($post->user_id === Auth::id())
-            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-primary">表示期間を1日延長</button>
-            </form>
-            @endif
-        </div>
-    </div>
-    @endforeach
-
-@else
-<div class="container mt-5 bg-dark text-white p-5 shadow rounded">
-    @foreach ($posts as $post)
-    <div class="card bg-secondary text-white mb-5 shadow">
-        <div class="card-body">
-            <!-- 投稿者の画像 -->
-            @if($post->user->img)
-            <div class="text-center mb-3">
-                <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size shadow">
-            </div>
-            @endif
-
-            <!-- 投稿者の名前 -->
-            <p class="text-center h4">{{ $post->user->name }}</p>
-
-            <!-- 投稿内容 -->
-            <div class="bg-dark p-4 rounded shadow-sm mb-2">
-                <h3 class="text-light">{{ $post->content }}</h3>
-                <div>
-                    <p><a href="{{ route('reports.create',['post' => $post->id]) }}">通報する</a></p>
+        @endforeach
+    @else
+        @foreach ($posts as $post)
+            <div class="twitter__block">
+                <!-- プロフィール画像 -->
+                <div class="twitter__profile">
+                    @if($post->user->img)
+                        <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
+                    @else
+                        <!-- デフォルトのプロフィール画像 -->
+                        <img src="/path/to/default/profile/image.png" alt="" class="size">
+                    @endif
+                </div>
+                <!-- 投稿内容 -->
+                <div class="twitter__content">
+                    <!-- ヘッダー（名前と日付） -->
+                    <div class="twitter__header">
+                        <span class="twitter__name">{{ $post->user->name }}</span>
+                        <span class="twitter__date">{{ $post->created_at->format('Y年m月d日 H:i') }}</span>
+                    </div>
+                    <!-- テキスト -->
+                    <div class="twitter__text">{{ $post->content }}</div>
+                    <!-- カテゴリーと場所 -->
+                    <div class="twitter__text">
+                        <strong>#</strong> {{ $post->category }}   
+                        <strong>@</strong> {{ $post->place }}
+                    </div>
+                    <!-- 通報リンク -->
+                    <div class="twitter__text">
+                        <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
+                    </div>
+                    <!-- アラートメッセージ（投稿に関連付け） -->
+                    @if(session('alert') && session('alert')['post_id'] == $post->id)
+                        <div class="alert alert-danger custom-alert">
+                            <strong>注意:</strong> {{ session('alert')['message'] }}
+                        </div>
+                    @endif
+                    <!-- アクションボタン -->
+                    <div class="twitter__actions">
+                        <!-- ブックマークボタン -->
+                        @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                            <!-- モーダルを表示するボタン -->
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#bookmarkModal-{{ $post->id }}">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                        @else
+                            <button disabled>
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                        @endif
+                        <!-- いいねボタン -->
+                        @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                            <form action="{{ route('unlike', $post) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"><i class="fas fa-heart"></i></button>
+                            </form>
+                        @else
+                            <form action="{{ route('like', $post) }}" method="POST">
+                                @csrf
+                                <button type="submit"><i class="far fa-heart"></i></button>
+                            </form>
+                        @endif
+                    </div>
+                    <!-- カウント表示 -->
+                    <div class="twitter__counts">
+                        <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
+                        <span>{{ $post->likes_count }} いいね</span>
+                    </div>
+                    <!-- 削除予定日と延長ボタン -->
+                    <div class="twitter__deletion-date">
+                        削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                        @if ($post->user_id === Auth::id())
+                            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-extend">100coinで1日延長</button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             </div>
+        @endforeach
 
-            <!-- カテゴリーと場所 -->
-            <h5><strong>カテゴリ:</strong> {{ $post->category }}</h5>
-            <h5><strong>場所:</strong> {{ $post->place }}</h5>
-
-            <!-- アラートメッセージ（投稿に関連付け） -->
-            @if(session('alert') && session('alert')['post_id'] == $post->id)
-                <div class="alert alert-danger custom-alert">
-                    <strong>注意:</strong> {{ session('alert')['message'] }}
-                </div>
-            @endif
-
-            <!-- ブックマークボタン -->
-        {{-- <div class="d-inline">
-            <button type="submit" class="btn btn-outline-warning">☆</button>
-            <div>FreeユーザーはBM使用不可</div>
-        </div> --}}
-
-        <div class="d-inline">
-            <!-- ボタンにモーダルのトリガーを設定 -->
-            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#freeUserModal">
-                ☆
-            </button>
-            <div>FreeユーザーはBM使用不可</div>
+        <!-- フリーユーザーへの通知 -->
+        <div class="free-user-notice">
+            Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。
         </div>
-        
-        <!-- モーダル -->
+
+        <!-- フリーユーザー用のモーダル -->
         <div class="modal fade" id="freeUserModal" tabindex="-1" aria-labelledby="freeUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" style="color: black" id="freeUserModalLabel">使用制限のお知らせ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                     </div>
                     <div class="modal-body" style="color: black">
                         Freeユーザーはブックマーク機能を利用できません。<br>サブスク購入ですべての機能が利用可能になります。
@@ -275,44 +452,8 @@
                 </div>
             </div>
         </div>
-        
-
-            <!-- いいねボタン -->
-            <div class="d-inline ms-3">
-                @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                <form action="{{ route('unlike', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">💖</button>
-                </form>
-                @else
-                <form action="{{ route('like', $post) }}" method="POST" style="display: inline">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">💔</button>
-                </form>
-                @endif
-            </div>
-
-            <!-- ブックマーク数といいね数 -->
-            <p class="mt-3">
-                <span class="badge bg-warning">{{ $post->bookmarks_count }}ブックマーク</span>
-                <span class="badge bg-success">{{ $post->likes_count }} いいね！</span>
-            </p>
-
-            <p>この投稿の削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}</p>
-            @if ($post->user_id === Auth::id())
-            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-primary">表示期間を1日延長</button>
-            </form>
-            @endif
-        </div>
+    @endif
     </div>
-
-    @endforeach
-    <div>Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。</div>
-
-@endif
 </div>
 
 @endsection
