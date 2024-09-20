@@ -110,7 +110,7 @@
                 @foreach ($ads as $index => $ad)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <img src="{{ Storage::url($ad->image) }}" class="d-block mx-auto" alt="{{ $ad->title }}" style="max-height: 200px; object-fit: cover;">
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="carousel-caption">
                         <h5>{{ $ad->title }}</h5>
                         <p>{{ $ad->description }}</p>
                         <a href="{{ $ad->link }}" class="btn btn-primary" target="_blank">詳しくはこちら</a>
