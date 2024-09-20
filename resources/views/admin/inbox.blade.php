@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>PostSol_問い合わせ受信BOX</title>
     <style>
         /* 未読 */
-         .status-unread{
-             background-color: #f7e5e7 !important; 
-             color: #510e15 !important;
-         }
-     
+        .status-unread{
+            background-color: #f7e5e7 !important; 
+            color: #510e15 !important;
+        }
+    
          /* 進行中 */
-         .status-inprogress{
-             background-color: #fdf4da !important; 
-             color: #5f4802 !important;
-         }
-     
+        .status-inprogress{
+            background-color: #fdf4da !important; 
+            color: #5f4802 !important;
+        }
+
          /* 完了 */
-         .status-complete{
-             background-color: #def8e4 !important;
-             color: #104d1e !important;
-         }
+        .status-complete{
+            background-color: #def8e4 !important;
+            color: #104d1e !important;
+        }
      </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 

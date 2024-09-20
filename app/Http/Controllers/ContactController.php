@@ -74,7 +74,7 @@ class ContactController extends Controller
         $contact -> status = $request -> input('status');
         $contact->save();
 
-        return redirect()->route('admin.inbox')->with('success', 'ステータスが更新されました');
+        return redirect()->route('admin.inbox');
     }
 
 }
