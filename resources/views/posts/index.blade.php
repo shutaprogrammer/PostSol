@@ -437,7 +437,11 @@
             @endif
 
             <!-- ブックマークボタン -->
-
+        <div class="d-inline">
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#freeUserModal">
+                ☆
+            </button>
+            <div>FreeユーザーはBM使用不可</div>
 
         <!-- フリーユーザーへの通知 -->
         <div class="free-user-notice">

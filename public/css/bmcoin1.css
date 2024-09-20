@@ -1,0 +1,49 @@
+.coin-list {
+    display: flex; /* フレックスボックスを使用 */
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center; /* 左寄せにする（必要に応じて） */
+    gap: 15px; /* 各セットの間にスペースを追加 */
+    margin-top: 20px; /* 全体の上部に余白を追加（必要に応じて） */
+}
+
+
+.container {
+    display: flex; /* 横並びにする */
+    align-items: center; /* 画像とテキストを垂直方向に中央に揃える */
+    padding: 10px; /* コンテナ内の余白 */
+    border: 1px solid #ddd; /* コンテナの枠線 */
+    border-radius: 5px; /* 角を丸くする */
+}
+
+.gold {
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+}
+
+.group {
+    border: 2px solid black;
+    margin: 20px;
+    width: 120%;
+}
+
+.content {
+    border: 2px solid black;
+    margin: 5px;
+}
+
+.price {
+    border: 2px solid black;
+    margin: 3% 3% 3% 63% ;
+    width: 35%;
+    
+}
+
+.btn{
+    background-color: green !important;
+    border-radius: 20% !important;
+    border: 2px solid black !important;
+    float: right;
+}
+
+

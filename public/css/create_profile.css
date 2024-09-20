@@ -1,0 +1,10 @@
+/* .whole {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+} */
+
+.button {
+    margin-top: 30px;
+    float: right;
+}

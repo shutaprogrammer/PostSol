@@ -59,6 +59,7 @@ use Illuminate\Support\Facades\Auth;
         color: #ffffff;
         text-align: center;
         padding: 10px 0;
+        /* position: fixed; */
         margin-top: 8vh;
         bottom: 0;
         width: 100%;

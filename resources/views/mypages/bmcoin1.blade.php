@@ -1,5 +1,7 @@
 @extends('layouts.app_original')
+<head><link rel="stylesheet" href="{{ asset('css/bmcoin1.css') }}"></head>
 @section('content')
+
     <style>
         body {
             font-family: Arial, sans-serif;
