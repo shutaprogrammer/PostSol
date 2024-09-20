@@ -26,11 +26,11 @@
         <div>
             <select name="category" class="form-select border border-primary-subtle w-75 p-3" aria-label="Default select example">
                 <option selected>問い合わせのカテゴリーを選ぶ</option>
-                <option value="1">会員登録について</option>
-                <option value="2">サブスクについて</option>
-                <option value="3">コイン・換金について</option>
-                <option value="4">ランキングについて</option>
-                <option value="5">その他</option>
+                <option value="会員登録">会員登録について</option>
+                <option value="サブスク">サブスクについて</option>
+                <option value="コイン・換金">コイン・換金について</option>
+                <option value="ランキング">ランキングについて</option>
+                <option value="その他">その他</option>
             </select>
         </div>
 

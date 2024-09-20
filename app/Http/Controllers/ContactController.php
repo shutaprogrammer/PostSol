@@ -68,4 +68,13 @@ class ContactController extends Controller
         return view('contact.complete');
     }
 
+    public function status(Request $request, $id)
+    {
+        $contact = Contact::find($id);
+        $contact -> status = $request -> input('status');
+        $contact->save();
+
+        return redirect()->route('admin.inbox')->with('success', 'ステータスが更新されました');
+    }
+
 }

@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-5">
                 <label for="inputPassword4" class="form-label">メールアドレス</label><br>
-                <input type="email" readonly class="w-75 p-3" name="email" value="{{ Auth::user()->email }}">
+                <input type="email" readonly class="w-75 p-3" name="email" value="{{ $email }}">
             </div>
         </div>
 

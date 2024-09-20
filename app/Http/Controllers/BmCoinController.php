@@ -104,7 +104,29 @@ class BmCoinController extends Controller
         //BMコイン総数を計算
         $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
         }
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser'));
+        //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
+        // Paid Memberの残り期間
+        $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
+        $paidRemainingTime = null;
+        
+        if ($paidStatus) {
+            $remainingPaidDays = now()->diffInDays($paidStatus->period);
+            $remainingPaidHours = now()->diffInHours($paidStatus->period) % 24;
+            $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
+            $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
+        }
+        // 広告データのサンプル
+        $ads = Ad::all();  // 全ての広告を取得
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
     }
     function CoinComplete200()
     {
@@ -174,7 +196,29 @@ class BmCoinController extends Controller
             //BMコイン総数を計算
             $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
             }
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser'));
+            //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
+        // Paid Memberの残り期間
+        $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
+        $paidRemainingTime = null;
+        
+        if ($paidStatus) {
+            $remainingPaidDays = now()->diffInDays($paidStatus->period);
+            $remainingPaidHours = now()->diffInHours($paidStatus->period) % 24;
+            $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
+            $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
+        }
+        // 広告データのサンプル
+        $ads = Ad::all();  // 全ての広告を取得
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
     }
     function CoinComplete300()
     {
@@ -244,7 +288,29 @@ class BmCoinController extends Controller
             //BMコイン総数を計算
             $totalCoins = Coin::where('user_id', Auth::id())->sum('amount');
             }
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser'));
+            //トライアル期間
+        $trialStatus = Status::where('user_id', Auth::id())->where('status', 'Trial')->first();
+        $remainingTime = null;
+
+        if ($trialStatus) {
+            $remainingDays = now()->diffInDays($trialStatus->period);
+            $remainingHours = now()->diffInHours($trialStatus->period) % 24;
+            $remainingMinutes = now()->diffInMinutes($trialStatus->period) % 60;
+            $remainingTime = "{$remainingDays}日 {$remainingHours}時間 {$remainingMinutes}分";
+        }
+        // Paid Memberの残り期間
+        $paidStatus = Status::where('user_id', Auth::id())->where('status', 'Paid Member')->first();
+        $paidRemainingTime = null;
+        
+        if ($paidStatus) {
+            $remainingPaidDays = now()->diffInDays($paidStatus->period);
+            $remainingPaidHours = now()->diffInHours($paidStatus->period) % 24;
+            $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
+            $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
+        }
+        // 広告データのサンプル
+        $ads = Ad::all();  // 全ての広告を取得
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
     }
     function CoinComplete400()
     {

@@ -1,14 +1,11 @@
-{{-- <?php
+<?php
 
 use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\Auth;
 ?>
 
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,71 +13,30 @@ use Illuminate\Support\Facades\Auth;
   <title>PostSol 〜不満からビジネスへ〜</title>
   <!-- BootstrapのCDNを追加 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <header>
-    <!-- ヘッダー。ハンバーガーメニュー   -->
-    <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="#">PostSol 〜不満からビジネスへ〜</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="{{ url('/') }}">トップページ</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ route('posts.index') }}">投稿一覧表示</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ route('posts.create') }}">新規投稿作成</a>
-                  </li>
-                  <li class="nav-item">
-                  <a class="nav-link" href="{{ route('mypages.mypage') }}">マイページ</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ route('mypages.edit', ['id' => Auth::user()->id]) }}">プロフィール編集</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ route('mypages.subscription1') }}">サブスク登録</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ route('bmcoin.index1') }}">BMコイン購入</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ route('mypages.exchange') }}">BMコイン換金</a>
-                  </li>
-
-              </ul>
-          </div>
-      </div>
-  </nav>
-
-  </header>
-  @yield('content')
-  <!-- Bootstrap JavaScriptのCDN -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html> --}}
-
-<?php
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-?>
-
-<style>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+  <style>
     /* ナビゲーションバーのスタイル */
     .custom-navbar {
-        background-color: #2c3e50; /* シックなダークブルー */
+        background-color: black;
+        padding: 10px; /* 上下のパディングを追加 */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     /* タイトルの色を白に設定 */
     .navbar-brand {
         color: #ffffff !important; /* 文字色を白に設定 */
         font-weight: bold;
+        font-size: 100%; /* タイトルのサイズを大きくする */
+        display: flex;
+        align-items: center;
+    }
+
+    /* 画像のサイズ調整 */
+    .navbar-brand img {
+        max-height: 40px; /* 画像の高さを最大40pxに設定 */
+        margin-right: 10px; /* 画像とテキストの間にマージンを追加 */
     }
 
     /* 他のリンクのスタイル */
@@ -99,40 +55,31 @@ use Illuminate\Support\Facades\Auth;
 
     /* フッターのスタイル */
     footer {
-        background-color: #2c3e50; /* ナビゲーションバーと同じダークブルー */
+        background-color: black;
         color: #ffffff;
         text-align: center;
         padding: 10px 0;
         /* position: fixed; */
+        margin-top: 8vh;
         bottom: 0;
         width: 100%;
     }
-</style>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>PostSol 〜不満からビジネスへ〜</title>
-  <!-- BootstrapのCDNを追加 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  </style>
 </head>
 <body>
   <header>
     <!-- ヘッダー。ハンバーガーメニュー -->
     <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
       <div class="container-fluid">
-          <a class="navbar-brand" href="#">PostSol 〜不満からビジネスへ〜</a>
+          <a class="navbar-brand" href="#">
+              <img src="{{ Storage::url('imgs/ロゴ.png') }}" alt="ロゴ">
+              PostSol 〜不満からビジネスへ〜
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="{{ url('/') }}">トップページ</a>
-                  </li>
                   <li class="nav-item">
                       <a class="nav-link" href="{{ route('posts.index') }}">投稿一覧表示</a>
                   </li>
@@ -169,7 +116,7 @@ use Illuminate\Support\Facades\Auth;
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
+                        <a class="dropdown-item" href="{{ route('logout') }} "
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
