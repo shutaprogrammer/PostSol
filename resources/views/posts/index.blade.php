@@ -434,8 +434,6 @@
             </div>
         @endforeach
 
-            @endif
-
             <!-- ブックマークボタン -->
 
 
