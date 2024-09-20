@@ -1,31 +1,3 @@
-{{-- @extends('layouts.app_original')
-@section('content')
-    <section>
-     
-
-        @if($user->img)
-        <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="">
-        @endif
-        <p>{{ $user->name }}</p>
-        <p>{{ $user->birth }}, {{ $user->country }}, {{ $user->prefecture }}, {{ $user->city }}, {{ $user->job }}</p>
-        <p>BM総獲得数:{{ $totalBookmarks }}、いいね総獲得数:{{ $totalLikes }}、保有BMコイン数:{{ $totalCoins }}、あなたのステータス：{{ $status->status }}</p>
-
-        <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary">編集</a>
-    </section>
-    <section>
-        <h2>ブックマークした投稿</h2>
-        <p>ブックマークした数:{{ $totalbookemarkedposts }}</p>
-
-        @foreach ($bookmarkedPosts as $post)
-    <div>
-        <h3>{{ $post->content }}</h3>
-    </div>
-        <h5>{{ $post->category }}</h5>
-        <h5>{{ $post->place }}</h5>
-    @endforeach
-    </section>
-@endsection --}}
-
 @extends('layouts.app_original')
 @section('content')
     <head>
@@ -96,6 +68,12 @@
                         <h5 class="card-title">{{ $post->content }}</h5>
                         <p class="card-text"><strong>カテゴリ: </strong>{{ $post->category }}</p>
                         <p class="card-text"><strong>場所: </strong>{{ $post->place }}</p>
+                        <!-- DMボタン -->
+                        <form action="{{ route('conversations.create')  }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
+                                <button type="submit" class="btn btn-primary">DMを送る</button>
+                            </form>
                     </div>
                 </div>
             </div>

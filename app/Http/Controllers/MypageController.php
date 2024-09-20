@@ -26,6 +26,13 @@ class MypageController extends Controller
         // ログインしているユーザーの情報を取得
         $user = Auth::user();
         $freeuser= Status::where('user_id', $user->id)->where('status', 'Free')->exists();
+         // 投稿者IDを含めてブックマークした投稿を取得
+        $bookmarkedPostIds = Bookmark::where('user_id', Auth::id())->pluck('post_id'); 
+        $bookmarkedPosts = Post::withTrashed()->whereIn('id', $bookmarkedPostIds)->get();
+        
+        foreach ($bookmarkedPosts as $post) {
+            $post->author_id = $post->user_id; // 投稿者のユーザー ID を追加
+        }
     if ($freeuser){
         // 現在ログインしているユーザーの投稿に対して付けられたブックマークの総数を取得
         $totalBookmarks = Bookmark::whereIn('post_id', function($query) {
