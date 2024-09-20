@@ -179,9 +179,7 @@
             @endif
 
             <!-- ブックマークボタン -->
-
         <div class="d-inline">
-            <!-- ボタンにモーダルのトリガーを設定 -->
             <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#freeUserModal">
                 ☆
             </button>
