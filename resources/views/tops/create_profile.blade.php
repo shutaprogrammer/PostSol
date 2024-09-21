@@ -125,7 +125,11 @@ use Illuminate\Support\Facades\Auth;
                 <label>お住まいの国</label>
             </div>
             <div>
-                <input type="text" name="country" placeholder="日本" value="{{ $user->country }}">
+                <select name="country" id="country">
+                    @foreach($countries as $country)
+                    <option value="{{ $country }}" {{ $user->country == $country ? 'selected' : '' }}>{{ $country }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 

@@ -32,6 +32,8 @@ class UserController extends Controller
             '2015年', '2016年', '2017年', '2018年', '2019年', '2020年', '2021年', '2022年', '2023年', '2024年'
         ];
 
+        $countries = ['日本', '海外'];
+
         $prefectures = [
             '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', 
             '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県', 
@@ -41,7 +43,7 @@ class UserController extends Controller
             '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', 
             '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
         ];    
-        return view('tops.create_profile', compact('user', 'years', 'prefectures'));
+        return view('tops.create_profile', compact('user', 'years', 'countries', 'prefectures'));
     }
 
     function update(Request $request, $id)
