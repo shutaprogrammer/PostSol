@@ -1,9 +1,9 @@
 @extends('layouts.app_original')
-<head><link rel="stylesheet" href="{{ asset('css/bmcoin1.css') }}"></head>
+{{-- <head><link rel="stylesheet" href="{{ asset('css/bmcoin1.css') }}"></head> --}}
 @section('content')
 
     <style>
-        body {
+        /* body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
@@ -12,7 +12,7 @@
             flex-direction: column;
             align-items: center;
             padding: 2rem;
-        }
+        } */
 
         div {
             margin-bottom: 1.5rem;
