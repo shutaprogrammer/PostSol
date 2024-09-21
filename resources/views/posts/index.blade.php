@@ -191,6 +191,9 @@
         word-wrap: break-word; /* 長い単語を改行 */
         white-space: pre-wrap; /* 改行を保持しつつ、長いテキストを自動改行 */
     }
+    h6{
+    font-size: 8vw;
+}
 </style>
 
 
@@ -208,6 +211,7 @@
     </div>
 @endif
 
+<h6>投稿一覧</h6>
 <!-- フィルターフォーム -->
 <form action="{{ route('posts.index') }}" method="GET" class="filter-form">
     <div class="form-group">

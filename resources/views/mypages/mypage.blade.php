@@ -1,9 +1,5 @@
 @extends('layouts.app_original')
 @section('content')
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
 
 <style>
     .carousel-item img {
@@ -14,10 +10,10 @@
 
 /* プロフィールセクション */
 .profile-section {
-    background-color: #f8f9fa;
+    background-color: white;
     padding: 3rem;
     border-radius: 0.375rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* ブックマークした投稿セクション */
@@ -29,26 +25,46 @@
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+.amounts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge{
+    width: 35vw;
+    text-align: center;
+    font-size: 15px;
+}
+
+h6{
+    font-size: 8vw;
+}
+
 </style>
 
+    <h6>マイページ</h6>
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
-        <h1 class="text-center mb-4">プロフィール</h1>
+        <h1 class="text-center mb-4 prof">プロフィール</h1>
 
         @if($user->img)
         <div class="text-center mb-4">
-            <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+            <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
         </div>
         @endif
         <div class="text-center mb-4">
             <p class="h4">{{ $user->name }}</p>
-            <p>{{ $user->birth }}生まれ　{{ $user->country }}　{{ $user->prefecture }}　{{ $user->city }}出身　{{ $user->job }}</p>
-            <p>BM総獲得数: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね総獲得数: <span class="badge bg-success">{{ $totalLikes }}</span> 保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}</span> あなたのステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
+
+            <p>{{ $user->birth }}生まれ　{{ $user->country }}　{{ $user->prefecture }}　{{ $user->city }}居住　{{ $user->job }}</p>
+            <hr>
+            <p class="amounts">ブックマーク: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね: <span class="badge bg-success">{{ $totalLikes }}</span> 保有コイン: <span class="badge bg-warning">{{ $totalCoins }}</span> ステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
             @if($remainingTime)
             <p>Trial期間の残り時間: {{ $remainingTime }}</p>
             @endif
             @if($paidRemainingTime)
-            <p>Paid Memberの残り期間: {{ $paidRemainingTime }}</p>
+            <p>Paid Memberの残り期間: <br> {{ $paidRemainingTime }}</p>
             @endif
             <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary mt-3">プロフィールを編集</a>
         </div>
@@ -143,5 +159,4 @@
     @isset($result)
     <p>{!!$result['content']!!}</p>
     @endisset
-
 @endsection
