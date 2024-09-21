@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Auth;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: fixed;
+        top: 0;
+        z-index: 50;
+        width: 100%;
     }
 
     /* タイトルの色を白に設定 */
@@ -64,9 +68,13 @@ use Illuminate\Support\Facades\Auth;
         bottom: 0;
         width: 100%;
     }
+
+    header{
+      margin-bottom: 15vh;
+    }
   </style>
 </head>
-<body>
+<body class="postsol-layout">
   <header>
     <!-- ヘッダー。ハンバーガーメニュー -->
     <nav class="navbar navbar-expand-lg navbar-light custom-navbar">

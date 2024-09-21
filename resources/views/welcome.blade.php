@@ -16,7 +16,7 @@
             .container { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: url('data:image/svg+xml,%3Csvg width=\'30\' height=\'30\' viewBox=\'0 0 30 30\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z\' fill=\'rgba(255,255,255,0.07)\'/%3E%3C/svg%3E'); background-size: cover; background-position: center; }
             .header {padding: 1rem; text-align: center; }
             .header a { display: inline-block; padding: 0.5rem 1rem; margin-left: 1rem; border-radius: 0.375rem; text-decoration: none; font-weight: 600; }
-            .header a:hover { background-color: darkblue; }
+            .header a:hover { background-color: orange; }
             .login { background-color: darkblue; color: #f3f4f6; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); }
             .register { background-color: #ef4444; color: #ffffff; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);}
             .title { font-size: 3rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
