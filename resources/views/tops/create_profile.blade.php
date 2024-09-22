@@ -79,7 +79,7 @@ use Illuminate\Support\Facades\Auth;
 
         <div class="icon">
             <div>
-                <label for="img">アイコン</label>
+                <label for="img">アイコン（ファイルサイズ2MBまで）</label>
             </div>
             <div>
                 <input type="file" name="img" id="img" value="{{ $user->img }}">

@@ -50,6 +50,10 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
+        $request->validate([
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' //2MBまで
+        ]);
+
         $user->img = $request->img;
         $user->gender = $request->gender;
         $user->birth = $request->birth;
