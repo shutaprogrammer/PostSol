@@ -42,7 +42,10 @@ class BookmarkController extends Controller
                 ]);
                 });
 
-        return redirect()->route('posts.index');
+        return response()->json([
+            'success' => true,
+        'message' => 'ブックマークが追加されました！'
+        ]);
     }
 
 }
