@@ -343,7 +343,7 @@
                 </div>
                 <!-- カウント表示 -->
                 <div class="twitter__counts">
-                    <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
+                    <span id="bookmark-count-{{ $post->id }}">{{ $post->bookmarks_count }} ブックマーク</span> ・ 
                     <span>{{ $post->likes_count }} いいね</span>
                 </div>
                 </div>

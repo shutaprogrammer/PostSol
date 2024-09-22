@@ -42,9 +42,12 @@ class BookmarkController extends Controller
                 ]);
                 });
 
+            $bookmarkCount = Bookmark::where('post_id', $post->id)->count();
+
         return response()->json([
             'success' => true,
-        'message' => 'ブックマークが追加されました！'
+            'message' => 'ブックマークが追加されました！',
+            'bookmark_count' => $bookmarkCount
         ]);
     }
 
