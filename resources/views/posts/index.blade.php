@@ -441,44 +441,43 @@
                         <span class="twitter__date">{{ $post->created_at->format('Y年m月d日 H:i') }}</span>
                     </div>
                     <!-- テキスト -->
-                    <div class="twitter__text">{{ $post->content }}</div>
-                < class="kateact">
+                    <div class="twitter__text kaigyou">{{ $post->content }}</div>
+                <div class="kateact">
                     <!-- カテゴリーと場所 -->
                     <div class="twitter__text kateba">
                         <strong>#</strong> {{ $post->category }}   
                         <strong>@</strong> {{ $post->place }}
                     </div>
-                    <div class="actdura">
+                    
                     <!-- アクションボタン -->
-                    <div class="twitter__actions">
+                    <div class="actdura">
+                <div class="twitter__actions">
                         <!-- ブックマークボタン -->
-                        @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                            <!-- モーダルを表示するボタン -->
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#bookmarkModal-{{ $post->id }}">
+                        <!-- モーダルを表示するボタン -->
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#freeUserModal">
                                 <i class="fas fa-bookmark"></i>
                             </button>
-                        @else
-                            <button disabled>
-                                <i class="fas fa-bookmark"></i>
-                            </button>
-                        @endif
                         <!-- いいねボタン -->
                         @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                            <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"><i class="fas fa-heart"></i></button>
-                            </form>
-                        @else
-                            <form action="{{ route('like', $post) }}" method="POST" class="iine">
-                                @csrf
-                                <button type="submit"><i class="far fa-heart"></i></button>
-                            </form>
-                        @endif
-                    </div>
+                    <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">
+                            <i class="fas fa-heart liked"></i> <!-- いいね済みの時の赤色のアイコン -->
+                        </button>
+                    </form>
+                    @else
+                        <form action="{{ route('like', $post) }}" method="POST" class="iine">
+                            @csrf
+                            <button type="submit">
+                                <i class="far fa-heart"></i> <!-- いいねしていない時のアイコン -->
+                            </button>
+                        </form>
+                    @endif
+                </div>
                     <!-- カウント表示 -->
                     <div class="twitter__counts">
-                        <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
+                        <span  id="bookmark-count-{{ $post->id }}">{{ $post->bookmarks_count }} ブックマーク</span> ・ 
                         <span>{{ $post->likes_count }} いいね</span>
                     </div>
                     </div>
@@ -530,6 +529,26 @@
                 </div>
             </div>
 
+            <!-- フリーユーザー用のモーダル -->
+                <div class="modal fade" id="freeUserModal" tabindex="-1" aria-labelledby="freeUserModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" style="color: black" id="freeUserModalLabel">使用制限のお知らせ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                            </div>
+                            <div class="modal-body" style="color: black">
+                                Freeユーザーはブックマーク機能を利用できません。<br>サブスク購入ですべての機能が利用可能になります。
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary">サブスク購入へ</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
         @endforeach
 
             {{-- <!-- ブックマークボタン -->
@@ -544,27 +563,11 @@
             Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。
         </div>
 
-        <!-- フリーユーザー用のモーダル -->
-        <div class="modal fade" id="freeUserModal" tabindex="-1" aria-labelledby="freeUserModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" style="color: black" id="freeUserModalLabel">使用制限のお知らせ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-                    </div>
-                    <div class="modal-body" style="color: black">
-                        Freeユーザーはブックマーク機能を利用できません。<br>サブスク購入ですべての機能が利用可能になります。
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary">サブスク購入へ</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+        
     </div>
+    @endif
 </div>
+
 
 <script>
     window.csrfToken = '{{ csrf_token() }}';
