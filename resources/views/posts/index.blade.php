@@ -89,6 +89,8 @@
     .free-user-notice {
         text-align: center;
         color: red;
+        font-weight: bold;
+        font-size: 18px;
         margin-top: 20px;
     }
     /* 通報ボタンのスタイル */
@@ -206,6 +208,7 @@
     .kaigyou{
         height: auto;
         width: 65vw;
+        font-size: 18px;
         word-wrap: break-word; /* 長い単語を改行 */
         white-space: pre-wrap; /* 改行を保持しつつ、長いテキストを自動改行 */
     }
@@ -228,6 +231,23 @@
         justify-content: space-between;
         margin-bottom: 7vh;
     }
+    .sabusuku{
+        text-align: center;
+        margin: 10px;
+    }
+    .kome{
+        font-size: 14px;
+        margin-top: -4vh;
+    }
+    .kensaku{
+        margin-left: 79vw;
+        margin-top: 3px;
+    }
+    .custom-btn {
+        padding: 2px 5px; /* ボタンの内側余白を小さくする */
+        font-size: 12px;  /* フォントサイズを小さくする */
+        line-height: 1.5; /* ボタンの高さを調整 */
+    }
 </style>
 
 
@@ -248,37 +268,51 @@
 <h6>投稿一覧</h6>
 <!-- フィルターフォーム -->
 <form action="{{ route('posts.index') }}" method="GET" class="filter-form">
+
+    <!-- カテゴリー選択 -->
     <div class="form-group">
-        <label for="category">カテゴリーを選択：</label>
-        <select name="category" id="category" class="form-control" onchange="this.form.submit()">
-            <option value="">すべてのカテゴリー</option>
-            @foreach($types as $type)
-            <option value="{{ $type }}" {{ request('category')  == $type ? 'selected' : ''}}>
-                {{ $type }}
-            </option>
-            @endforeach
-        </select>
+        <label for="category">カテゴリーを選択</label>
+        <button type="button" class="btn  custom-btn" onclick="toggleDropdown('categoryDropdown')">▼</button>
+        <div id="categoryDropdown" style="display:none;">
+            <select name="category" id="category" class="form-control" onchange="this.form.submit()">
+                <option value="">すべてのカテゴリー</option>
+                @foreach($types as $type)
+                <option value="{{ $type }}" {{ request('category') == $type ? 'selected' : ''}}>
+                    {{ $type }}
+                </option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
+    <!-- キーワード検索 -->
     <div class="form-group">
-        <label for="keyword">キーワードで検索：</label>
-        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="キーワードを入力">
-        <input type="submit" value="検索" class="btn btn-primary">
+        <label for="keyword">キーワードで検索</label>
+        <button type="button" class="btn  custom-btn" onclick="toggleDropdown('keywordDropdown')">▼</button>
+        <div id="keywordDropdown" style="display:none;">
+            <input type="text" name="keyword" id="keyword" class="form-control" placeholder="キーワードを入力">
+            <input type="submit" value="検索" class="btn btn-primary kensaku">
+        </div>
     </div>
 
+    <!-- 並び替え -->
     <div class="form-group">
-        <label for="arrange">並び替え：</label>
-        <select name="arrange" id="arrange" class="form-control" onchange="this.form.submit()">
-            <option value="">選択してください</option>
-            @foreach($orders as $order)
-            <option value="{{ $order }}" {{ request('arrange') == $order ? 'selected' : ''}}>
-                {{ $order }}
-            </option>
-            @endforeach
-        </select>
+        <label for="arrange">並び替え</label>
+        <button type="button" class="btn  custom-btn" onclick="toggleDropdown('arrangeDropdown')">▼</button>
+        <div id="arrangeDropdown" style="display:none;">
+            <select name="arrange" id="arrange" class="form-control" onchange="this.form.submit()">
+                <option value="">選択してください</option>
+                @foreach($orders as $order)
+                <option value="{{ $order }}" {{ request('arrange') == $order ? 'selected' : ''}}>
+                    {{ $order }}
+                </option>
+                @endforeach
+            </select>
+        </div>
     </div>
 </form>
 
+<p class="kome">※1か月経過した投稿は自動削除(投稿者は100コインで延長可)。気に入った投稿はブックマークをしてマイページに保存しよう！</p>
 <hr>
 
 <div class="con_haikei">
@@ -538,10 +572,17 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                             </div>
                             <div class="modal-body" style="color: black">
-                                Freeユーザーはブックマーク機能を利用できません。<br>サブスク購入ですべての機能が利用可能になります。
+                                Freeユーザーはブックマーク機能を利用できません。<br>サブスク登録ですべての機能が利用可能になります。 <br> <br>本サブスクの概要は以下の通りです。<br>
+
+                                ・利用可能期間：購入完了から30日後 <br>
+                                ・ブックマーク機能の使用が可能になる <br>
+                                ・マイページにてブックマークした投稿を永久的に保存し、投稿者にDMができる<br>
+                                ・AIを使用してブックマークした投稿をもとにビジネスアイデアの思索ができる <br>
+                                ・投稿一覧表示画面における閲覧可能数の制限が無制限となる <br>
+                                ・BMコイン100コイン(BM10回分)が付与される <br>
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary">サブスク購入へ</a>
+                                <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary">サブスク登録へ</a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                             </div>
                         </div>
@@ -560,7 +601,10 @@
 
         <!-- フリーユーザーへの通知 -->
         <div class="free-user-notice">
-            Freeのユーザーは5つまでしか閲覧できません。サブスク登録をして全ての投稿を見てみましょう。
+            Freeのユーザーは5つまでしか閲覧できません。 <br>サブスク登録をして全ての投稿を見てみましょう。
+        </div>
+        <div class="modal-footer">
+            <a href="{{ route('mypages.subscription1') }}" class="btn btn-primary sabusuku">サブスク登録へ</a>
         </div>
 
         
@@ -575,3 +619,15 @@
 
 <script src="{{ asset('js/posts.index.js') }}"></script>
 @endsection
+
+<!-- JavaScriptでプルダウンの表示/非表示を制御 -->
+<script>
+    function toggleDropdown(id) {
+        var dropdown = document.getElementById(id);
+        if (dropdown.style.display === "none" || dropdown.style.display === "") {
+            dropdown.style.display = "block";
+        } else {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
