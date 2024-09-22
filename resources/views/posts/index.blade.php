@@ -364,14 +364,14 @@
                     <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">
-                            <i class="fas fa-heart liked"></i> <!-- いいね済みの時の赤色のアイコン -->
+                        <button type="button" class="like-button liked" data-id="{{ $post->id }}" data-action="{{ route('unlike', $post) }}">
+                            <i class="fas fa-heart"></i> <!-- いいね済みの時の赤色のアイコン -->
                         </button>
                     </form>
                     @else
                         <form action="{{ route('like', $post) }}" method="POST" class="iine">
                             @csrf
-                            <button type="submit">
+                            <button type="button" class="like-button" data-id="{{ $post->id }}" data-action="{{ route('like', $post) }}">
                                 <i class="far fa-heart"></i> <!-- いいねしていない時のアイコン -->
                             </button>
                         </form>
@@ -380,7 +380,7 @@
                 <!-- カウント表示 -->
                 <div class="twitter__counts">
                     <span id="bookmark-count-{{ $post->id }}">{{ $post->bookmarks_count }} ブックマーク</span> ・ 
-                    <span>{{ $post->likes_count }} いいね</span>
+                    <span id="like-count-{{ $post->id }}">{{ $post->likes_count }} いいね</span>
                 </div>
                 </div>
             </div>
