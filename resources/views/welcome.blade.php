@@ -45,7 +45,7 @@
                 <div class="header">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ url('/home') }}" class="login">Home</a>
+                            <a href="{{ url('/mypages/mypage') }}" class="login">マイページ</a>
                         @else
                             <a href="{{ route('login') }}" class="login">Log in</a>
                             @if (Route::has('register'))
