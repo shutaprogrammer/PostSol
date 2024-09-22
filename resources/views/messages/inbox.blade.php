@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_original')
 
 @section('content')
     <div class="container mt-5">
@@ -11,9 +11,9 @@
                     $otherUserId = $conversation->user_one_id == Auth::id() ? $conversation->user_two_id : $conversation->user_one_id;
                     $otherUser = \App\Models\User::find($otherUserId);
                 @endphp
-                <a href="{{ route('messages.index', ['conversationId' => $conversation->id]) }}" class="list-group-item list-group-item-action">
+                <a href="{{ route('messages.index', ['receiverId' => $otherUserId]) }}" class="list-group-item list-group-item-action">
                     <h5>{{ $otherUser->name }}</h5>
-                    <p>{{ $conversation->latestMessage ? $conversation->latestMessage->message : 'No messages yet' }}</p>
+                    <p>{{ $conversation->latestMessage ? $conversation->latestMessage->message : 'まだメッセージはありません' }}</p>
                     <small>{{ $conversation->latestMessage ? $conversation->latestMessage->created_at->format('Y-m-d H:i') : '' }}</small>
                 </a>
             @endforeach

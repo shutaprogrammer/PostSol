@@ -1,9 +1,5 @@
 @extends('layouts.app_original')
 @section('content')
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
 
 <style>
     .carousel-item img {
@@ -14,10 +10,10 @@
 
 /* プロフィールセクション */
 .profile-section {
-    background-color: #f8f9fa;
+    background-color: white;
     padding: 3rem;
     border-radius: 0.375rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* ブックマークした投稿セクション */
@@ -29,26 +25,69 @@
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+.amounts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge{
+    width: 35vw;
+    text-align: center;
+    font-size: 15px;
+}
+
+h6{
+    font-size: 8vw;
+}
+
+.twitter__profile img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+.toukousya{
+    display: flex;
+    flex-direction: row;
+}
+
+.twitter__header{
+    height: auto;
+    margin-top: 2vh;
+}
+
+.kateba{
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+}
+
 </style>
 
+    <h6>マイページ</h6>
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
-        <h1 class="text-center mb-4">プロフィール</h1>
+        <h1 class="text-center mb-4 prof">プロフィール</h1>
 
         @if($user->img)
         <div class="text-center mb-4">
-            <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+            <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
         </div>
         @endif
         <div class="text-center mb-4">
             <p class="h4">{{ $user->name }}</p>
-            <p>{{ $user->birth }}年生まれ　{{ $user->country }}　{{ $user->prefecture }}　{{ $user->city }}出身　{{ $user->job }}</p>
-            <p>BM総獲得数: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね総獲得数: <span class="badge bg-success">{{ $totalLikes }}</span> 保有BMコイン数: <span class="badge bg-warning">{{ $totalCoins }}</span> あなたのステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
+
+            <p>{{ $user->birth }}生まれ　{{ $user->country }} {{ $user->prefecture }} {{ $user->city }}居住</p>
+            <hr>
+            <p class="amounts">ブックマーク: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね: <span class="badge bg-success">{{ $totalLikes }}</span> 保有コイン: <span class="badge bg-warning">{{ $totalCoins }}</span> ステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
             @if($remainingTime)
             <p>Trial期間の残り時間: {{ $remainingTime }}</p>
             @endif
             @if($paidRemainingTime)
-            <p>Paid Memberの残り期間: {{ $paidRemainingTime }}</p>
+            <p>Paid Memberの残り期間: <br> {{ $paidRemainingTime }}</p>
             @endif
             <a href="{{ route('mypages.edit', ['id' => $user->id]) }}" class="btn btn-primary mt-3">プロフィールを編集</a>
         </div>
@@ -64,14 +103,32 @@
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow">
                     <div class="card-body text-dark">
+                      <div class="toukousya">
+                        <!-- プロフィール画像 -->
+                        <div class="twitter__profile">
+                            @if($post->user->img)
+                                <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
+                            @else
+                                <!-- デフォルトのプロフィール画像 -->
+                                <img src="/path/to/default/profile/image.png" alt="" class="size">
+                            @endif
+                        </div>
+                        <!-- 名前 -->
+                        <div class="twitter__header">
+                            <span class="twitter__name">{{ $post->user->name }}　</span>
+                            <span class="twitter__date">{{ $post->created_at->format('Y年m月d日') }}</span>
+                        </div>
+                      </div>
                         <h5 class="card-title">{{ $post->content }}</h5>
-                        <p class="card-text"><strong>カテゴリ: </strong>{{ $post->category }}</p>
-                        <p class="card-text"><strong>場所: </strong>{{ $post->place }}</p>
+                       <div class="kateba">
+                        <p class="card-text"># {{ $post->category }}　</p>
+                        <p class="card-text">@ {{ $post->place }}</p>
+                       </div>
                         <!-- DMボタン -->
                         <form action="{{ route('conversations.create')  }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
-                                <button type="submit" class="btn btn-primary">DMを送る</button>
+                                <button type="submit" class="btn btn-primary">{{ $post->user->name }} にDMを送る</button>
                             </form>
                     </div>
                 </div>
@@ -84,9 +141,8 @@
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow">
                     <div class="card-body text-dark">
-                        <h5 class="card-title">ステータス：Freeのため閲覧不可</h5>
-                        <p class="card-text"><strong>カテゴリ: </strong></p>
-                        <p class="card-text"><strong>場所: </strong></p>
+                        <h5 class="card-title">Freeのため閲覧不可</h5>
+
                     </div>
                 </div>
             </div>
@@ -130,4 +186,17 @@
             </a>
         </div>
     </section>
+
+    {{-- Gemini --}}
+    <form action="{{route('entry')}}" method="post">
+        @csrf
+        <textarea name="toGeminiText" autofocus>@isset($result['task']){{$result['task']}}@endisset </textarea>
+        <button type="submit">send</button>
+    </form>
+    
+    <hr>
+    
+    @isset($result)
+    <p>{!!$result['content']!!}</p>
+    @endisset
 @endsection

@@ -50,6 +50,10 @@
             font-size: 1rem;
             line-height: 1.5;
         }
+
+        section{
+            margin-bottom: 42vh;
+        }
     </style>
 
     <section class="form-container">

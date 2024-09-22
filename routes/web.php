@@ -22,6 +22,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\GeminiController;
+
 
 
 /*
@@ -148,8 +150,11 @@ Route::get('/admin/menu/exchange',[AdminController::class, 'exchange'])->name('a
 
 
 Route::get('/admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');
+
 Route::get('/admin/menu/inbox/unread',[AdminController::class, 'unread'])->name('admin.inbox.unread');
 Route::get('/admin/menu/inbox/inprogress',[AdminController::class, 'inprogress'])->name('admin.inbox.inprogress');
 Route::get('/admin/menu/inbox/complete',[AdminController::class, 'complete'])->name('admin.inbox.complete');
 
-
+//Gemini
+Route::get('/gemini',[GeminiController::class, 'index'])->name('gemini.index');
+Route::post('/gemini', [GeminiController::class, 'entry'])->name('entry');

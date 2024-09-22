@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Auth;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: fixed;
+        top: 0;
+        z-index: 50;
+        width: 100%;
     }
 
     /* タイトルの色を白に設定 */
@@ -64,9 +68,13 @@ use Illuminate\Support\Facades\Auth;
         bottom: 0;
         width: 100%;
     }
+
+    header{
+      margin-bottom: 15vh;
+    }
   </style>
 </head>
-<body>
+<body class="postsol-layout">
   <header>
     <!-- ヘッダー。ハンバーガーメニュー -->
     <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
@@ -96,16 +104,19 @@ use Illuminate\Support\Facades\Auth;
                     <a class="nav-link" href="{{ route('mypages.subscription1') }}">サブスク登録</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ route('bmcoin.index1') }}">BMコイン購入</a>
+                    <a class="nav-link" href="{{ route('bmcoin.index1') }}">コイン購入</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ route('mypages.exchange') }}">BMコイン換金 </a>
+                    <a class="nav-link" href="{{ route('mypages.exchange') }}">コイン換金 </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{ route('rankings.post') }}">投稿ランキング </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{ route('rankings.user') }}">ユーザーランキング </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ route('messages.inbox') }}">DM </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{ route('contact.form') }}">お問い合わせ </a>
