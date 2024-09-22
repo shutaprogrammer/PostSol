@@ -116,6 +116,9 @@ use Illuminate\Support\Facades\Auth;
                     <a class="nav-link" href="{{ route('rankings.user') }}">ユーザーランキング </a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="{{ route('messages.inbox') }}">DM </a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="{{ route('contact.form') }}">お問い合わせ </a>
                   </li>
                   <li class="nav-item dropdown">
