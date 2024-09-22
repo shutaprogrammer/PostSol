@@ -16,12 +16,25 @@ class LikeController extends Controller
             'post_id'=>$post->id
         ]);
 
-        return redirect()->route('posts.index');
+        $likeCount = Like::where('post_id', $post->id)->count();
+
+        return response()->json([
+            'success' => true,
+            'message' =>'いいねが追加されました',
+            'likes_count' => $likeCount
+        ]);
     }
 
     public function destroy(Post $post)
     {
         Like::where('user_id', Auth::id())->where('post_id', $post->id)->delete();
-        return redirect()->route('posts.index');
+
+        $likeCount = Like::where('post_id', $post->id)->count();
+
+        return response()->json([
+            'success' => true,
+            'message' =>'いいねを取り消しました',
+            'likes_count' => $likeCount
+        ]);
     }
 }
