@@ -385,9 +385,9 @@
                             ⚠️ ブックマークは二度と解除できません。それでもよろしいですか？
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ route('bookmark', $post) }}" method="POST">
+                            <form id="bookmarkForm-{{ $post->id }}" action="{{ route('bookmark', $post) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">はい</button>
+                                <button type="button" class="btn btn-primary bookmark-submit-button" data-id="{{ $post->id }}">はい</button>
                             </form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
                         </div>
@@ -396,6 +396,8 @@
             </div>
         @endforeach
     @else
+
+    {{-- ここからがフリーユーザーに対しての記述 --}}
         @foreach ($posts as $post)
             <div class="twitter__block">
                 <!-- プロフィール画像 -->
@@ -517,4 +519,9 @@
     </div>
 </div>
 
+<script>
+    window.csrfToken = '{{ csrf_token() }}';
+</script>
+
+<script src="{{ asset('js/posts.index.js') }}"></script>
 @endsection
