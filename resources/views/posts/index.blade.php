@@ -279,6 +279,8 @@
     </div>
 </form>
 
+<hr>
+
 <div class="con_haikei">
     <div class="twitter__container">
     @if(!$freeuser)
@@ -363,11 +365,11 @@
             <div class="twitter__deletion-date">
                 削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
                 <div class="entyou">
+                    <!-- 延長モーダルを表示するボタン -->
                     @if ($post->user_id === Auth::id())
-                    <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-extend">延長する</button>
-                    </form>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#extendModal-{{ $post->id }}" class="btn btn-extend">
+                        <i></i> 延長する
+                    </button>
                     @endif
                 </div>
             </div>
@@ -382,12 +384,34 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                         </div>
                         <div class="modal-body" style="color: black">
-                            ⚠️ ブックマークは二度と解除できません。それでもよろしいですか？
+                            ⚠️ 10コインを使用してブックマークします。ブックマークは二度と解除できません。それでもよろしいですか？
                         </div>
                         <div class="modal-footer">
                             <form id="bookmarkForm-{{ $post->id }}" action="{{ route('bookmark', $post) }}" method="POST">
                                 @csrf
                                 <button type="button" class="btn btn-primary bookmark-submit-button" data-id="{{ $post->id }}">はい</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 延長のモーダル -->
+            <div class="modal fade" id="extendModal-{{ $post->id }}" tabindex="-1" aria-labelledby="extendModalLabel-{{ $post->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: black" id="extendModalLabel-{{ $post->id }}">削除予定日の延長確認</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                        </div>
+                        <div class="modal-body" style="color: black">
+                            ⚠️ 100コインを使用して投稿の削除予定日を1日延長します。それでもよろしいですか？
+                        </div>
+                        <div class="modal-footer">
+                            <form id="extendForm-{{ $post->id }}" action="{{ route('posts.extend', $post->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary extend-submit-button" data-id="{{ $post->id }}">はい</button>
                             </form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
                         </div>
@@ -474,23 +498,46 @@
                 <div class="twitter__deletion-date">
                     削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
                     <div class="entyou">
+                        <!-- 延長モーダルを表示するボタン -->
                         @if ($post->user_id === Auth::id())
-                        <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-extend">延長する</button>
-                        </form>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#extendModal-{{ $post->id }}" class="btn btn-extend">
+                            <i></i> 延長する
+                        </button>
                         @endif
                     </div>
                 </div>
             </div>
+
+            <!-- 延長のモーダル -->
+            <div class="modal fade" id="extendModal-{{ $post->id }}" tabindex="-1" aria-labelledby="extendModalLabel-{{ $post->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: black" id="extendModalLabel-{{ $post->id }}">削除予定日の延長確認</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                        </div>
+                        <div class="modal-body" style="color: black">
+                            ⚠️ 100コインを使用して投稿の削除予定日を1日延長します。それでもよろしいですか？
+                        </div>
+                        <div class="modal-footer">
+                            <form id="extendForm-{{ $post->id }}" action="{{ route('posts.extend', $post->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary extend-submit-button" data-id="{{ $post->id }}">はい</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         @endforeach
 
-            <!-- ブックマークボタン -->
+            {{-- <!-- ブックマークボタン -->
         <div class="d-inline">
             <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#freeUserModal">
                 ☆
             </button>
-            <div>FreeユーザーはBM使用不可</div>
+            <div>FreeユーザーはBM使用不可</div> --}}
 
         <!-- フリーユーザーへの通知 -->
         <div class="free-user-notice">
