@@ -22,6 +22,7 @@
     }
     .twitter__profile {
         margin-right: 10px;
+        height: 50px;
     }
     .twitter__profile img {
         width: 48px;
@@ -48,6 +49,10 @@
     .twitter__text {
         margin: 5px 0;
         color: #14171a;
+        height: 100%;
+    }
+    .kateba{
+        font-size: 12px;
     }
     .twitter__actions {
         display: flex;
@@ -108,12 +113,23 @@
         padding: 10px;
         border-bottom: 1px solid #000000;
         background-color: #ffffff;
+        z-index: 9;
+
     }
     /* 削除予定日と延長ボタン */
     .twitter__deletion-date {
-        position: relative; /* 削除予定日と延長ボタンを相対配置に */
+        position: relative;
         font-size: 12px;
         color: #657786;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        z-index: 12;
+        width: 80%;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+
     }
     
     .twitter__deletion-date .btn-extend {
@@ -137,6 +153,8 @@
         align-items: center;
         margin-top: 1px;
         text-align: right; /* アクションボタンを右寄せにする */
+        width: 30vw;
+        height: 2vh;
     }
     /* 共通のアクションボタンのスタイル */
     .twitter__actions button {
@@ -194,6 +212,22 @@
     h6{
     font-size: 8vw;
 }
+    .entyou{
+        height: 3.7vh;
+    }
+    .iine{
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+    .btn.btn-extend{
+    }
+    .kateact{
+        height: 2vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 7vh;
+    }
 </style>
 
 
@@ -249,7 +283,7 @@
     <div class="twitter__container">
     @if(!$freeuser)
         @foreach ($posts as $post)
-            <div class="twitter__block">
+        <div class="twitter__block">
                 <!-- プロフィール画像 -->
                 <div class="twitter__profile">
                     @if($post->user->img)
@@ -268,22 +302,14 @@
                 </div>
                 <!-- テキスト -->
                 <div class="twitter__text kaigyou">{{ $post->content }}</div>
+            <div class="kateact">
                 <!-- カテゴリーと場所 -->
-                <div class="twitter__text">
+                <div class="twitter__text kateba">
                     <strong>#</strong> {{ $post->category }}   
                     <strong>@</strong> {{ $post->place }}
                 </div>
-                <!-- 通報リンク -->
-                <div class="twitter__text">
-                    <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
-                </div>
-                <!-- アラートメッセージ（投稿に関連付け） -->
-                @if(session('alert') && session('alert')['post_id'] == $post->id)
-                    <div class="alert alert-danger custom-alert">
-                        <strong>注意:</strong> {{ session('alert')['message'] }}
-                    </div>
-                @endif
                 <!-- アクションボタン -->
+                <div class="actdura">
                 <div class="twitter__actions">
                     <!-- ブックマークボタン -->
                     @if(!App\Models\Bookmark::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
@@ -299,7 +325,7 @@
 
                     <!-- いいねボタン -->
                     @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                    <form action="{{ route('unlike', $post) }}" method="POST">
+                    <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
                         @csrf
                         @method('DELETE')
                         <button type="submit">
@@ -307,7 +333,7 @@
                         </button>
                     </form>
                     @else
-                        <form action="{{ route('like', $post) }}" method="POST">
+                        <form action="{{ route('like', $post) }}" method="POST" class="iine">
                             @csrf
                             <button type="submit">
                                 <i class="far fa-heart"></i> <!-- いいねしていない時のアイコン -->
@@ -320,18 +346,32 @@
                     <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
                     <span>{{ $post->likes_count }} いいね</span>
                 </div>
-                <!-- 削除予定日と延長ボタン -->
-                <div class="twitter__deletion-date">
-                    削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                </div>
+            </div>
+                <!-- 通報リンク -->
+                <div class="twitter__text">
+                    <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
+                </div>
+                <!-- アラートメッセージ（投稿に関連付け） -->
+                @if(session('alert') && session('alert')['post_id'] == $post->id)
+                    <div class="alert alert-danger custom-alert">
+                        <strong>注意:</strong> {{ session('alert')['message'] }}
+                    </div>
+                @endif
+            </div>
+            <!-- 削除予定日と延長ボタン -->
+            <div class="twitter__deletion-date">
+                削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                <div class="entyou">
                     @if ($post->user_id === Auth::id())
-                        <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-extend">100coinで1日延長</button>
-                        </form>
+                    <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-extend">延長する</button>
+                    </form>
                     @endif
                 </div>
             </div>
-            </div>
+        </div>
 
             <!-- ブックマークのモーダル -->
             <div class="modal fade" id="bookmarkModal-{{ $post->id }}" tabindex="-1" aria-labelledby="bookmarkModalLabel-{{ $post->id }}" aria-hidden="true">
@@ -376,21 +416,13 @@
                     </div>
                     <!-- テキスト -->
                     <div class="twitter__text">{{ $post->content }}</div>
+                < class="kateact">
                     <!-- カテゴリーと場所 -->
-                    <div class="twitter__text">
+                    <div class="twitter__text kateba">
                         <strong>#</strong> {{ $post->category }}   
                         <strong>@</strong> {{ $post->place }}
                     </div>
-                    <!-- 通報リンク -->
-                    <div class="twitter__text">
-                        <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
-                    </div>
-                    <!-- アラートメッセージ（投稿に関連付け） -->
-                    @if(session('alert') && session('alert')['post_id'] == $post->id)
-                        <div class="alert alert-danger custom-alert">
-                            <strong>注意:</strong> {{ session('alert')['message'] }}
-                        </div>
-                    @endif
+                    <div class="actdura">
                     <!-- アクションボタン -->
                     <div class="twitter__actions">
                         <!-- ブックマークボタン -->
@@ -406,13 +438,13 @@
                         @endif
                         <!-- いいねボタン -->
                         @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
-                            <form action="{{ route('unlike', $post) }}" method="POST">
+                            <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"><i class="fas fa-heart"></i></button>
                             </form>
                         @else
-                            <form action="{{ route('like', $post) }}" method="POST">
+                            <form action="{{ route('like', $post) }}" method="POST" class="iine">
                                 @csrf
                                 <button type="submit"><i class="far fa-heart"></i></button>
                             </form>
@@ -423,18 +455,31 @@
                         <span>{{ $post->bookmarks_count }} ブックマーク</span> ・ 
                         <span>{{ $post->likes_count }} いいね</span>
                     </div>
-                    <!-- 削除予定日と延長ボタン -->
-                    <div class="twitter__deletion-date">
-                        削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                    </div>
+                </div>
+                    <!-- 通報リンク -->
+                    <div class="twitter__text">
+                        <a href="{{ route('reports.create', ['post' => $post->id]) }}" class="twitter__report-button">通報する</a>
+                    </div>
+                    <!-- アラートメッセージ（投稿に関連付け） -->
+                    @if(session('alert') && session('alert')['post_id'] == $post->id)
+                        <div class="alert alert-danger custom-alert">
+                            <strong>注意:</strong> {{ session('alert')['message'] }}
+                        </div>
+                    @endif
+                </div>
+                <!-- 削除予定日と延長ボタン -->
+                <div class="twitter__deletion-date">
+                    削除予定日: {{ $post->deletion_date->format('Y年m月d日 H:i') }}
+                    <div class="entyou">
                         @if ($post->user_id === Auth::id())
-                            <form action="{{ route('posts.extend', $post->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-extend">100coinで1日延長</button>
-                            </form>
+                        <form action="{{ route('posts.extend', $post->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-extend">延長する</button>
+                        </form>
                         @endif
                     </div>
                 </div>
-
             </div>
         @endforeach
 
