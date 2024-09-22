@@ -143,5 +143,13 @@ Route::post('/admin/inbox/{id}/status', [ContactController::class, 'status'])->n
 //管理者画面
 Route::get('/admin/menu',[AdminController::class, 'index'])->name('admin.menu');
 Route::get('/admin/menu/reports',[AdminController::class, 'reports'])->name('admin.reports');
+
 Route::get('/admin/menu/exchange',[AdminController::class, 'exchange'])->name('admin.exchange');
+
+
 Route::get('/admin/menu/inbox',[AdminController::class, 'inbox'])->name('admin.inbox');
+Route::get('/admin/menu/inbox/unread',[AdminController::class, 'unread'])->name('admin.inbox.unread');
+Route::get('/admin/menu/inbox/inprogress',[AdminController::class, 'inprogress'])->name('admin.inbox.inprogress');
+Route::get('/admin/menu/inbox/complete',[AdminController::class, 'complete'])->name('admin.inbox.complete');
+
+

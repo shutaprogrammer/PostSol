@@ -21,20 +21,42 @@ class AdminController extends Controller
 
     public function reports()
     {
-        $reports = Report::with('user', 'post')->get();
+        $reports = Report::with('user', 'post')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.reports', compact('reports'));
     }
 
     public function exchange()
     {
-        $gifts = Amazon::all();
+        $gifts = Amazon::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.exchange', compact('gifts'));
     }
 
+
     public function inbox()
     {
-        $contacts = Contact::all();
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(9);
+
+        return view('admin.inbox', compact('contacts'));
+    }
+
+    public function unread()
+    {
+        $contacts = Contact::where('status', '未')->paginate(9);
+
+        return view('admin.inbox', compact('contacts'));
+    }
+
+    public function inprogress()
+    {
+        $contacts = Contact::where('status', '対応中')->paginate(9);
+
+        return view('admin.inbox', compact('contacts'));
+    }
+
+    public function complete()
+    {
+        $contacts = Contact::where('status', '完了')->paginate(9);
 
         return view('admin.inbox', compact('contacts'));
     }
