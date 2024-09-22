@@ -16,15 +16,29 @@ class MessageController extends Controller
     $receiver = User::findOrFail($receiverId);
 
     // ログインユーザーのIDと送信相手のIDを使って会話を取得（存在しない場合は新規作成する）
-    $conversation = Conversation::firstOrCreate(
-        ['user_one_id' => Auth::id(),'user_two_id' => $receiver->id,], 
-        ['user_one_id' => Auth::id(),'user_two_id' => $receiver->id,]
-    );
+    $conversation = Conversation::where(function ($query) use ($receiver) {
+        $query->where('user_one_id', Auth::id())
+              ->where('user_two_id', $receiver->id)
+              ->orWhere(function ($q) use ($receiver) {
+                  $q->where('user_one_id', $receiver->id)
+                    ->where('user_two_id', Auth::id());
+              });
+    })->first();
+    
+    if (!$conversation) {
+        // 会話が存在しない場合、新しい会話を作成
+        $conversation = Conversation::create([
+            'user_one_id' => Auth::id(),
+            'user_two_id' => $receiver->id,
+        ]);
+    }
 
     // メッセージ一覧を取得
     $messages = Message::where('conversation_id', $conversation->id)
         ->orderBy('created_at', 'asc')
         ->get();
+    
+
 
     // メッセージ送信ページにデータを渡す
     return view('messages.index', compact('messages', 'conversation', 'receiver'));
