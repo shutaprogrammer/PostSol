@@ -7,7 +7,8 @@
         <!-- メッセージ一覧表示 -->
         <div class="messages-list">
             @foreach ($messages as $message)
-                <div class="message-item {{ $message->sender_id == Auth::id() ? 'sent' : 'received' }}">
+                <div class="message-item">
+                <p>{{ $conversation->user_one_id}}</p>
                     <p>{{ $message->message }}</p> <!-- フィールド名を message に変更 -->
                     <span>{{ $message->created_at->format('Y-m-d H:i') }}</span>
                 </div>
