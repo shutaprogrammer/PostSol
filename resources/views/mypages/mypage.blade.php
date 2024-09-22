@@ -42,6 +42,29 @@ h6{
     font-size: 8vw;
 }
 
+.twitter__profile img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+.toukousya{
+    display: flex;
+    flex-direction: row;
+}
+
+.twitter__header{
+    height: auto;
+    margin-top: 2vh;
+}
+
+.kateba{
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+}
+
 </style>
 
     <h6>マイページ</h6>
@@ -80,14 +103,32 @@ h6{
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow">
                     <div class="card-body text-dark">
+                      <div class="toukousya">
+                        <!-- プロフィール画像 -->
+                        <div class="twitter__profile">
+                            @if($post->user->img)
+                                <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
+                            @else
+                                <!-- デフォルトのプロフィール画像 -->
+                                <img src="/path/to/default/profile/image.png" alt="" class="size">
+                            @endif
+                        </div>
+                        <!-- 名前 -->
+                        <div class="twitter__header">
+                            <span class="twitter__name">{{ $post->user->name }}　</span>
+                            <span class="twitter__date">{{ $post->created_at->format('Y年m月d日') }}</span>
+                        </div>
+                      </div>
                         <h5 class="card-title">{{ $post->content }}</h5>
-                        <p class="card-text"><strong>カテゴリ: </strong>{{ $post->category }}</p>
-                        <p class="card-text"><strong>場所: </strong>{{ $post->place }}</p>
+                       <div class="kateba">
+                        <p class="card-text"># {{ $post->category }}　</p>
+                        <p class="card-text">@ {{ $post->place }}</p>
+                       </div>
                         <!-- DMボタン -->
                         <form action="{{ route('conversations.create')  }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
-                                <button type="submit" class="btn btn-primary">DMを送る</button>
+                                <button type="submit" class="btn btn-primary">{{ $post->user->name }} にDMを送る</button>
                             </form>
                     </div>
                 </div>
@@ -100,9 +141,8 @@ h6{
             <div class="col-md-4 mb-3">
                 <div class="card h-100 shadow">
                     <div class="card-body text-dark">
-                        <h5 class="card-title">ステータス：Freeのため閲覧不可</h5>
-                        <p class="card-text"><strong>カテゴリ: </strong></p>
-                        <p class="card-text"><strong>場所: </strong></p>
+                        <h5 class="card-title">Freeのため閲覧不可</h5>
+
                     </div>
                 </div>
             </div>
