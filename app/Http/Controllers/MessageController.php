@@ -96,6 +96,17 @@ public function store(Request $request, $conversationId)//index viewにてメッ
         return $conversation;//$conversationsWithMessagesのファンクションは最終的に、各会話のレコードであり最後のメッセージを含んだ$conversationを渡す。
     });
 
-    return view('messages.inbox', compact('conversationsWithMessages'));//inboxを表示。
+    // 未読メッセージがある会話のIDを取得
+    $unreadConversationIds = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+    ->where(function($query) {
+        $query->where('conversations.user_one_id', Auth::id())
+              ->orWhere('conversations.user_two_id', Auth::id());
+    })
+    ->where('messages.sender_id', '!=', Auth::id())
+    ->where('messages.is_read', false)
+    ->pluck('messages.conversation_id')
+    ->unique(); // 重複を除去
+
+    return view('messages.inbox', compact('conversationsWithMessages','unreadConversationIds'));//inboxを表示。
     }    
 }
