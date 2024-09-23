@@ -107,9 +107,9 @@ Route::post('/ads', [AdController::class, 'store'])->name('ads.store');
 
 // DM
 Route::middleware('auth')->group(function() {
-    Route::get('conversations/{receiverId}/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('conversations/{conversationId}/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::post('conversations', [MessageController::class, 'createConversation'])->name('conversations.create');
+    Route::get('conversations/{conversationId}/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::post('conversations/{conversationId}/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('messages/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
 });
 

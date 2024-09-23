@@ -10,65 +10,66 @@ use App\Models\Message;
 
 class MessageController extends Controller
 {
-    public function index($receiverId)
+
+    public function createConversation(Request $request)//マイページにてボタンが押されるorDMinvoxにて該当のDMページが開かれたときに使用
+
 {
-    // 送信相手のユーザー情報を取得
-    $receiver = User::findOrFail($receiverId);
-
-    // ログインユーザーのIDと送信相手のIDを使って会話を取得（存在しない場合は新規作成する）
-    $conversation = Conversation::firstOrCreate(
-        ['user_one_id' => Auth::id(),'user_two_id' => $receiver->id,], 
-        ['user_one_id' => Auth::id(),'user_two_id' => $receiver->id,]
-    );
-
-    // メッセージ一覧を取得
-    $messages = Message::where('conversation_id', $conversation->id)
-        ->orderBy('created_at', 'asc')
-        ->get();
-
-    // メッセージ送信ページにデータを渡す
-    return view('messages.index', compact('messages', 'conversation', 'receiver'));
-}
-    public function store(Request $request, $conversationId)
-    {
-        // バリデーション
-        $request->validate([
-            'body' => 'required|string',
+    // まず、条件に一致するレコードを探します(既にconversationレコードがある場合)
+    $conversation = Conversation::where(function ($query) use ($request) {
+        $query->where('user_one_id', Auth::id())
+              ->where('user_two_id', $request->user_two_id);
+    })->orWhere(function ($query) use ($request) {
+        $query->where('user_one_id', $request->user_two_id)
+              ->where('user_two_id', Auth::id());
+    })->first();
+    
+    // レコードが見つからなかった場合は新しく作成します。//最初に送信しようした人をone、送信相手をtwoに入れてconversationsに二人が入ったレコード作成。
+    if (!$conversation) {
+        $conversation = Conversation::create([
+            'user_one_id' => Auth::id(),
+            'user_two_id' => $request->user_two_id
         ]);
-    
-        // 会話を取得
-        $conversation = Conversation::findOrFail($conversationId);
-
-        // メッセージを作成（saveメソッドを使用）
-        $message = new Message();
-        $message->conversation_id = $conversation->id;
-        $message->sender_id = Auth::id();
-        $message->message = $request->body;
-        $message->save();
-
-         // 受信者IDを取得
-        // ユーザーが `user_one_id` なら `user_two_id` が相手のID、逆も同じ
-        $receiverId = ($conversation->user_one_id === Auth::id()) 
-        ? $conversation->user_two_id 
-        : $conversation->user_one_id;
-    
-        // メッセージ送信後、正しい conversationId を使ってリダイレクト
-        return redirect()->route('messages.index', ['receiverId' => $receiverId]);
     }
 
-    public function createConversation(Request $request)
-{
-    $conversation = Conversation::firstOrCreate(
-        ['user_one_id' => Auth::id(), 'user_two_id' => $request->user_two_id],
-        ['user_two_id' => $request->user_two_id, 'user_one_id' => Auth::id()]
-    );
-
-    // 受信者IDを取得してリダイレクト
-    $receiverId = $request->user_two_id;
-    return redirect()->route('messages.index', ['receiverId' => $receiverId]);
+    $conversationId = $conversation->id;//レコードからidを抽出
+    // 取得もしくは作成したconversationのレコードのidをindexルートを経由して、indexメソッドに$conversationIdを渡す。
+    return redirect()->route('messages.index', compact('conversationId'));
 }
 
-    public function inbox()
+public function index($conversationId)//conversationIdでDMを特定し、メッセージを含んだ状態でviewを表示するために使用。
+{
+    // メッセージ一覧を取得
+    $messages = Message::where('conversation_id', $conversationId)->with('sender')//with senderとすることモデルのリレイションを利用して、index viewにてuserレコードを引っ張れるようにする。
+        ->orderBy('created_at', 'asc')
+        ->get();//storeメソッドで作成したメッセージを、二人の共有番号であるconversationIdで特定して全取得。
+
+    // メッセージ送信ページにデータを渡す
+    return view('messages.index', compact('messages', 'conversationId'));//二人の個人チャット(共有しているconversationId)にて全messagesをindex個人チャットviewに渡して表示。
+}
+
+public function store(Request $request, $conversationId)//index viewにてメッセージ送信ボタンがお押された際メッセージ作成及び再度index view表示のために使用
+{
+    $user_id = Auth::id();
+
+    // 新しいメッセージインスタンスを作成
+    $message = new Message();
+    
+    // 各プロパティに値を設定
+    $message->conversation_id = $conversationId;//二人のDM共有番号を入力
+    $message->sender_id = $user_id;//送信者の情報を入力
+    $message->message = $request->body;//index viewのinputに入力されたものを
+
+    // データベースに保存
+    $message->save();
+
+    // メッセージ作成後リダイレクト
+    return redirect()->route('messages.index', compact('conversationId'));//indexルートに共有番号を渡して再度同じDMページを表示。
+}
+
+
+
+    
+    public function inbox()//ハンバーガーのDMを押された時使用
     {
     // ログインユーザーのIDを取得
     $userId = Auth::id();
@@ -76,17 +77,17 @@ class MessageController extends Controller
     // ユーザーが関与するすべての会話を取得
     $conversations = Conversation::where('user_one_id', $userId)
         ->orWhere('user_two_id', $userId)
-        ->get();
+        ->get();//送信者or受信者として自分のuseridが設定されているconversationの全レコードを取得
 
     // 各会話について最新のメッセージを取得
     $conversationsWithMessages = $conversations->map(function ($conversation) {
         $latestMessage = Message::where('conversation_id', $conversation->id)
             ->orderBy('created_at', 'desc')
-            ->first();
-        $conversation->latestMessage = $latestMessage;
-        return $conversation;
+            ->first();//取得した全レコード(全会話)が入った$conversationsと、各会話の最後に送信されたメッセージ$latestMessageの入った変数、$conversationsWithMessagesを作成
+        $conversation->latestMessage = $latestMessage;//各会話の最後のメッセージとして、上で取得した$latestMessageを代入。
+        return $conversation;//$conversationsWithMessagesのファンクションは最終的に、各会話のレコードであり最後のメッセージを含んだ$conversationを渡す。
     });
 
-    return view('messages.inbox', compact('conversationsWithMessages'));
+    return view('messages.inbox', compact('conversationsWithMessages'));//inboxを表示。
     }    
 }

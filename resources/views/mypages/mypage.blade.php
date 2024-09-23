@@ -129,7 +129,7 @@ h6{
                                 @csrf
                                 <input type="hidden" name="user_two_id" value="{{ $post->user_id }}">
                                 <button type="submit" class="btn btn-primary">{{ $post->user->name }} にDMを送る</button>
-                            </form>
+                        </form>
                     </div>
                 </div>
             </div>
