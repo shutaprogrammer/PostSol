@@ -11,6 +11,7 @@ use App\Models\Post;
 use App\Models\Status;
 use App\Models\Coin;
 use App\Models\Ad;
+use App\Models\Message;
 
 class MypageController extends Controller
 {
@@ -118,8 +119,20 @@ class MypageController extends Controller
             $remainingPaidMinutes = now()->diffInMinutes($paidStatus->period) % 60;
             $paidRemainingTime = "{$remainingPaidDays}日 {$remainingPaidHours}時間 {$remainingPaidMinutes}分";
         }
+
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
         // mypage.blade.php にユーザー情報を渡す
-        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser', 'ads', 'remainingTime', 'paidRemainingTime'));
+        return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts','status','totalCoins','freeuser', 'ads', 'remainingTime', 'paidRemainingTime', 'unreadMessagesCount'));
     }
 
     public function edit($id)

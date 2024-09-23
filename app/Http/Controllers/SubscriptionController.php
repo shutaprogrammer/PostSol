@@ -11,6 +11,7 @@ use App\Models\Bookmark;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Ad;
+use App\Models\Message;
 
 class SubscriptionController extends Controller
 {
@@ -141,7 +142,19 @@ class SubscriptionController extends Controller
         }
         // 広告データのサンプル
         $ads = Ad::all();  // 全ての広告を取得
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime','paidRemainingTime', 'ads'));
+
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime','paidRemainingTime', 'ads', 'unreadMessagesCount'));
         }
 
         // ステータスが見つからない場合のエラーハンドリング

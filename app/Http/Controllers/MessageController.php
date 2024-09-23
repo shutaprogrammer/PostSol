@@ -11,7 +11,7 @@ use App\Models\Message;
 class MessageController extends Controller
 {
 
-    public function createConversation(Request $request)//マイページにてボタンが押されるorDMinvoxにて該当のDMページが開かれたときに使用
+    public function createConversation(Request $request)//マイページにてボタンが押されたときに使用
 
 {
     // まず、条件に一致するレコードを探します(既にconversationレコードがある場合)
@@ -23,7 +23,7 @@ class MessageController extends Controller
               ->where('user_two_id', Auth::id());
     })->first();
     
-    // レコードが見つからなかった場合は新しく作成します。//最初に送信しようした人をone、送信相手をtwoに入れてconversationsに二人が入ったレコード作成。
+    // レコードが見つからなかった場合は新しく作成します。//最初に送信しようした人をone、送信相手をtwoに入れてconversationsに二人が入ったレコード作成。二人の共通番号を作る唯一のメソッド。
     if (!$conversation) {
         $conversation = Conversation::create([
             'user_one_id' => Auth::id(),
@@ -38,20 +38,23 @@ class MessageController extends Controller
 }
 
 
-public function index($conversationId)//conversationIdでDMを特定し、メッセージを含んだ状態でviewを表示するために使用。
+public function index($conversationId)//conversationIdでDMを特定し、メッセージを含んだ状態でviewを表示するために使用。index viewを表示できる唯一のメソッド。
 {
     // メッセージ一覧を取得
     $messages = Message::where('conversation_id', $conversationId)->with('sender')//with senderとすることモデルのリレイションを利用して、index viewにてuserレコードを引っ張れるようにする。
         ->orderBy('created_at', 'asc')
-
         ->get();//storeメソッドで作成したメッセージを、二人の共有番号であるconversationIdで特定して全取得。
 
+        //相手から送信されたメッセージに既読処理
+        Message::where('conversation_id', $conversationId)
+       ->where('sender_id', '!=', Auth::id())
+       ->update(['is_read' => true]);
 
     // メッセージ送信ページにデータを渡す
     return view('messages.index', compact('messages', 'conversationId'));//二人の個人チャット(共有しているconversationId)にて全messagesをindex個人チャットviewに渡して表示。
 }
 
-public function store(Request $request, $conversationId)//index viewにてメッセージ送信ボタンがお押された際メッセージ作成及び再度index view表示のために使用
+public function store(Request $request, $conversationId)//index viewにてメッセージ送信ボタンがお押された際メッセージ作成及び再度index view表示のために使用。メッセージを作る唯一のメソッド。
 {
     $user_id = Auth::id();
 
@@ -62,6 +65,7 @@ public function store(Request $request, $conversationId)//index viewにてメッ
     $message->conversation_id = $conversationId;//二人のDM共有番号を入力
     $message->sender_id = $user_id;//送信者の情報を入力
     $message->message = $request->body;//index viewのinputに入力されたものを
+    $message->is_read = false ; //未読で作成
 
     // データベースに保存
     $message->save();

@@ -65,9 +65,36 @@ h6{
     font-size: 13px;
 }
 
-</style>
+.message-icon {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(199, 198, 198);
+    width: 27vw;
+    height: 30px;
+    margin: 10px 0 0 35vw;
+    padding-bottom: 5px;
+    font-size: 15px;
+}
 
-    <h6>マイページ</h6>
+.unread-border {
+    border-color: red;
+    background-color: red;
+}
+.titledm{
+    display: flex;
+    flex-direction: row;
+}
+
+</style>
+    <div class="titledm">
+        <h6>マイページ</h6>
+        {{-- 未読DMあれば赤適用 --}}
+        <div class="message-icon @if($unreadMessagesCount > 0) unread-border @endif">
+            未読DM数：{{ $unreadMessagesCount }}
+        </div>
+    </div>
+    
     <!-- プロフィールセクション -->
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
         <h1 class="text-center mb-4 prof">プロフィール</h1>
