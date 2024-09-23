@@ -99,11 +99,11 @@ h6{
     <section class="container mt-5 bg-light p-5 shadow-sm rounded">
         <h1 class="text-center mb-4 prof">プロフィール</h1>
 
-        @if($user->img)
+        {{-- プロフィール画像があれば表示、なければデフォルトの画像表示 --}}
         <div class="text-center mb-4">
-            <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
+            <img src="{{ $user->img ? Storage::url('imgs/' . $user->img) : asset('images/default-profile.png') }}" alt="" class="rounded-circle shadow" style="width: 200px; height: 200px; object-fit: cover;">
         </div>
-        @endif
+        
         <div class="text-center mb-4">
             <p class="h4">{{ $user->name }}</p>
 

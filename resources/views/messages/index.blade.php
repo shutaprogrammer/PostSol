@@ -250,7 +250,7 @@ use Illuminate\Support\Facades\Auth;
                             <!-- プロフィール画像 -->
                             <p class="name">{{ $message->sender->name }}</p>
                             <div class="twitter__profile">
-                                <img src="{{ Storage::url('imgs/' . Auth::user()->img) }}" alt="" class="size">
+                                <img src="{{ Auth::user()->img ? Storage::url('imgs/' . Auth::user()->img) : asset('images/default-profile.png') }}" alt="" class="size">
                             </div>
                         </div>
                         <p class="naiyou">{{ $message->message }}</p> 
@@ -263,7 +263,7 @@ use Illuminate\Support\Facades\Auth;
                         <div class="imgname">
                             <!-- プロフィール画像 -->
                             <div class="twitter__profile">
-                                <img src="{{ Storage::url('imgs/' .$message->sender->img) }}" alt="" class="size">
+                                <img src="{{ $message->sender->img ? Storage::url('imgs/' . $message->sender->img) : asset('images/default-profile.png') }}" alt="" class="size">
                             </div>
                             <p class="name">{{ $message->sender->name }}</p>
                         </div>

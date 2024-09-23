@@ -16,6 +16,18 @@
     h5{
         margin: 10px 0 0 8px; 
     }
+    .unread-badge {
+        color: black;
+        margin: 10px 0 0 42vw;
+        background-color: red;
+        height: 24px;
+        width: 38px;
+        text-align: center;
+
+    }
+    .saigo{
+        font-size: 12px;
+    }
 </style>
     <div class="container mt-5">
         <h2>DM　送受信ボックス</h2>
@@ -34,11 +46,15 @@
                     <div class="imgname">
                         <!-- プロフィール画像 -->
                         <div class="twitter__profile">
-                            <img src="{{ Storage::url('imgs/' .$otherUser->img) }}" alt="" class="size">
+                            <img src="{{ $otherUser->img ? Storage::url('imgs/' .$otherUser->img) : asset('images/default-profile.png') }}" alt="" class="size">
                         </div>
                         <h5>{{ $otherUser->name }}</h5>
+                        <!-- 未読メッセージがある場合の赤い「未読」表示 -->
+                        @if ($unreadConversationIds->contains($conversationId))
+                            <span class="unread-badge">未読</span>
+                        @endif
                     </div>
-                    <p>最後のメッセージ：{{ $conversation->latestMessage ? $conversation->latestMessage->message : 'まだメッセージはありません' }}</p>
+                    <p><span class="saigo">最後のメッセージ：</span>{{ $conversation->latestMessage ? $conversation->latestMessage->message : 'まだメッセージはありません' }}</p>
                     <small>{{ $conversation->latestMessage ? $conversation->latestMessage->created_at->format('Y-m-d H:i') : '' }}</small>
                 </a>
             @endforeach
