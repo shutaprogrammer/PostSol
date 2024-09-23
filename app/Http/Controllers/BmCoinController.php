@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Status;
 use App\Models\Post;
 use App\Models\Ad;
+use App\Models\Message;
 
 
 class BmCoinController extends Controller
@@ -126,7 +127,19 @@ class BmCoinController extends Controller
         }
         // 広告データのサンプル
         $ads = Ad::all();  // 全ての広告を取得
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
+        
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads', 'unreadMessagesCount'));
     }
     function CoinComplete200()
     {
@@ -218,7 +231,19 @@ class BmCoinController extends Controller
         }
         // 広告データのサンプル
         $ads = Ad::all();  // 全ての広告を取得
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
+        
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads', 'unreadMessagesCount'));
     }
     function CoinComplete300()
     {
@@ -310,7 +335,19 @@ class BmCoinController extends Controller
         }
         // 広告データのサンプル
         $ads = Ad::all();  // 全ての広告を取得
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
+        
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads', 'unreadMessagesCount'));
     }
     function CoinComplete400()
     {
@@ -403,7 +440,19 @@ class BmCoinController extends Controller
         }
         // 広告データのサンプル
         $ads = Ad::all();  // 全ての広告を取得
-            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads'));
+        
+        //未読DM
+        $unreadMessagesCount = Message::join('conversations', 'messages.conversation_id', '=', 'conversations.id')
+        ->where(function($query) {
+            $query->where('conversations.user_one_id', Auth::id())
+                  ->orWhere('conversations.user_two_id', Auth::id());
+        })
+        ->where('messages.sender_id', '!=', Auth::id())
+        ->where('messages.is_read', false)
+        ->latest()
+        ->count();
+
+            return view('mypages.mypage', compact('user', 'totalBookmarks', 'totalLikes', 'bookmarkedPosts', 'totalbookemarkedposts', 'status','totalCoins','freeuser', 'remainingTime', 'paidRemainingTime', 'ads', 'unreadMessagesCount'));
         
     }
 }
