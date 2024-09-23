@@ -22,7 +22,7 @@ class ContactController extends Controller
         $validated = $request->validate([
         'email' => 'required|email',
         'category' => 'required',
-        'title' => 'required',
+        'title' => 'nullable|string|max:150',
         'detail' => 'required',
         ]);
 
@@ -41,7 +41,7 @@ class ContactController extends Controller
         $validated = $request->validate([
             'email' => 'required|email',
             'category' => 'required',
-            'title' => 'required',
+            'title' => 'nullable|string|max:150',
             'detail' => 'required',
         ]);
 

@@ -11,3 +11,18 @@
 .custom-alert {
     margin-bottom: 15px; /* 他の要素とのスペースを確保 */
 }
+
+/* CSSに !important を追加してスタイルを強制適用 */
+.like-button i.far {
+    color: #657786 ; /* デフォルトの灰色 */
+}
+
+.like-button.liked i.fas {
+    color: #e0245e ; /* いいね済みの赤色 */
+}
+
+.like-button.liked i {
+    color: #e0245e ; /* いいね済みの赤色 */
+}
+
+

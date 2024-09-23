@@ -31,17 +31,21 @@ class MessageController extends Controller
         ]);
     }
 
+
     $conversationId = $conversation->id;//レコードからidを抽出
     // 取得もしくは作成したconversationのレコードのidをindexルートを経由して、indexメソッドに$conversationIdを渡す。
     return redirect()->route('messages.index', compact('conversationId'));
 }
+
 
 public function index($conversationId)//conversationIdでDMを特定し、メッセージを含んだ状態でviewを表示するために使用。
 {
     // メッセージ一覧を取得
     $messages = Message::where('conversation_id', $conversationId)->with('sender')//with senderとすることモデルのリレイションを利用して、index viewにてuserレコードを引っ張れるようにする。
         ->orderBy('created_at', 'asc')
+
         ->get();//storeメソッドで作成したメッセージを、二人の共有番号であるconversationIdで特定して全取得。
+
 
     // メッセージ送信ページにデータを渡す
     return view('messages.index', compact('messages', 'conversationId'));//二人の個人チャット(共有しているconversationId)にて全messagesをindex個人チャットviewに渡して表示。

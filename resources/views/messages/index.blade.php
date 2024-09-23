@@ -242,6 +242,7 @@ use Illuminate\Support\Facades\Auth;
         <!-- メッセージ一覧表示 -->
         <div class="messages-list">
             @foreach ($messages as $message)
+            
             @if(Auth::user()->id == $message->sender_id)
                 <div class="wakumine">
                     <div class="message-item mine ">
@@ -268,6 +269,7 @@ use Illuminate\Support\Facades\Auth;
                         </div>
                         <p class="naiyou">{{ $message->message }}</p> 
                     </div>
+
                 </div>
                 <span class="aitetime">{{ $message->created_at->format('Y-m-d H:i') }}</span>
             
