@@ -9,9 +9,9 @@
         font-size: 20px !important;
     }
 
-    input .is-invalid {
-        border-color: red !important;
-    }
+
+</style>
+
 </style>
 
 <body>
@@ -22,7 +22,7 @@
             @csrf
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="username" class="col-sm-2 col-form-label">作成者様</label><small>（現在ログイン中のアカウント）</small>
+                    <label for="username" class="col-sm-2 col-form-label">作成者様</label><small>（ログイン中のアカウント）</small>
                     <input type="text" readonly class="form-control-plaintext border-primary-subtle w-100 p-3" value="{{ Auth::user()->name }}">
                 </div>
                 <div class="col-md-6">
@@ -34,7 +34,7 @@
             <hr>
             <div>
                 <label for="category" class="form-label">カテゴリー</label><small>（必須）</small>
-                <select name="category" id="category" class="form-select border border-primary-subtle w-100 p-3" aria-label="category">
+                <select name="category" id="category" class="form-select bg-danger-subtle border border-primary-subtle w-100 p-3" aria-label="category">
                     <option selected disabled>問い合わせのカテゴリーを選ぶ</option>
                     <option value="会員登録">登録情報について</option>
                     <option value="サブスク">サブスクについて</option>
@@ -46,53 +46,84 @@
 
             <div class="col-12">
                 <label for="title" class="form-label">件名</label><small>（任意）</small>
-                <input type="text" name="title" class="form-control border-primary-subtle w-100 p-3" id="" placeholder="">
+                <input type="text" name="title" class="form-control border-primary-subtle w-100 p-3" id="title">
+                <div class="text-end"><small id="charTitleCount" class="text-muted">0 / 80文字</small></div>
             </div>
             <div class="mb-3">
                 <label for="detail" class="form-label">本文</label><small>（必須）</small>
-                <textarea name="detail" id="detail" class="form-control border-primary-subtle w-100 p-3" id="exampleFormControlTextarea1" rows="10"></textarea>
+                <textarea name="detail" id="detail" class="form-control border-primary-subtle w-100 p-3" rows="10"></textarea>
+                <div class="text-end"><small id="charDetailCount" class="text-muted">0 / 5000文字</small></div>
             </div>
         
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary btn-lg">確認画面へ</button>
+            <div class="d-flex flex-column align-items-center">
+                <button type="submit" class="btn btn-primary btn-lg mb-2">確認画面へ</button>
+                <a href="{{ route('posts.index') }}" class="btn btn-outline-dark">キャンセル</a>
             </div>
-
-            <div><a href=""><button type="button" class="btn btn-outline-dark">キャンセル</button></a></div>
         </form>
 
     </div>
 
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(event){
-            const emailInput = document.getElementById('email');
-            const categoryInput = document.getElementById('category');
-            const detailInput = document.getElementById('detail');
-    
-            if(emailInput.value === ''){
-                emailInput.classList.add('is-invalid');
-                event.preventDefault();
-            } else {
-                emailInput.classList.remove('is-invalid');
+        //email空白のとき赤
+        function empty(){
+            const email = document.getElementById('email');
+
+            if(email.value.trim() === ''){
+                email.classList.add('bg-danger-subtle');
+            } else{
+                email.classList.remove('bg-danger-subtle');
             }
-    
-            if(categoryInput.value === '' || categoryInput.value === '問い合わせのカテゴリーを選ぶ'){
-                categoryInput.classList.add('is-invalid');
-                event.preventDefault();
-            } else {
-                categoryInput.classList.remove('is-invalid');
+        }
+
+        document.getElementById('email').addEventListener('input', empty);
+
+        //カテゴリー未選択の時赤
+        const category = document.getElementById('category');
+
+        function notSelect(){
+            if(category.value !== '問い合わせのカテゴリーを選ぶ'){
+                category.classList.remove('bg-danger-subtle');
+            } else{
+                category.classList.add('bg-danger-subtle');
             }
-    
-            if(detailInput.value === ''){
-                detailInput.classList.add('is-invalid');
-                event.preventDefault();
-            } else {
-                detailInput.classList.remove('is-invalid');
+        }
+
+        document.getElementById('category').addEventListener('change', notSelect);
+        
+        //文字カウントとオーバーのとき赤
+        const maxCharsTitle = 80;
+        const maxCharsDetail = 5000;
+
+        function updateCharsCount() {
+            const title = document.getElementById('title');
+            const charTitleCount = document.getElementById('charTitleCount');
+            const currentTitleLength = title.value.length;
+
+            const detail = document.getElementById('detail');
+            const charDetailCount = document.getElementById('charDetailCount');
+            const currentDetailLength = detail.value.length;
+
+            charTitleCount.textContent = `${currentTitleLength} / ${maxCharsTitle}文字`;
+            charDetailCount.textContent = `${currentDetailLength} / ${maxCharsDetail}文字`;
+        
+            if(currentTitleLength > maxCharsTitle){
+                title.classList.add('bg-danger-subtle')
+            } else{
+                title.classList.remove('bg-danger-subtle')
             }
-        });
+
+            if(currentDetailLength > maxCharsDetail){
+                detail.classList.add('bg-danger-subtle')
+            } else{
+                detail.classList.remove('bg-danger-subtle')
+            }
+        }
+
+        document.getElementById('title').addEventListener('input', updateCharsCount);
+        document.getElementById('detail').addEventListener('input', updateCharsCount);
+
     </script>
     
 
-
-</body>
 @endsection
