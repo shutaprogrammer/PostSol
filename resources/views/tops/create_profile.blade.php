@@ -75,14 +75,21 @@ use Illuminate\Support\Facades\Auth;
         @csrf
         @method('put')
 
-        <h2 class="title">プロフィールを作成しよう！！</h2>
+        <h2 class="title">プロフィールを作成・編集しよう！！</h2>
 
         <div class="icon">
             <div>
                 <label for="img">アイコン（ファイルサイズ2MBまで）</label>
             </div>
             <div>
+                @if($user->img)
+                <div class="text-center mb-4">
+                    <p>現在のアイコン</p>
+                    <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;">
+                </div>
+                @endif
                 <input type="file" name="img" id="img" value="{{ $user->img }}">
+                <div>※アイコンを変更しない場合、このままにしてください。</div>
             </div>
         </div>
 

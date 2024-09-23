@@ -61,11 +61,13 @@ class UserController extends Controller
         $user->prefecture = $request->prefecture;
         $user->city = $request->city;
 
-        if(request('img')) {
+        if($request->hasFile('img')) {
             $original = request()->file('img')->getClientOriginalName();
             $name = date('Ymd_His'). '_' . $original;
             request()->file('img')->move('storage/imgs', $name);
             $user->img = $name;
+        } else {
+            $user->img = $user->getOriginal('img');
         }
 
         $user->save();
