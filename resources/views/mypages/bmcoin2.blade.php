@@ -1,7 +1,7 @@
 @extends('layouts.app_original')
 @section('content')
     <style>
-        body {
+        /* body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
@@ -9,7 +9,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
+        } */
 
         h3 {
             font-size: 1.5rem;
@@ -26,6 +26,7 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
+            margin-bottom: 80%;
         }
 
         span {
