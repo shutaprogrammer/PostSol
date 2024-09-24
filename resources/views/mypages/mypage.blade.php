@@ -127,7 +127,7 @@ h6{
         <div class="text-center mb-4">
             <p class="h4">{{ $user->name }}</p>
 
-            <p>{{ $user->birth }}生まれ　{{ $user->country }} {{ $user->prefecture }} {{ $user->city }}居住</p>
+            <p>{{ $user->birth }}生まれ　{{ $user->country }} {{ $user->prefecture }} {{ $user->city }}在住</p>
             <hr>
             <p class="amounts">ブックマーク: <span class="badge bg-info">{{ $totalBookmarks }}</span> いいね: <span class="badge bg-success">{{ $totalLikes }}</span> 保有コイン: <span class="badge bg-warning">{{ $totalCoins }}</span> ステータス： <span class="badge bg-primary">{{ $status->status }}</span></p>
             @if($remainingTime)

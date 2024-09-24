@@ -95,7 +95,7 @@ use Illuminate\Support\Facades\Auth;
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
                         <img src="{{ Storage::url('imgs/ロゴ.png') }}" alt="ロゴ">
-                            PostSol 〜不満からビジネスへ〜
+                            PostSol_管理者
                     </a>
                     <a href="{{ route('admin.menu') }}" style="text-decoration:none; color:#ffffff;"><p>管理者TOP</p></a>
                 </div>

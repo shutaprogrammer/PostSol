@@ -1,4 +1,4 @@
-@extends('layouts.app_original')
+@extends('admin.admin_layout')
 
 @section('content')
     <div class="container mt-5">
@@ -47,7 +47,11 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary">広告を追加</button>
+            <div  class="mt-3 d-flex flex-column align-items-center justify-content-center">
+                <button type="submit" class="btn btn-primary">広告を追加</button>
+                <a href="{{ route('admin.menu') }}"><button type="button" class="btn btn-outline-secondary mt-3">管理者TOPへ</button></a>
+            </div>
+            
         </form>
     </div>
 @endsection

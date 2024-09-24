@@ -1,7 +1,62 @@
 @extends('admin.admin_layout')
 @section('content')
 
+
     <style>
+            #serach {
+        display: flex !important; /* フレックスボックスを使って配置 */
+        justify-content: end !important; /* スペースを均等に分配 */
+    }
+
+    @media (max-width: 768px) {
+        #search-var {
+            justify-content: end !important;
+            margin-left: 25px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        #button {
+            display: flex;
+            justify-content: end;
+        }
+    }
+
+
+    .btn {
+        min-width: 80px; /* 最小幅を設定 */
+        padding: 5px 8px; /* パディングを調整 */
+        font-size: 1rem; /* フォントサイズを調整 */
+        line-height: 1.5;
+    }
+    
+    @media (min-width: 768px) {
+        .btn {
+            min-width: 100px; /* PCでは幅を広く */
+        }
+    }
+
+    @media (max-width: 767px) {
+        .btn {
+            min-width: 80px; /* スマホでは幅を狭く */
+        }
+    }
+
+
+
+
+    @media (max-width: 768px) {
+        table {
+            font-size: 14px; /* フォントサイズを小さく */
+            width: 100%; /* 幅を100%に設定 */
+        }
+        th, td {
+            white-space: nowrap; /* テキストの折り返しを防ぐ */
+            overflow: hidden; /* はみ出した部分を隠す */
+            text-overflow: ellipsis; /* はみ出した部分に省略記号を表示 */
+        }
+    }
+
         /* 未読 */
         .all{
             background-color: #ffffff !important; 
@@ -49,44 +104,27 @@
 
     <h1>お問い合わせ受信BOX</h1>
 
-    <div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+    {{-- 検索 --}}
+    <nav class="navbar" style="width: 90%;" id="search-var">
+        <div class="container-fluid" id="serach">
+            <form method="GET" action="{{ route('admin.inbox') }}">
+                <div class="row" id="input">
+
+                    <div class="col-12 col-md-3 mb-2">
+                        <input type="date" name="date" class="form-control" value="{{ request('date') }}" /> <!-- 日付入力 -->
+                    </div>
+                    <div class="col-12 col-md-6 mb-2">
+                        <input type="text" name="query" class="form-control" value="{{ request('query') }}" placeholder="user名/理由">
+                    </div>
+                    
+                    <div id="button" class="col-12 col-md-3 mb-1 d-flex">
+                        <button type="submit" class="btn btn-outline-success btn-sm me-2">検索</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="reset-btn">リセット</button>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </form>
+        </div>
+    </nav>
 
     <div class="mt-3">
         <ul class="nav nav-tabs justify-content-end">
@@ -115,53 +153,45 @@
                     @elseif ($contact->status == '完了')
                         status-complete
                     @endif">
-                    {{ $contact->status }} <small>（更新日：{{ $contact->updated_at->format('Y/m/d H:i') }}）</small>
+                    {{ $contact->status }} <small></small>
                 </div>
                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item">受信日{{ $contact->created_at->format('Y/m/d H:i') }}</li>
                     <li class="list-group-item">送信者：{{ $contact->user->name }}（{{ $contact->user->email }}）</li>
                     <li class="list-group-item">返信先：{{ $contact->email }}</li>
                     <li class="list-group-item">〈{{ $contact->category }}〉{{ \Illuminate\Support\Str::limit($contact->title, 15, '...') }}</li>
                     <li class="list-group-item">{{ \Illuminate\Support\Str::limit($contact->detail, 50, '...') }}</li>
                     <li class="list-group-item d-flex">
-                        <button type="button" class="btn btn-outline-dark ms-auto" data-bs-toggle="modal" data-bs-target="#contactModal-{{ $contact->id }}">
+                        <small>更新：{{ $contact->updated_at->format('Y/m/d H:i') }}</small>
+                        <button type="button" class="btn btn-outline-dark ms-auto bt-sm" data-bs-toggle="modal" data-bs-target="#contactModal-{{ $contact->id }}">
                             詳細
                         </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="contactModal-{{ $contact->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $contact->created_at }}受信</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">投稿者：{{ $contact->user->name }}</li>
-                                            <li class="list-group-item">返信先：{{ $contact->user->email }}</li>
-                                            <li class="list-group-item">タイトル：〈{{ $contact->category }}〉{{ $contact->title }}</li>
-                                            <li class="list-group-item">詳細：{{ $contact->detail }}</li>
-                                        </ul> 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <div>ステータス変更日:{{ $contact->updated_at }}</div>
-                                        <div class="btn-group">
-                                            <form action="{{ route('contact.status', $contact->id) }}" method="POST">
-                                                @csrf
-                                                <select name="status" onchange="this.form.submit()">
-                                                    <option value="未" {{ $contact->status == '未' ? 'selected' : '' }}>未</option>
-                                                    <option value="対応中" {{ $contact->status == '対応中' ? 'selected' : '' }}>対応中</option>
-                                                    <option value="完了" {{ $contact->status == '完了' ? 'selected' : '' }}>完了</option>
-                                                </select>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </li>
+                </ul>
+            </div>
+        @endforeach
 
-                    {{-- <li class="list-group-item">
+
+
+        <!-- Modal -->
+        @foreach($contacts as $contact)
+        <div class="modal fade" id="contactModal-{{ $contact->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $contact->created_at }}受信</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">投稿者：{{ $contact->user->name }}</li>
+                            <li class="list-group-item">返信先：{{ $contact->user->email }}</li>
+                            <li class="list-group-item">タイトル：〈{{ $contact->category }}〉{{ $contact->title }}</li>
+                            <li class="list-group-item">詳細：{{ $contact->detail }}</li>
+                        </ul> 
+                    </div>
+                    <div class="modal-footer">
+                        <div>ステータス変更日:{{ $contact->updated_at }}</div>
                         <div class="btn-group">
                             <form action="{{ route('contact.status', $contact->id) }}" method="POST">
                                 @csrf
@@ -172,9 +202,10 @@
                                 </select>
                             </form>
                         </div>
-                    </li>  --}}
-                </ul>
+                    </div>
+                </div>
             </div>
+        </div>
         @endforeach
     </div>
 
@@ -187,5 +218,33 @@
     <div class="mt-3 d-flex justify-content-center">
         <a href="{{ route('admin.menu') }}"><button type="button" class="btn btn-outline-secondary">管理者TOPへ</button></a>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'GET',
+                data: $(this).serialize(),
+                success: function(response){
+                    $('.row.d-flex.justify-content-center').html(response);
+                }
+            });
+
+        });
+
+    
+        $('#reset-btn').on('click', function(){
+
+                $('input[name="query"]').val('');
+                $('input[name="date"]').val('');
+                $("form").submit();
+
+            });
+    });
+</script>
 
 @endsection
