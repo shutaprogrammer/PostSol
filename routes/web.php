@@ -47,7 +47,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
 
 //新規登録関連
-Route::get('/tops/{id}/create_profile', [UserController::class, 'edit']->middleware('auth'))->name('profile.edit');
+Route::get('/tops/{id}/create_profile', [UserController::class, 'edit'])->middleware('auth')->name('profile.edit');
 Route::put('/tops/{id}', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
 //Post
