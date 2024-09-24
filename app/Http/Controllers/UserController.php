@@ -41,7 +41,7 @@ class UserController extends Controller
             '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県', 
             '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県', 
             '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県', 
-            '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
+            '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県', 'その他'
         ];    
         return view('tops.create_profile', compact('user', 'years', 'countries', 'prefectures'));
     }
@@ -53,7 +53,6 @@ class UserController extends Controller
         $request->validate([
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' //2MBまで
         ]);
-
         $user->img = $request->img;
         $user->gender = $request->gender;
         $user->birth = $request->birth;

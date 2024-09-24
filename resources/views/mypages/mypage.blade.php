@@ -8,6 +8,26 @@
     object-fit: cover; /* コンテナ内で収めつつ、余分な部分はカット */
 }
 
+    .fuchidori{
+    text-shadow:
+    1px 1px 0px #000,
+    -1px 1px 0px #000,
+    1px -1px 0px #000,
+    -1px -1px 0px #000;
+    }
+
+    /* 左の三角ボタン */
+    .carousel-control-prev-icon {
+        background-color: rgba(0, 0, 0, 0.5); /* 黒の半透明背景 */
+        border-radius: 50%; /* ボタンを丸くする */
+    }
+
+    /* 右の三角ボタン */
+    .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5); /* 黒の半透明背景 */
+        border-radius: 50%; /* ボタンを丸くする */
+    }
+
 /* プロフィールセクション */
 .profile-section {
     background-color: white;
@@ -193,7 +213,7 @@ h6{
                 @foreach ($ads as $index => $ad)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                     <img src="{{ Storage::url($ad->image) }}" class="d-block mx-auto" alt="{{ $ad->title }}" style="max-height: 200px; object-fit: cover;">
-                    <div class="carousel-caption">
+                    <div class="carousel-caption fuchidori">
                         <h5>{{ $ad->title }}</h5>
                         <p>{{ $ad->description }}</p>
                         <a href="{{ $ad->link }}" class="btn btn-primary" target="_blank">詳しくはこちら</a>
