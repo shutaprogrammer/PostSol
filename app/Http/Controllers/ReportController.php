@@ -31,7 +31,7 @@ class ReportController extends Controller
         $validated = $request->validate([
             'post_id' => 'required|exists:posts,id',
             'reason' => 'required|string', // DBカラム名に合わせる
-            'detail' => 'nullable|string', // DBカラム名に合わせる
+            'detail' => 'nullable|string|max:1000', // DBカラム名に合わせる
         ]);
 
         // $post = Post::findOrFail($postId);
