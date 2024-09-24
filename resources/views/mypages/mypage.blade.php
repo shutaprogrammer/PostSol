@@ -214,7 +214,7 @@ h6{
         </div>
     </section>
 
-    {{-- Gemini --}}
+    {{-- Gemini
     <form action="{{route('entry')}}" method="post">
         @csrf
         <textarea name="toGeminiText" autofocus>@isset($result['task']){{$result['task']}}@endisset </textarea>
@@ -225,5 +225,5 @@ h6{
     
     @isset($result)
     <p>{!!$result['content']!!}</p>
-    @endisset
+    @endisset --}}
 @endsection
