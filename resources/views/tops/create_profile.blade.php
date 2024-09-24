@@ -1,9 +1,3 @@
-<?php
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -15,10 +9,16 @@ use Illuminate\Support\Facades\Auth;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
     <style>
+    body {
+        background-color: #ffffff; /* 背景を白に */
+        font-family: Arial, sans-serif; /* 洗練されたフォントを使用 */
+        color: #333333; /* 文字色を落ち着いた色に */
+    }
+
     /* ナビゲーションバーのスタイル */
     .custom-navbar {
-        background-color: black;
-        padding: 10px; /* 上下のパディングを追加 */
+        background-color: #333333;
+        padding: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -26,43 +26,78 @@ use Illuminate\Support\Facades\Auth;
 
     /* タイトルの色を白に設定 */
     .navbar-brand {
-        color: #ffffff !important; /* 文字色を白に設定 */
+        color: #ffffff !important;
         font-weight: bold;
-        font-size: 100%; /* タイトルのサイズを大きくする */
+        font-size: 120%;
         display: flex;
         align-items: center;
     }
 
     /* 画像のサイズ調整 */
     .navbar-brand img {
-        max-height: 40px; /* 画像の高さを最大40pxに設定 */
-        margin-right: 10px; /* 画像とテキストの間にマージンを追加 */
+        max-height: 40px;
+        margin-right: 10px;
     }
 
-    /* 他のリンクのスタイル */
-    .navbar-nav .nav-link {
-        color: #bdc3c7;
+    /* フォームのスタイル */
+    .container {
+        max-width: 700px;
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .navbar-nav .nav-link:hover {
-        color: #ecf0f1;
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333333;
     }
 
-    /* ハンバーガーメニューアイコン */
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28236, 240, 241, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        color: #555555;
+    }
+
+    input[type="text"], input[type="file"], select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    button {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
     }
 
     /* フッターのスタイル */
     footer {
-        background-color: black;
+        background-color: #333333;
         color: #ffffff;
         text-align: center;
         padding: 10px 0;
-        /* position: fixed; */
-        margin-top: 8vh;
-        bottom: 0;
-        width: 100%;
+        margin-top: 40px;
     }
 </style>
 </head>
@@ -75,11 +110,17 @@ use Illuminate\Support\Facades\Auth;
         @csrf
         @method('put')
 
-        <h2 class="title">プロフィールを作成・編集しよう！！</h2>
+        <h2 class="title">プロフィール作成・編集</h2>
+        <p>以下の項目にプロフィール情報を入力してください。名前とアイコンのみ他のユーザーに公開されます。<a href="PostSol プライバシーポリシー"></a></p>
 
+        <div class="name">
+            <label>●名前</label>
+            <input type="text" name="name" value="{{ $user->name }}">
+        </div>
+        
         <div class="icon">
             <div>
-                <label for="img">アイコン（ファイルサイズ2MBまで）</label>
+                <label for="img">●アイコン（ファイルサイズ2MBまで）</label>
             </div>
             <div>
                 @if($user->img)
@@ -88,78 +129,60 @@ use Illuminate\Support\Facades\Auth;
                     <img src="{{ Storage::url('imgs/' .$user->img) }}" alt="" class="rounded-circle shadow" style="width: 100px; height: 100px; object-fit: cover;">
                 </div>
                 @endif
-                <input type="file" name="img" id="img" value="{{ $user->img }}">
+                <input type="file" name="img" id="img">
                 <div>※アイコンを変更しない場合、このままにしてください。</div>
             </div>
         </div>
 
         <div class="gender">
+            <label>●性別</label>
             <div>
-                <label>性別</label>
+                <label for="male">男性</label>
+                <input type="radio" id="male" name="gender" value="男性" {{ $user->gender == '男性' ? 'checked' : '' }}>
             </div>
-                <div>
-                    <input type="radio" id="male" name="gender" value="男性" 
-                    {{ $user->gender == '男性' ? 'checked' : '' }}>
-                    <label for="male">男性</label>
-                </div>
-                <div>
-                    <input type="radio" id="female" name="gender" value="女性" 
-                    {{ $user->gender == '女性' ? 'checked' : '' }}>
-                    <label for="female">女性</label>
-                </div>
-                <div>
-                    <input type="radio" id='no_answer' name="gender" value="未回答" 
-                    {{ $user->gender == '未回答' ? 'checked' : '' }}>
-                    <label for="no_answer">未回答</label>
-                </div>
+            <div>
+                <label for="female">女性</label>
+                <input type="radio" id="female" name="gender" value="女性" {{ $user->gender == '女性' ? 'checked' : '' }}>
+            </div>
+            <div>
+                <label for="no_answer">未回答</label>
+                <input type="radio" id='no_answer' name="gender" value="未回答" {{ $user->gender == '未回答' ? 'checked' : '' }}>
+            </div>
         </div>
 
-        <div >
-            <div class="birth">
-                <label>生まれ年</label>
-            </div>
-            <div>
-                <select name="birth" id="birth">
-                    @foreach($years as $year)
-                    <option value="{{ $year }}" {{ $user->birth == $year ? 'selected' : '' }}>{{ $year }}</option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="birth">
+            <label>●生まれ年</label>
+            <select name="birth" id="birth">
+                <option value="">選択してください</option>
+                @foreach($years as $year)
+                <option value="{{ $year }}" {{ $user->birth == $year ? 'selected' : '' }}>{{ $year }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="country">
-            <div>
-                <label>お住まいの国</label>
-            </div>
-            <div>
-                <select name="country" id="country">
-                    @foreach($countries as $country)
-                    <option value="{{ $country }}" {{ $user->country == $country ? 'selected' : '' }}>{{ $country }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <label>●お住まいの国</label>
+            <select name="country" id="country">
+                <option value="">選択してください</option>
+                @foreach($countries as $country)
+                <option value="{{ $country }}" {{ $user->country == $country ? 'selected' : '' }}>{{ $country }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="prefecture">
-            <div>
-                <label>お住まいの都道府県/州</label>
-            </div>
-            <div>
-                <select name="prefecture" id="prefecture">
+            <label>●お住まいの都道府県/州</label>
+            <select name="prefecture" id="prefecture">
+                <option value="">選択してください</option>
                 @foreach($prefectures as $prefecture)
                 <option value="{{ $prefecture }}" {{ $user->prefecture == $prefecture ? 'selected' : '' }}>{{ $prefecture }}</option>
                 @endforeach
-                </select>
-            </div>
+            </select>
         </div>
 
         <div class="city">
-            <div>
-                <label>お住まいの市町村</label>
-            </div>
-            <div>
-                <input type="text" name="city" placeholder="広島市" value="{{ $user->city }}">
-            </div>
+            <label>●お住まいの市町村</label>
+            <input type="text" name="city" placeholder="例：札幌市" value="{{ $user->city }}">
         </div>
 
         <button type="submit" class="button">プロフィール作成</button>
@@ -176,8 +199,6 @@ use Illuminate\Support\Facades\Auth;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<head><link rel="stylesheet" href="{{ asset('css/create_profile.css') }}"></head>
-
 
 
 
