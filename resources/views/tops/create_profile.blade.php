@@ -106,7 +106,7 @@
 <!-- メインコンテンツ -->
 <div class="container mt-5">
     <div class="whole">
-        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data" id='myForm'>
         @csrf
         @method('put')
 
@@ -115,7 +115,7 @@
 
         <div class="name">
             <label>●名前</label>
-            <input type="text" name="name" value="{{ $user->name }}">
+            <input id = "name" type="text" name="name" value="{{ $user->name }}">
         </div>
         
         <div class="icon">
@@ -187,6 +187,19 @@
 
         <button type="submit" class="button">プロフィール作成</button>
         </form>
+
+        <script>
+            // フォーム送信前にバリデーションを実行
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                const name = document.getElementById('name').value;
+    
+                // 入力内容を確認する
+                if (!name) {
+                    event.preventDefault();  // フォームの送信を防ぐ
+                    alert('名前は必ず入力して下さい。');
+                }
+            });
+        </script>
     </div>
 </div>
 
