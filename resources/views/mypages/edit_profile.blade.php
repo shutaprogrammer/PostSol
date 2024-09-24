@@ -1,4 +1,4 @@
-@extends('layouts.app_original')
+{{-- @extends('layouts.app_original')
 @section('content')
     <div>
         <form action="{{ route('mypages.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
@@ -43,4 +43,4 @@
         <button type="submit">更新する</button>
         </form>
     </div>
-@endsection
+@endsection --}}
