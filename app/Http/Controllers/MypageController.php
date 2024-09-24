@@ -15,13 +15,6 @@ use App\Models\Message;
 
 class MypageController extends Controller
 {
-    // public function index()
-    // {
-    //     // マイページのビューを返す処理
-    //     $user = Auth::user();
-    //     return view('mypages.mypage', compact('user'));
-    // }
-
     public function show()
     {
         // ログインしているユーザーの情報を取得

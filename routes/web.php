@@ -47,16 +47,15 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
 
 //新規登録関連
-Route::get('/home/{id}',[UserController::class, 'show'])->name('home.show');
-Route::get('/tops/{id}/create_profile', [UserController::class, 'edit'])->name('profile.edit');
-Route::put('/tops/{id}', [UserController::class, 'update'])->name('profile.update');
+Route::get('/tops/{id}/create_profile', [UserController::class, 'edit']->middleware('auth'))->name('profile.edit');
+Route::put('/tops/{id}', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
 //Post
 Route::get('/posts/index', [PostController::class, 'index'])->middleware('auth')->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->name('posts.create');
 Route::post('/posts', [PostController::class, 'check'])->middleware('auth')->name('posts.check');
-Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-Route::post('/posts/{post}/extend', [PostController::class, 'extend'])->name('posts.extend');
+Route::post('/posts/store', [PostController::class, 'store'])->middleware('auth')->name('posts.store');
+Route::post('/posts/{post}/extend', [PostController::class, 'extend'])->middleware('auth')->name('posts.extend');
 
 //Report
 Route::get('/reports/create/{post}', [ReportController::class, 'create'])->name('reports.create');
@@ -66,29 +65,27 @@ Route::get('/reports/complete', [ReportController::class, 'complete'])->name('re
 
 
 //mypage
-Route::get('/mypages/mypage', [MypageController::class, 'show'])->name('mypages.show');
-Route::post('/mypages/mypage', [MypageController::class, 'index'])->name('mypages.mypage');
-Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->name('mypages.edit');
-
-Route::put('/mypages/{id}', [UserController::class, 'update'])->name('mypages.update');
+Route::get('/mypages/mypage', [MypageController::class, 'show'])->middleware('auth')->name('mypages.show');
+Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->middleware('auth')->name('mypages.edit');
+Route::put('/mypages/{id}', [UserController::class, 'update'])->middleware('auth')->name('mypages.update');
 
 //アンケート
 Route::get('/tops/question', [TopController::class, 'index'])->middleware('auth')->name('tops.question');
 Route::get('/questions/index', [QuestionController::class, 'index'])->middleware('auth')->name('questions.index');
-Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
+Route::post('/questions/store', [QuestionController::class, 'store'])->middleware('auth')->name('questions.store');
 
 //ブックマーク
-Route::post('/post/{post}/bookmarks', [BookmarkController::class, 'store'])->name('bookmark');
-Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy'])->name('unbookmark');
+Route::post('/post/{post}/bookmarks', [BookmarkController::class, 'store'])->middleware('auth')->name('bookmark');
+Route::delete('/post/{post}/unbookmarks', [BookmarkController::class, 'destroy'])->middleware('auth')->name('unbookmark');
 
 //ブックマークコインをAmazonギフト券に交換
-Route::get('/mypages/exchange', [ExchangeController::class, 'index'])->name('mypages.exchange');
-Route::post('/exchange/process', [ExchangeController::class, 'process'])->name('exchange.process');
-Route::post('/amazon/exchange', [AmazonController::class, 'exchange'])->name('amazon.exchange');
+Route::get('/mypages/exchange', [ExchangeController::class, 'index'])->middleware('auth')->name('mypages.exchange');
+Route::post('/exchange/process', [ExchangeController::class, 'process'])->middleware('auth')->name('exchange.process');
+Route::post('/amazon/exchange', [AmazonController::class, 'exchange'])->middleware('auth')->name('amazon.exchange');
 
 //いいね！
-Route::post('/post/{post}/likes', [LikeController::class, 'store'])->name('like');
-Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->name('unlike');
+Route::post('/post/{post}/likes', [LikeController::class, 'store'])->middleware('auth')->name('like');
+Route::delete('/post/{post}/unlike', [LikeController::class, 'destroy'])->middleware('auth')->name('unlike');
 
 //サブスク
 Route::get('/mypages/subscription1', [SubscriptionController::class, 'index'])->middleware('auth')->name('mypages.subscription1');
@@ -107,40 +104,40 @@ Route::post('/ads', [AdController::class, 'store'])->name('ads.store');
 
 // DM
 Route::middleware('auth')->group(function() {
-    Route::post('conversations', [MessageController::class, 'createConversation'])->name('conversations.create');
-    Route::get('conversations/{conversationId}/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('conversations/{conversationId}/messages', [MessageController::class, 'store'])->name('messages.store');
-    Route::get('messages/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
+    Route::post('conversations', [MessageController::class, 'createConversation'])->middleware('auth')->name('conversations.create');
+    Route::get('conversations/{conversationId}/messages', [MessageController::class, 'index'])->middleware('auth')->name('messages.index');
+    Route::post('conversations/{conversationId}/messages', [MessageController::class, 'store'])->middleware('auth')->name('messages.store');
+    Route::get('messages/inbox', [MessageController::class, 'inbox'])->middleware('auth')->name('messages.inbox');
 });
 
 //クレジットカード
 Route::get('payment/create', [PaymentController::class, 'create'])->middleware('auth')->name('payment.create');
-Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->name('payment.createCharge');
+Route::post('payment/createCharge', [PaymentController::class, 'createCharge'])->middleware('auth')->name('payment.createCharge');
 
-Route::post('/subscription/complete', [SubscriptionController::class, 'complete'])->name('subscription.complete');
+Route::post('/subscription/complete', [SubscriptionController::class, 'complete'])->middleware('auth')->name('subscription.complete');
 
 Route::get('/mypage', function () {
     return view('mypages.mypage'); // mypagesディレクトリ内のmypage.blade.php
 })->middleware('auth')->name('mypage');
 
 //BMコイン購入
-Route::get('payment/Coincreate', [PaymentController::class, 'Coincreate'])->name('payment.Coincreate');
-Route::post('payment/CoinCharge', [PaymentController::class, 'CoinCharge'])->name('payment.CoinCharge');
-Route::post('/Coin/Complete100', [BmCoinController::class, 'CoinComplete100'])->name('Coin.Complete100');
-Route::post('/Coin/Complete200', [BmCoinController::class, 'CoinComplete200'])->name('Coin.Complete200');
-Route::post('/Coin/Complete300', [BmCoinController::class, 'CoinComplete300'])->name('Coin.Complete300');
-Route::post('/Coin/Complete400', [BmCoinController::class, 'CoinComplete400'])->name('Coin.Complete400');
+Route::get('payment/Coincreate', [PaymentController::class, 'Coincreate'])->middleware('auth')->name('payment.Coincreate');
+Route::post('payment/CoinCharge', [PaymentController::class, 'CoinCharge'])->middleware('auth')->name('payment.CoinCharge');
+Route::post('/Coin/Complete100', [BmCoinController::class, 'CoinComplete100'])->middleware('auth')->name('Coin.Complete100');
+Route::post('/Coin/Complete200', [BmCoinController::class, 'CoinComplete200'])->middleware('auth')->name('Coin.Complete200');
+Route::post('/Coin/Complete300', [BmCoinController::class, 'CoinComplete300'])->middleware('auth')->name('Coin.Complete300');
+Route::post('/Coin/Complete400', [BmCoinController::class, 'CoinComplete400'])->middleware('auth')->name('Coin.Complete400');
 
 Route::get('/bmcoin/index1', [BmCoinController::class, 'index1'])->middleware('auth')->name('bmcoin.index1');
 Route::get('/bmcoin/index2', [BmCoinController::class, 'index2'])->middleware('auth')->name('bmcoin.index2');
 Route::get('/bmcoin/index3', [BmCoinController::class, 'index3'])->middleware('auth')->name('bmcoin.index3');
 
 //お問い合わせ
-Route::get('/contact/form', [ContactController::class, 'form'])->name('contact.form');
-Route::post('/contact/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
-Route::get('/contact/complete', [ContactController::class, 'complete'])->name('contact.complete');
-Route::post('/admin/inbox/{id}/status', [ContactController::class, 'status'])->name('contact.status');
+Route::get('/contact/form', [ContactController::class, 'form'])->middleware('auth')->name('contact.form');
+Route::post('/contact/confirm', [ContactController::class, 'confirm'])->middleware('auth')->name('contact.confirm');
+Route::post('/contact/send', [ContactController::class, 'send'])->middleware('auth')->name('contact.send');
+Route::get('/contact/complete', [ContactController::class, 'complete'])->middleware('auth')->name('contact.complete');
+Route::post('/admin/inbox/{id}/status', [ContactController::class, 'status'])->middleware('auth')->name('contact.status');
 
 //管理者画面
 Route::get('/admin/menu',[AdminController::class, 'index'])->name('admin.menu');
