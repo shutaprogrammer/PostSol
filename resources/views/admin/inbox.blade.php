@@ -233,12 +233,16 @@
                     $('.row.d-flex.justify-content-center').html(response);
                 }
             });
+
         });
 
+    
         $('#reset-btn').on('click', function(){
+
                 $('input[name="query"]').val('');
                 $('input[name="date"]').val('');
                 $("form").submit();
+
             });
     });
 </script>
