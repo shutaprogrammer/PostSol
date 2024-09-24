@@ -54,6 +54,7 @@ class UserController extends Controller
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' //2MBまで
         ]);
 
+
         $user->name = $request->name;
         $user->img = $request->img;
         $user->gender = $request->gender;

@@ -130,5 +130,6 @@ class AdminController extends Controller
         return view('admin.inbox', compact('contacts'));
     }
 
+    
 
 }
