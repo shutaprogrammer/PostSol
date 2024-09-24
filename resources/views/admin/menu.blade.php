@@ -27,6 +27,7 @@
         #bodymiddle > ul > li > a {
             text-decoration: none;
             color: rgb(57, 57, 71);
+            font-size: min(20px , 4vw);
         }
 
         #bodyright{
@@ -43,8 +44,8 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><a href="{{ route('admin.reports') }}">通報履歴</a></li>
                     <li class="list-group-item"><a href="{{ route('admin.exchange') }}">アマギフ換金機歴</a></li>
-                    <li class="list-group-item"><a href="{{ route('admin.inbox') }}">お問い合わせ受信BOX</a></li>
-                    <li class="list-group-item"><a href="#">広告掲載</a></li>
+                    <li class="list-group-item"><a href="{{ route('admin.inbox') }}">お問い合わせBOX</a></li>
+                    <li class="list-group-item"><a href="{{ route('ads.create') }}">広告掲載</a></li>
                 </ul>
             </div>
             <div id="bodyright"></div>

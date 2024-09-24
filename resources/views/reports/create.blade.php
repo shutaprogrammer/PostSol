@@ -77,6 +77,7 @@
             <div class="mt-4">
                 <label for="detail" class="form-label" id="label">詳細を記入</label>
                 <textarea class="form-control" name="detail" id="detail" cols="100" rows="10">{{ old('detail') }}</textarea>
+                <div class="text-end"><small id="charCountDetail" class="text-muted">0 / 1000文字</small></div>
             </div>
 
             <div class="mt-4 d-flex justify-content-between">
@@ -86,6 +87,28 @@
         </form>
     </div>
     
+    <script>
+        const maxDetailChars = 1000;
+
+        function updateCharsCount(){
+            const detail = document.getElementById('detail');
+            const charCountDetail = document.getElementById('charCountDetail');
+            const currentDetailCount = detail.value.length;
+
+            charCountDetail.textContent = `${currentDetailCount} / ${maxDetailChars}文字`;
+
+            if(currentDetailCount > maxDetailChars){
+                detail.classList.add('bg-danger-subtle');
+            } else{
+                detail.classList.remove('bg-danger-subtle');
+            }
+        }
+
+        document.getElementById('detail').addEventListener('input', updateCharsCount);
+
+
+
+    </script>
 
     
 

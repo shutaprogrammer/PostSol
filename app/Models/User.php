@@ -68,6 +68,12 @@ class User extends Authenticatable
         return $this->hasMany(Coin::class);
     }
 
+    //Amazonとのリレーション
+    public function amazons(){
+
+        return $this->hasMany(Amazon::class);
+    }
+
     //Reportとのリレーション
     public function reports()
     {
