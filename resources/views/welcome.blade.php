@@ -35,6 +35,10 @@
                 box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
                 border-radius: 12%
             }
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+            body {
+                font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", sans-serif;
+            }
         </style>
     </head>
     <body>

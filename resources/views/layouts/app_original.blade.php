@@ -75,9 +75,10 @@ use Illuminate\Support\Facades\Auth;
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-body {
-    font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", sans-serif;
-}
+    body {
+        font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
   </style>
 </head>
 <body class="postsol-layout">
