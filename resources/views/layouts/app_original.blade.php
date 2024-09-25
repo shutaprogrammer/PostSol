@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Auth;
     .navbar-brand {
         color: #ffffff !important; /* 文字色を白に設定 */
         font-weight: bold;
-        font-size: 100%; /* タイトルのサイズを大きくする */
+        font-size: 90%; /* タイトルのサイズを大きくする */
         display: flex;
         align-items: center;
     }
@@ -72,6 +72,10 @@ use Illuminate\Support\Facades\Auth;
 
     header{
       margin-bottom: 15vh;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+        font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", sans-serif;
     }
   </style>
 </head>
