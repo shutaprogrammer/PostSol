@@ -139,9 +139,9 @@
     </div>
     @endforeach
 
-    <div class="d-flex justify-content-center">
+    {{-- <div class="d-flex justify-content-center">
         {{ $reports->links('pagination::bootstrap-4') }}
-    </div>
+    </div> --}}
 
     <div class="d-flex justify-content-center">
         <a href="{{ route('admin.menu') }}"><button type="button" class="btn btn-outline-secondary">管理者TOPへ戻る</button></a>

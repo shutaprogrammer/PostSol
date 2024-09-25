@@ -62,6 +62,3 @@
         @endforeach
     </div>
 
-    <div class="mt-5 d-flex justify-content-center">
-        {{ $contacts->links('pagination::bootstrap-4') }}
-    </div>
