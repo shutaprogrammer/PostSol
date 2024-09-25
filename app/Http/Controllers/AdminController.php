@@ -35,7 +35,8 @@ class AdminController extends Controller
             ->when($date, function($queryBuilder) use ($date){
                 return $queryBuilder->WhereDate('created_at', $date);
             })
-            ->orderBy($sortBy, $order)->paginate(10);
+            ->orderBy($sortBy, $order)->get();
+            // ->paginate(10);
 
         if($request->ajax()){
             return view('admin.reports_partial', compact('reports'));
@@ -66,7 +67,8 @@ class AdminController extends Controller
                 ->when($date, function ($queryBuilder) use ($date) {
                     return $queryBuilder->whereDate('created_at', $date);
                 })
-                ->orderBy($sortBy, $order)->paginate(10);
+                ->orderBy($sortBy, $order)->get();
+                // ->paginate(10);
         
         if($request->ajax()){
             return view('admin.exchange_partial', compact('gifts'));
@@ -98,7 +100,8 @@ class AdminController extends Controller
             ->when($date, function ($queryBuilder) use ($date) {
                 return $queryBuilder->whereDate('created_at', $date);
             })
-        ->orderBy($sortBy, $order)->paginate(9);
+            ->orderBy($sortBy, $order)
+        ->paginate(9);
 
         if($request->ajax()){
             return view('admin.inbox_partial', compact('contacts'));

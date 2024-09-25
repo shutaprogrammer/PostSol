@@ -3,7 +3,7 @@
 
 
     <style>
-            #serach {
+    #serach {
         display: flex !important; /* フレックスボックスを使って配置 */
         justify-content: end !important; /* スペースを均等に分配 */
     }
@@ -59,7 +59,7 @@
 
         /* 未読 */
         .all{
-            background-color: #ffffff !important; 
+            background-color: #f6f5f5 !important; 
             color: #000000 !important;
         }
         .status-unread{
@@ -97,9 +97,71 @@
 
         /* アクティブ */
         .pagination .active .page-link {
-        background-color: rgb(84, 84, 100);
-        color: white; 
-    }
+            background-color: rgb(84, 84, 100);
+            color: white; 
+        }
+
+        #navtabs {
+            display: flex;
+            justify-content: space-between; /* 均等に配置 */
+            border-bottom: 1px solid #ddd; /* 下線 */
+            padding: 0;
+        }
+
+        #navtabs .nav-item {
+            flex-grow: 0; /* タブが均等に広がる */
+            flex-shrink: 0; /* 縮まないようにする */
+            margin: 0; /* マージンをリセット */
+            margin-right: -1px; /* 右マージンをマイナスにして隙間をなくす */
+            min-width: 120px; /* 最小幅を設定 */
+        }
+
+        #navtabs .nav-item:last-child {
+            margin-right: 0; /* 最後のタブにはマージンを設定しない */ 
+        }
+
+        #navtabs .nav-link {
+            white-space: nowrap; /* テキストの折り返しを防ぐ */
+            padding: 0.5rem 1rem; /* パディングを設定 */
+            text-align: center; /* 中央揃え */
+        }
+
+        #navtabs .nav-item + .nav-item {
+            border-left: 1px solid #ddd; /* タブ間に境界線を設定 */
+        }
+
+        @media (max-width: 576px) {
+            #nav{
+                display: flex;
+                justify-content: center !important;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            #navtabs {
+                display: flex;
+                flex-direction: row; /* 横並びに設定 */
+                white-space: nowrap; /* テキストを折り返さない */
+                flex-wrap: nowrap; /* タブが折り返さない */
+                width: auto; /* 自動調整 */
+                padding: 0; /* パディングをリセット */
+                margin: 0; /* マージンをリセット */
+            }
+    
+            #navtabs .nav-item {
+                flex: 0 0 auto; /* 各タブが自動的に幅を持つ */
+                margin: 0; /* タブ間のマージンをリセット */
+                min-width: 21vw; /* 必要に応じて最小幅を設定 */
+                padding: 0; /* パディングをリセット */
+            }
+
+            #navtabs .nav-item a {
+                text-align: center; /* タブ内のテキストを中央揃え */
+                white-space: nowrap; /* テキストを折り返さない */
+            }
+}
+
+
     </style>
 
     <h1>お問い合わせ受信BOX</h1>
@@ -126,22 +188,23 @@
         </div>
     </nav>
 
-    <div class="mt-3">
-        <ul class="nav nav-tabs justify-content-end">
+    <div class="mt-3 d-flex justify-content-end" id="nav">
+        <ul class="nav nav-tabs" id="navtabs">
             <li class="nav-item">
-                <a class="all nav-link {{ request()->routeIs('admin.inbox') ? 'active' : '' }}" aria-current="page" href="{{ route('admin.inbox') }}">一覧BOX</a>
+                <a class="text-center all nav-link {{ request()->routeIs('admin.inbox') ? 'active' : '' }}" aria-current="page" href="{{ route('admin.inbox') }}">一覧</a>
             </li>
             <li class="nav-item">
-                <a class="status-unread nav-link {{ request()->routeIs('admin.inbox.unread') ? 'active' : '' }}" href="{{ route('admin.inbox.unread') }}">未BOX</a>
+                <a class="text-center status-unread nav-link {{ request()->routeIs('admin.inbox.unread') ? 'active' : '' }}" href="{{ route('admin.inbox.unread') }}">未</a>
             </li>
             <li class="nav-item">
-                <a class="status-inprogress nav-link {{ request()->routeIs('admin.inbox.inprogress') ? 'active' : '' }}" href="{{ route('admin.inbox.inprogress') }}">対応中BOX</a>
+                <a class="text-center status-inprogress nav-link {{ request()->routeIs('admin.inbox.inprogress') ? 'active' : '' }}" href="{{ route('admin.inbox.inprogress') }}">対応中</a>
             </li>
             <li class="nav-item">
-                <a class="status-complete nav-link {{ request()->routeIs('admin.inbox.complete') ? 'active' : '' }}" href="{{ route('admin.inbox.complete') }}">完了BOX</a>
+                <a class=" text-center status-complete nav-link {{ request()->routeIs('admin.inbox.complete') ? 'active' : '' }}" href="{{ route('admin.inbox.complete') }}">完了</a>
             </li>
         </ul>
     </div>
+
     <div class="row d-flex justify-content-center">
         @foreach ($contacts as $contact)
             <div class="card m-4" style="width: 20rem;">
@@ -161,11 +224,11 @@
                     <li class="list-group-item">返信先：{{ $contact->email }}</li>
                     <li class="list-group-item">〈{{ $contact->category }}〉{{ \Illuminate\Support\Str::limit($contact->title, 15, '...') }}</li>
                     <li class="list-group-item">{{ \Illuminate\Support\Str::limit($contact->detail, 50, '...') }}</li>
-                    <li class="list-group-item d-flex">
-                        <small>更新：{{ $contact->updated_at->format('Y/m/d H:i') }}</small>
+                    <li class="list-group-item d-flex flex-column align-items-end">
                         <button type="button" class="btn btn-outline-dark ms-auto bt-sm" data-bs-toggle="modal" data-bs-target="#contactModal-{{ $contact->id }}">
                             詳細
                         </button>
+                        <small>更新：{{ $contact->updated_at->format('Y/m/d H:i') }}</small>
                     </li>
                 </ul>
             </div>
@@ -209,10 +272,9 @@
         @endforeach
     </div>
 
-    <!-- ページネーションを追加 -->
     <div class="mt-5 d-flex justify-content-center">
         {{ $contacts->links('pagination::bootstrap-4') }}
-    </div>
+    </div> 
 
 
     <div class="mt-3 d-flex justify-content-center">
@@ -241,7 +303,10 @@
 
                 $('input[name="query"]').val('');
                 $('input[name="date"]').val('');
-                $("form").submit();
+                $('input[name="status"]').val('');
+                // $("form").submit();
+
+                window.location.href = '{{ route("admin.inbox") }}';
 
             });
     });
