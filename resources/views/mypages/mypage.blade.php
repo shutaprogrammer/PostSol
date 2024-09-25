@@ -90,9 +90,9 @@ h6{
     border: 1px solid black;
     border-radius: 5px;
     background-color: rgb(199, 198, 198);
-    width: 27vw;
+    width: 120px;
     height: 30px;
-    margin: 10px 0 0 35vw;
+    margin: 10px 0 0 20vw;
     padding-bottom: 5px;
     font-size: 15px;
 }
