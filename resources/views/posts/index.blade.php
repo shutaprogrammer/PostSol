@@ -492,18 +492,18 @@
                                 <i class="fas fa-bookmark"></i>
                             </button>
                         <!-- いいねボタン -->
-                        @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
+                    @if(App\Models\Like::where('user_id', Auth::id())->where('post_id', $post->id)->exists())
                     <form action="{{ route('unlike', $post) }}" method="POST" class="iine">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">
-                            <i class="fas fa-heart liked"></i> <!-- いいね済みの時の赤色のアイコン -->
+                        <button type="button" class="like-button liked" data-id="{{ $post->id }}" data-action="{{ route('unlike', $post) }}">
+                            <i class="fas fa-heart"></i> <!-- いいね済みの時の赤色のアイコン -->
                         </button>
                     </form>
                     @else
                         <form action="{{ route('like', $post) }}" method="POST" class="iine">
                             @csrf
-                            <button type="submit">
+                            <button type="button" class="like-button" data-id="{{ $post->id }}" data-action="{{ route('like', $post) }}">
                                 <i class="far fa-heart"></i> <!-- いいねしていない時のアイコン -->
                             </button>
                         </form>
