@@ -11,7 +11,6 @@
     <style>
     body {
         background-color: #ffffff; /* 背景を白に */
-        font-family: Arial, sans-serif; /* 洗練されたフォントを使用 */
         color: #333333; /* 文字色を落ち着いた色に */
     }
 
@@ -98,6 +97,10 @@
         text-align: center;
         padding: 10px 0;
         margin-top: 40px;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+        font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 </style>
 </head>
