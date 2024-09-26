@@ -82,7 +82,7 @@
 
             <div class="mt-4 d-flex justify-content-between">
                 <a href="{{ route('posts.index') }}"><button type="button" class="btn btn-outline-secondary">キャンセル</button></a>
-                <button type="submit" class="btn btn-primary">確　認</button>
+                <button type="submit" class="btn btn-primary">確 認</button>
             </div>
         </form>
     </div>

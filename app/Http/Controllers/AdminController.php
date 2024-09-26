@@ -56,7 +56,8 @@ class AdminController extends Controller
 
         $gifts = Amazon::with('user')
             ->when($query, function ($queryBuilder) use ($query) {
-                return $queryBuilder->where('number', 'LIKE', "%{$query}%")
+                return $queryBuilder
+                        ->where('number', 'LIKE', "%{$query}%")
                         ->orWhere('money', 'LIKE', "%{$query}%")
                         ->orWhere('created_at', 'LIKE', "%{$query}%")
                         ->orWhereHas('user', function($qUser) use ($query) {
@@ -91,7 +92,6 @@ class AdminController extends Controller
                 return $queryBuilder->where('category', 'LIKE', "%{$query}%")
                     ->orWhere('title', 'LIKE', "%{$query}%")
                     ->orWhere('created_at', 'LIKE', "%{$query}%")
-                    ->orWhere('updated_at', 'LIKE', "%{$query}%")
                     ->orWhereHas('user', function($qUser) use ($query) {
                         $qUser->where('name', 'LIKE', "%{$query}%")
                                 ->orWhere('email', 'LIKE', "%{$query}%");
@@ -101,7 +101,7 @@ class AdminController extends Controller
                 return $queryBuilder->whereDate('created_at', $date);
             })
             ->orderBy($sortBy, $order)
-        ->paginate(9);
+            ->get();
 
         if($request->ajax()){
             return view('admin.inbox_partial', compact('contacts'));
@@ -114,21 +114,27 @@ class AdminController extends Controller
 
     public function unread()
     {
-        $contacts = Contact::where('status', '未')->paginate(9);
+        $contacts = Contact::where('status', '未')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('admin.inbox', compact('contacts'));
     }
 
     public function inprogress()
     {
-        $contacts = Contact::where('status', '対応中')->paginate(9);
+        $contacts = Contact::where('status', '対応中')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('admin.inbox', compact('contacts'));
     }
 
     public function complete()
     {
-        $contacts = Contact::where('status', '完了')->paginate(9);
+        $contacts = Contact::where('status', '完了')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return view('admin.inbox', compact('contacts'));
     }

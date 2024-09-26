@@ -27,21 +27,31 @@
                 </div>
                 <div class="col-md-6">
                     <label for="email" class="form-label">メールアドレス</label><small>（必須）</small>
-                    <input type="email" id="email" class="border-primary-subtle w-100 p-3" name="email" value="{{ Auth::user()->email }}">
+                    <input type="email" id="email" class="@error('email') is-invalid @enderror border-primary-subtle w-100 p-3" name="email" value="{{ Auth::user()->email }}" required>
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                     <small>お問い合わせへの回答送付先をご指定ください。　ご希望のアドレスに変更可能です。</small>
                 </div>
             </div>
             <hr>
             <div>
                 <label for="category" class="form-label">カテゴリー</label><small>（必須）</small>
-                <select name="category" id="category" class="form-select bg-danger-subtle border border-primary-subtle w-100 p-3" aria-label="category">
+                <select name="category" id="category" class="@error('category') is-invalid bg-danger-subtle @enderror form-select bg-danger-subtle border border-primary-subtle w-100 p-3" aria-label="category" required>
                     <option selected disabled>問い合わせのカテゴリーを選ぶ</option>
-                    <option value="会員登録">登録情報について</option>
-                    <option value="サブスク">サブスクについて</option>
-                    <option value="コイン・換金">コイン・換金について</option>
-                    <option value="ランキング">ランキングについて</option>
-                    <option value="その他">その他</option>
+                    <option value="会員登録" {{ old('category') == '会員登録' ? 'selected' : '' }}>登録情報について</option>
+                    <option value="サブスク" {{ old('category') == 'サブスク' ? 'selected' : '' }}>サブスクについて</option>
+                    <option value="コイン・換金" {{ old('category') == 'コイン・換金' ? 'selected' : '' }}>コイン・換金について</option>
+                    <option value="ランキング" {{ old('category') == 'ランキング' ? 'selected' : '' }}>ランキングについて</option>
+                    <option value="その他" {{ old('category') == 'その他' ? 'selected' : '' }}>その他</option>
                 </select>
+                @error('category')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
             <div class="col-12">
@@ -51,8 +61,13 @@
             </div>
             <div class="mb-3">
                 <label for="detail" class="form-label">本文</label><small>（必須）</small>
-                <textarea name="detail" id="detail" class="form-control border-primary-subtle w-100 p-3" rows="10"></textarea>
+                <textarea name="detail" id="detail" class="@error('detail') is-invalid @enderror form-control border-primary-subtle w-100 p-3" rows="10" required>{{ old('detail') }}</textarea>
                 <div class="text-end"><small id="charDetailCount" class="text-muted">0 / 5000文字</small></div>
+                @error('detail')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         
             <div class="d-flex flex-column align-items-center">
@@ -82,14 +97,15 @@
         const category = document.getElementById('category');
 
         function notSelect(){
-            if(category.value !== '問い合わせのカテゴリーを選ぶ'){
-                category.classList.remove('bg-danger-subtle');
-            } else{
+            if(category.value === '問い合わせのカテゴリーを選ぶ'){
                 category.classList.add('bg-danger-subtle');
+            } else{
+                category.classList.remove('bg-danger-subtle');
             }
         }
+        notSelect();
 
-        document.getElementById('category').addEventListener('change', notSelect);
+        category.addEventListener('change', notSelect);
         
         //文字カウントとオーバーのとき赤
         const maxCharsTitle = 80;

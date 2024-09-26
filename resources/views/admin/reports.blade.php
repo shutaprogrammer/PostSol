@@ -85,7 +85,7 @@
     </nav>
 
     <div class="mt-5 table-responsive d-flex justify-content-center text-center">
-        <table class="table table-bordered mx-auto" style="width: 100%;">
+        <table class="table align-middle table-bordered mx-auto" style="width: 100%;">
             <thead class="table-light">
                 <tr scope="col">
                     <th style="width: 25%">報告日</th>
