@@ -11,6 +11,7 @@
         font-size: 14px;
         border: 1px solid #000000;
         background-color: #ffffff;
+        margin-bottom: 25vh;
     }
     .twitter__block {
         display: flex;
