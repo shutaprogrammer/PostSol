@@ -28,12 +28,25 @@
     .saigo{
         font-size: 12px;
     }
+
+    .list-group{
+        height: 62vh;
+        
+    }
+    .nashi{
+        font-size: 30px;
+        text-align: center;
+        padding-top: 25vh;
+    }
+    
 </style>
     <div class="container mt-5">
         <h2>DM　送受信ボックス</h2>
 
         <!-- 会話一覧 -->
+        @if($conversationsWithMessages && !$conversationsWithMessages->isEmpty())
         <div class="list-group">
+        
             @foreach ($conversationsWithMessages as $conversation)
                 @php
                     $otherUserId = $conversation->user_one_id == Auth::id() ? $conversation->user_two_id : $conversation->user_one_id;//oneが自分のidと一致する場合、twoが相手(other)なのでそのユーザーのidを取得。一致しない場合はoneが相手(other)でtwoが自分なので、oneのidを取得。
@@ -58,6 +71,12 @@
                     <small>{{ $conversation->latestMessage ? $conversation->latestMessage->created_at->format('Y-m-d H:i') : '' }}</small>
                 </a>
             @endforeach
+        
         </div>
+
+        @else
+        <div class="list-group nashi">メッセージがありません</div>
+        @endif
+
     </div>
 @endsection
