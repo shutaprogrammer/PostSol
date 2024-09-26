@@ -326,7 +326,7 @@
                         <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
                     @else
                         <!-- デフォルトのプロフィール画像 -->
-                        <img src="/path/to/default/profile/image.png" alt="" class="size">
+                        <img src="{{ asset('images/default-profile.png') }}" alt="" class="size">
                     @endif
                 </div>
                 <!-- 投稿内容 -->
@@ -464,7 +464,7 @@
                         <img src="{{ Storage::url('imgs/' .$post->user->img) }}" alt="" class="size">
                     @else
                         <!-- デフォルトのプロフィール画像 -->
-                        <img src="/path/to/default/profile/image.png" alt="" class="size">
+                        <img src="{{ asset('images/default-profile.png') }}" alt="" class="size">
                     @endif
                 </div>
                 <!-- 投稿内容 -->
