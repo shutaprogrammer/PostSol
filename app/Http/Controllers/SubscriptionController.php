@@ -50,7 +50,7 @@ class SubscriptionController extends Controller
             $user = Auth::user();
 
             // 1.ステータスの更新
-            $status->status = 'Paid Member'; // 必要なステータスに更新
+            $status->status = 'Prime'; // 必要なステータスに更新
             $status->period = now()->addMonth(); // 1ヶ月後の期限を設定
             $status->save();
 
