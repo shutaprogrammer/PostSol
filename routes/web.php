@@ -70,7 +70,6 @@ Route::get('/mypages/mypage/{id}', [UserController::class, 'edit'])->middleware(
 Route::put('/mypages/{id}', [UserController::class, 'update'])->middleware('auth')->name('mypages.update');
 
 //アンケート
-Route::get('/tops/question', [TopController::class, 'index'])->middleware('auth')->name('tops.question');
 Route::get('/questions/index', [QuestionController::class, 'index'])->middleware('auth')->name('questions.index');
 Route::post('/questions/store', [QuestionController::class, 'store'])->middleware('auth')->name('questions.store');
 
