@@ -1,9 +1,28 @@
 @extends('admin.admin_layout')
 
 @section('content')
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">広告を追加する</h1>
 
+<style>
+    label {
+        color: rgb(84, 84, 100) !important;
+    }
+</style>
+
+    <h1 class="mb-4">広告を追加する</h1>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="container mt-5">
         <form action="{{ route('ads.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -54,4 +73,5 @@
             
         </form>
     </div>
+
 @endsection

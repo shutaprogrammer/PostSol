@@ -14,22 +14,30 @@ class AdController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:5120',
-            'link' => 'required|url',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:5120',
+                'link' => 'required|url',
+            ]);
+    
+            $imagePath = $request->file('image')->store('imgs', 'public');
+    
+            Ad::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $imagePath,
+                'link' => $request->link,
+            ]);
+    
+            return redirect()->route('ads.create')->with('success', '広告が正常に追加されました。');
 
-        $imagePath = $request->file('image')->store('imgs', 'public');
+        } catch (\Exception $e) {
 
-        Ad::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $imagePath,
-            'link' => $request->link,
-        ]);
+            return redirect()->back()->with('error', '広告の追加に失敗しました。もう一度お試しください。');
 
-        return redirect()->route('ads.create')->with('success', '広告が正常に追加されました。');
+        }
+        
     }
 }
